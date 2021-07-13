@@ -1,0 +1,76 @@
+---
+environment:
+  title: slabBurner2D
+  tagDirectory: true
+arguments: 
+  petsclimiter_type: none
+timestepper:
+  name: theMainTimeStepper
+  arguments:
+    ts_type: rk
+    ts_adapt_type: none
+    ts_max_time: 10
+    ts_max_steps: 100
+    ts_dt: 1E-6
+flow: !ablate::flow::CompressibleFlow
+  name: flowField
+  mesh: !ablate::mesh::FileMesh
+    name: slabBurner
+    path: https://raw.githubusercontent.com/mmcgurn/ablateInputs/main/slabBurner2D/SlabMotor2D.msh
+    options:
+      dm_refine: 2
+  options:
+    Tpetscfv_type: leastsquares
+    velpetscfv_type: leastsquares
+  parameters:
+    cfl: 0.5
+    k: 0.0241
+    mu: 0.00001716
+  fluxCalculator: !ablate::flow::fluxCalculator::AusmpUp
+    mInf: .3 
+  initialization:
+    - fieldName: "euler" #for euler all components are in a single field
+      solutionField:
+        formula: >-
+          1.0,
+          -58970.06564527616,
+          0.0,
+          0.0
+    - fieldName: "densityYi" 
+      solutionField: #O2,H2O,CH4,CO,CO2,N2
+        formula: 0.2,0,0.2,0,0,0.6
+  boundaryConditions:
+    - !ablate::flow::boundaryConditions::EssentialGhost
+      fieldName: euler
+      boundaryName: "euler walls"
+      labelIds: [12, 14, 15, 16]
+      boundaryValue:
+        formula: 1.0,-58970.06564527616,0, 0
+    - !ablate::flow::boundaryConditions::EssentialGhost
+      fieldName: densityYi
+      boundaryName: "densityYi walls"
+      labelIds: [9, 10, 12, 14, 15, 16]
+      boundaryValue:
+        formula: 0.2,0,0.2,0,0,0.6
+    - !ablate::flow::boundaryConditions::EssentialGhost
+      fieldName: euler
+      boundaryName: "inlet"
+      labelIds: [9]
+      boundaryValue:
+        formula: 1.0,-58970.06564527616,20, 0  
+    - !ablate::flow::boundaryConditions::EssentialGhost
+      fieldName: euler
+      boundaryName: "outlet"
+      labelIds: [10]
+      boundaryValue:
+        formula: 1.0,-58970.06564527616,20, 0   
+ 
+  monitors:
+    - !ablate::monitors::TimeStepMonitor
+    - !ablate::monitors::Hdf5Monitor
+      interval: 0
+# The chemkin files are from https://www.cerfacs.fr/cantera/mechanisms/meth.php#san 
+# Another 2 step mechanism : 2S_CH4_CM2
+  eos: !ablate::eos::TChem
+    mechFile: https://raw.githubusercontent.com/mmcgurn/ablateInputs/main/slabBurner2D/mech.2S_CH4_CM2.dat
+    thermoFile: https://raw.githubusercontent.com/mmcgurn/ablateInputs/main/slabBurner2D/thermo.2S_CH4_CM2.dat
