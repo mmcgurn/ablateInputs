@@ -40,18 +40,18 @@ Curve Loop(2) = {9};
 //+
 Plane Surface(1) = {1, 2};
 //+
-Physical Curve(9) = {7};
+Physical Curve("inlet", 9) = {7};
 //+
-Physical Curve(10) = {5};
+Physical Curve("outlet", 10) = {5};
 //+
-Physical Curve(12) = {8, 4, 6};
+Physical Curve("wall", 12) = {8, 4, 6};
 //+
-Physical Curve(14) = {1};
+Physical Curve("slab-front", 14) = {1};
 //+
-Physical Curve(15) = {2};
+Physical Curve("slab-top", 15) = {2};
 //+
-Physical Curve(16) = {3};
+Physical Curve("slab-back", 16) = {3};
 //+
-Physical Curve(17) = {9};
+Physical Curve("glowplug", 17) = {9};
 //+
-Physical Surface(18) = {1};
+Physical Surface("burner", 18) = {1};
