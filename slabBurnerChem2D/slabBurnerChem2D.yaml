@@ -70,7 +70,7 @@ flow: !ablate::flow::ReactingCompressibleFlow
       boundaryValue:
         formula: 1.0,1390341.1062981794,0, 0   
     - !ablate::flow::boundaryConditions::EssentialGhost
-      fieldName: euler
+      fieldName: densityYi
       boundaryName: "glowplug yi"
       labelIds: [17]
       boundaryValue:
