@@ -53,3 +53,5 @@ Physical Curve(15) = {2};
 Physical Curve(16) = {3};
 //+
 Physical Curve(17) = {9};
+//+
+Physical Surface(18) = {1};
