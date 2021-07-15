@@ -11,7 +11,7 @@ timestepper:
     ts_adapt_type: none
     ts_max_time: 1
     ts_dt: 1E-6
-flow: !ablate::flow::CompressibleFlow
+flow: !ablate::flow::ReactingCompressibleFlow
   name: flowField
   mesh: !ablate::mesh::FileMesh
     name: slabBurner

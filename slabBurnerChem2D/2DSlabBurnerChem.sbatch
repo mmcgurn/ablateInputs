@@ -5,7 +5,7 @@
 #SBATCH --nodes=9
 #SBATCH --ntasks-per-node=16
 #SBATCH --mem=10000
-#SBATCH --job-name="slabFlow2D"
+#SBATCH --job-name="slbHot"
 #SBATCH --mail-user=mtmcgurn@buffalo.edu
 #SBATCH --mail-type=END
 
