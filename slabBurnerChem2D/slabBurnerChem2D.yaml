@@ -81,7 +81,7 @@ flow: !ablate::flow::ReactingCompressibleFlow
       labelIds: [14]
       boundaryValue:
         formula: 1.0,-84577.3,-5, 5   
-     - !ablate::flow::boundaryConditions::EssentialGhost
+    - !ablate::flow::boundaryConditions::EssentialGhost
       fieldName: densityYi
       boundaryName: "slabBlowing massfrac"
       labelIds: [14]
