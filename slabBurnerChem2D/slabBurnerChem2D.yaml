@@ -68,14 +68,14 @@ flow: !ablate::flow::ReactingCompressibleFlow
       fieldName: euler
       boundaryName: "glowplug"
       labelIds: [17]
-      boundaryValue:
-        formula: 1.0,1390341.1062981794,0, 0   
+      boundaryValue: # 2000K, same pressure
+        formula: 0.015,0.015*1390341.1062981794,0, 0   
     - !ablate::flow::boundaryConditions::EssentialGhost
       fieldName: densityYi
       boundaryName: "glowplug yi"
       labelIds: [17]
       boundaryValue:
-        formula: .2315,0,0.0,0,0,0.7685
+        formula: 0.015*0.2315,0,0.0,0,0,0.015*0.7685
     - !ablate::flow::boundaryConditions::EssentialGhost
       fieldName: euler
       boundaryName: "slabBlowing euler"
