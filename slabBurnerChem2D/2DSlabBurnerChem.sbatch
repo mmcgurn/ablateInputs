@@ -21,6 +21,7 @@ echo "working directory = "$SLURM_SUBMIT_DIR
 module load hdf5/1.12.0-mpi 
 module load gcc/10.2.0
 module load cmake/3.17.1
+module load valgrind
 
 # The initial srun will trigger the SLURM prologue on the compute nodes.
 NPROCS=`srun --nodes=${SLURM_NNODES} bash -c 'hostname' |wc -l`
@@ -38,5 +39,7 @@ echo "current directory ="$PWD
 
 # Run all tests
 echo "Start Time " `date +%s`
+# srun -n $SLURM_NPROCS valgrind --tool=memcheck -q --num-callers=20 --suppressions=/projects/academic/ped3/petsc/lib/petsc/bin/maint/petsc-val.supp --log-file=valgrind.log.%p  /projects/academic/ped3/mtmcgurn/ablate/opt/ablate --input /panasas/scratch/grp-ped3/mtmcgurn/ablateInputs/slabBurnerChem2D/slabBurnerChem2D.yaml
 srun -n $SLURM_NPROCS  /projects/academic/ped3/mtmcgurn/ablate/opt/ablate --input /panasas/scratch/grp-ped3/mtmcgurn/ablateInputs/slabBurnerChem2D/slabBurnerChem2D.yaml
+
 echo "End Time " `date +%s`
