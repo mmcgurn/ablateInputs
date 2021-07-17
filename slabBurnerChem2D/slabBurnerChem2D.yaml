@@ -16,6 +16,7 @@ flow: !ablate::flow::ReactingCompressibleFlow
   name: flowField
   mesh: !ablate::mesh::FileMesh
     name: slabBurner
+#    path: https://raw.githubusercontent.com/mmcgurn/ablateInputs/main/slabBurner2D/SlabMotor2D.msh
     path: https://raw.githubusercontent.com/mmcgurn/ablateInputs/main/slabBurnerChem2D/SlabMotorHot2D.msh
     options:
       dm_refine: 5
@@ -24,7 +25,7 @@ flow: !ablate::flow::ReactingCompressibleFlow
     velpetscfv_type: leastsquares
   parameters:
     cfl: 0.5
-    k: 0.0241
+    k: 0.0541
     mu: 0.00001716
   fluxCalculator: !ablate::flow::fluxCalculator::AusmpUp
     mInf: .3 
@@ -69,19 +70,19 @@ flow: !ablate::flow::ReactingCompressibleFlow
       boundaryName: "glowplug"
       labelIds: [17]
       boundaryValue: # 2000K, same pressure
-        formula: 0.015,0.015*1390341.1062981794,0, 0   
+        formula:  0.075, 256486 ,0, 0   
     - !ablate::flow::boundaryConditions::EssentialGhost
       fieldName: densityYi
       boundaryName: "glowplug yi"
       labelIds: [17]
       boundaryValue:
-        formula: 0.015*0.2315,0,0.0,0,0,0.015*0.7685
+        formula:  0.075*0.2315,0,0.0,0,0, 0.075*0.7685
     - !ablate::flow::boundaryConditions::EssentialGhost
       fieldName: euler
       boundaryName: "slabBlowing euler"
       labelIds: [14]
       boundaryValue:
-        formula: 1.0,-84577.3,-5, 5   
+        formula: 1.0,-364967,-5, 5   
     - !ablate::flow::boundaryConditions::EssentialGhost
       fieldName: densityYi
       boundaryName: "slabBlowing massfrac"
@@ -92,7 +93,7 @@ flow: !ablate::flow::ReactingCompressibleFlow
   monitors:
     - !ablate::monitors::TimeStepMonitor
     - !ablate::monitors::Hdf5Monitor
-      interval: 10
+      interval: 00
 # The chemkin files are from https://www.cerfacs.fr/cantera/mechanisms/meth.php#san 
 # Another 2 step mechanism : 2S_CH4_CM2
   eos: !ablate::eos::TChem
