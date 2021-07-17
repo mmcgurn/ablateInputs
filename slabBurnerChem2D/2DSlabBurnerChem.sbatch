@@ -2,7 +2,7 @@
 #SBATCH --partition=ped3 --qos=ped3
 #SBATCH --clusters=faculty
 #SBATCH --time=72:00:00
-#SBATCH --nodes=9
+#SBATCH --nodes=12
 #SBATCH --ntasks-per-node=16
 #SBATCH --mem=10000
 #SBATCH --job-name="slbHot"
