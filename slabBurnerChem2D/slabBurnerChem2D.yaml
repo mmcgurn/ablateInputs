@@ -93,7 +93,7 @@ flow: !ablate::flow::ReactingCompressibleFlow
   monitors:
     - !ablate::monitors::TimeStepMonitor
     - !ablate::monitors::Hdf5Monitor
-      interval: 00
+      interval: 100
 # The chemkin files are from https://www.cerfacs.fr/cantera/mechanisms/meth.php#san 
 # Another 2 step mechanism : 2S_CH4_CM2
   eos: !ablate::eos::TChem
