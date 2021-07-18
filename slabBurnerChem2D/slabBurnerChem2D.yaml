@@ -11,6 +11,7 @@ timestepper:
     ts_type: rk
 #    ts_adapt_type: none
     ts_max_time: 1
+    ts_max_time: 10000000
     ts_dt: 1E-6
 flow: !ablate::flow::ReactingCompressibleFlow
   name: flowField
