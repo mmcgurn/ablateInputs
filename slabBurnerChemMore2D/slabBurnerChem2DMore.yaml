@@ -1,6 +1,6 @@
 ---
 environment:
-  title: slabBurnerChem2D
+  title: slabHighFlow
   tagDirectory: true
 arguments: 
   petsclimiter_type: none
