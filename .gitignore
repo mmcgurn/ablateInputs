@@ -55,4 +55,7 @@ cmake-build-*/
 
 ## Clion/JetBrains
 # User-specific stuff
-/.idea
+*.idea
+
+# Ignore everything starting with a _
+_*
