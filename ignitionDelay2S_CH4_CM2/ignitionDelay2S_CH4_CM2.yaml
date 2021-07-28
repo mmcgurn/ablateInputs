@@ -1,0 +1,65 @@
+---
+environment:
+  title: _ignitionDelay2S_CH4_CM2
+  tagDirectory: false
+arguments: 
+  petsclimiter_type: none
+timestepper:
+  name: theMainTimeStepper
+  arguments:
+    ts_type: rk
+    ts_max_time: 0.01
+    ts_dt: 1E-6
+flow: !ablate::flow::FVFlow
+  name: reactingFlowODE
+  mesh: !ablate::mesh::BoxMesh
+    name: simpleBoxField
+    faces: [ 1, 1 ]
+    lower: [ 0, 0]
+    upper: [1, 1]
+    options:
+      dm_refine: 0
+  options: {}
+  parameters: {}
+  fields:
+    - fieldName: euler
+      fieldPrefix: euler
+      components: 4
+      fieldType: FV
+    - fieldName: densityYi
+      fieldPrefix: densityYi
+      components: 6
+      fieldType: FV
+      componentNames: ['O2', 'H2O', 'CH4', 'CO', 'CO2', 'N2']
+    - fieldName: vel
+      fieldPrefix: vel
+      components: 2
+      fieldType: FV
+      solutionField: false
+  processes:
+    - !ablate::flow::processes::TChemReactions
+      eos: !ablate::eos::TChem
+        mechFile: mech.2S_CH4_CM2.dat
+        thermoFile: thermo.2S_CH4_CM2.dat
+  initialization:
+    - fieldName: "euler" #for euler all components are in a single field
+      solutionField: # 1000 K
+        formula: >-
+          0.2806317906177915,
+          182444.1217081627,
+          0.0,
+          0.0
+    - fieldName: "densityYi" 
+      solutionField: 
+        formula: 0.06177863,0.        ,0.01548713,0.        ,0.        ,0.20336603    
+  boundaryConditions: []
+  monitors:
+    - !ablate::monitors::IgnitionDelayTemperature
+      eos: !ablate::eos::TChem
+        mechFile: mech.2S_CH4_CM2.dat
+        thermoFile: thermo.2S_CH4_CM2.dat
+      location: [0.5, 0.5]
+      thresholdTemperature: 1500
+      historyLog: !ablate::monitors::logs::StdOut {}
+      log: !ablate::monitors::logs::StdOut {}
+
