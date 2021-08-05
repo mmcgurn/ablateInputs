@@ -109,6 +109,6 @@ flow: !ablate::flow::FVFlow
       end: [0.01, 0.001]
       outputFields: ['euler']
       outputAuxFields: ['T', 'yi']
-      interval: 0
+      interval: 10
 
 
