@@ -66,66 +66,42 @@ flow: !ablate::flow::FVFlow
       parameters:
         D: 2.0E-4
       eos: *eos
-#    - !ablate::flow::processes::TChemReactions
-#      eos: *eos
+    - !ablate::flow::processes::TChemReactions
+      eos: *eos
   initialization:
     - !ablate::flow::fieldFunctions::Euler
+      &eulerFlowFieldState
       state: &flowFieldState
         eos: *eos
-        temperature: 300
+        temperature: 
+          !ablate::mathFunctions::LinearTable
+          file: initConditionsSIMIT.csv
+          independent: "x"
+          dependent: ["T"]
+          mappingFunction: "x"
         pressure: 101325
         velocity: "0.0, 0.0"
         massFractions:
-          - fieldName: O2
-            field: 0.233
-          - fieldName: N2
-            field: 0.777
-    - !ablate::flow::fieldFunctions::MassFractions
+          fieldName: massFractions
+          field:
+            !ablate::mathFunctions::LinearTable
+            file: initConditionsSIMIT.csv
+            independent: "x"
+            dependent: ['H2', 'H', 'O', 'O2', 'OH', 'H2O', 'HO2', 'H2O2', 'C', 'CH', 'CH2', 'CH2(S)', 'CH3', 'CH4', 'CO', 'CO2', 'HCO', 'CH2O', 'CH2OH', 'CH3O', 'CH3OH', 'C2H', 'C2H2', 'C2H3', 'C2H4', 'C2H5', 'C2H6', 'HCCO', 'CH2CO', 'HCCOH', 'N', 'NH', 'NH2', 'NH3', 'NNH', 'NO', 'NO2', 'N2O', 'HNO', 'CN', 'HCN', 'H2CN', 'HCNN', 'HCNO', 'HOCN', 'HNCO', 'NCO', 'N2', 'AR', 'C3H7', 'C3H8', 'CH2CHO', 'CH3CHO']
+            mappingFunction: "x"
+    - !ablate::flow::fieldFunctions::DensityMassFractions
+      &densityYiFlowFieldState
       state: *flowFieldState      
   boundaryConditions:
     - !ablate::flow::boundaryConditions::EssentialGhost
       boundaryName: "air walls euler"
-      labelIds: [4]
-      boundaryValue:
-        !ablate::flow::fieldFunctions::Euler
-        state: &airBCState
-          eos: *eos
-          temperature: 300
-          pressure: 101325
-          velocity: "0.0, 0.0"
-          massFractions:
-          - fieldName: O2
-            field: 0.233
-          - fieldName: N2
-            field: 0.777
+      labelIds: [2, 4]
+      boundaryValue: *eulerFlowFieldState
     - !ablate::flow::boundaryConditions::EssentialGhost
       boundaryName: "air walls densityYi"
-      labelIds: [4]
-      boundaryValue:
-        !ablate::flow::fieldFunctions::MassFractions
-        state: *airBCState
-    - !ablate::flow::boundaryConditions::EssentialGhost
-      boundaryName: "fuel walls euler"
-      labelIds: [2]
-      boundaryValue:
-        !ablate::flow::fieldFunctions::Euler
-        state: &fuelBCState
-          eos: *eos
-          temperature: 300
-          pressure: 101325
-          velocity: "0.0, 0.0"
-          massFractions:
-          - fieldName: CH4
-            field: 1.0
-    - !ablate::flow::boundaryConditions::EssentialGhost
-      boundaryName: "fuel walls densityYi"
-      labelIds: [2]
-      boundaryValue:
-        !ablate::flow::fieldFunctions::MassFractions
-        state: *fuelBCState
+      labelIds: [2, 4]
+      boundaryValue: *densityYiFlowFieldState
   monitors:
-    - !ablate::monitors::Hdf5Monitor
-      interval: 10
     - !ablate::monitors::TimeStepMonitor
     - !ablate::monitors::CurveMonitor
       prefix: "fileLog"
@@ -133,6 +109,6 @@ flow: !ablate::flow::FVFlow
       end: [0.01, 0.001]
       outputFields: ['euler']
       outputAuxFields: ['T', 'yi']
-      interval: 10
+      interval: 0
 
 
