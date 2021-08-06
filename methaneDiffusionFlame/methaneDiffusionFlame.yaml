@@ -55,16 +55,16 @@ flow: !ablate::flow::FVFlow
       solutionField: false
   processes:
     - !ablate::flow::processes::EulerDiffusion
-      parameters:
-        k: 0.05
-        mu: 3.6E-5 
       eos: &eos 
         !ablate::eos::TChem
         mechFile: ../mechanisms/grimech30.dat
         thermoFile: ../mechanisms/thermo30.dat
-    - !ablate::flow::processes::SpeciesDiffusion
       parameters:
-        D: 8.5E-5
+        !ablate::eos::transport::Sutherland
+        &transportModel
+        eos: *eos
+    - !ablate::flow::processes::SpeciesDiffusion
+      parameters: *transportModel
       eos: *eos
     - !ablate::flow::processes::TChemReactions
       eos: *eos
