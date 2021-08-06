@@ -56,7 +56,7 @@ flow: !ablate::flow::FVFlow
   processes:
     - !ablate::flow::processes::EulerDiffusion
       parameters:
-        k: 0.1
+        k: 0.05
         mu: 3.6E-5 
       eos: &eos 
         !ablate::eos::TChem
@@ -64,7 +64,7 @@ flow: !ablate::flow::FVFlow
         thermoFile: ../mechanisms/thermo30.dat
     - !ablate::flow::processes::SpeciesDiffusion
       parameters:
-        D: 2.0E-4
+        D: 8.5E-5
       eos: *eos
     - !ablate::flow::processes::TChemReactions
       eos: *eos
