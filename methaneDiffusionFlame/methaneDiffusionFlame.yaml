@@ -70,6 +70,8 @@ flow: !ablate::flow::FVFlow
       eos: *eos
     - !ablate::flow::processes::TChemReactions
       eos: *eos
+      options:
+        ts_dt: 1E-5
   initialization:
     - !ablate::flow::fieldFunctions::Euler
       &eulerFlowFieldState
