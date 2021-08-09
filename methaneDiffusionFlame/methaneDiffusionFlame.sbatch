@@ -38,6 +38,6 @@ echo "current directory ="$PWD
 # Run all tests
 echo "Start Time " `date +%s`
 # srun -n $SLURM_NPROCS valgrind --tool=memcheck -q --num-callers=20 --suppressions=/projects/academic/ped3/petsc/lib/petsc/bin/maint/petsc-val.supp --log-file=valgrind.log.%p  /projects/academic/ped3/mtmcgurn/ablate/opt/ablate --input /panasas/scratch/grp-ped3/mtmcgurn/ablateInputs/slabBurnerChem2D/slabBurnerChem2D.yaml
-srun -n $SLURM_NPROCS  /projects/academic/chrest/mtmcgurn/ablateOpt/ablate --input /panasas/scratch/grp-ped3/mtmcgurn/ablateInputs/methaneDiffusionFlame.yaml -yaml::timestepper::arguments::ts_adapt_safety .1 -yaml::environment::title methaneDiffusionFlame_$SLURM_JOBID -yaml::flow::processes::[2]::options::ts_dt:1E-6
+srun -n $SLURM_NPROCS  /projects/academic/chrest/mtmcgurn/ablateOpt/ablate --input /panasas/scratch/grp-ped3/mtmcgurn/ablateInputs/methaneDiffusionFlame/methaneDiffusionFlame.yaml -yaml::timestepper::arguments::ts_adapt_safety .9 -yaml::environment::title methaneDiffusionFlame_$SLURM_JOBID -yaml::flow::processes::[2]::options::ts_dt:1E-5
 
 echo "End Time " `date +%s`
