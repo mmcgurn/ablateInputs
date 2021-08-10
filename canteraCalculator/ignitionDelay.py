@@ -20,7 +20,7 @@ plt.style.use('ggplot')
 plt.style.use('seaborn-pastel')
 
 # Load in the cti mech file
-gas = ct.Solution('../ignitionDelay2S_CH4_CM2/2S_CH4_CM2.org.cti')
+gas = ct.Solution('../mechanisms/2S_CH4_CM2.org.cti')
 
 # Define the reactor temperature and pressure
 reactor_temperature = 1000  # Kelvin
