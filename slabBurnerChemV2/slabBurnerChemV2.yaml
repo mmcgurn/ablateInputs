@@ -41,9 +41,9 @@ flow: !ablate::flow::ReactingCompressibleFlow
         temperature: 
           !ablate::mathFunctions::LinearTable
           file: initConditionsEquilibrium.csv
-          independent: "x"
+          independent: "s"
           dependent: ["T"]
-          mappingFunction: "sqrt((x-.02)^2 + (y-.01)^2) > 0.0075 ? 0.0 : 5.85E-4"
+          mappingFunction: "sqrt((x-.02)^2 + (y-.01)^2) > 0.0075 ? 0.0 : 1.0"
         pressure: 101325
         velocity: "0.0, 0.0"
         massFractions:
@@ -51,9 +51,9 @@ flow: !ablate::flow::ReactingCompressibleFlow
           field:
             !ablate::mathFunctions::LinearTable
             file: initConditionsEquilibrium.csv
-            independent: "x"
+            independent: "s"
             dependent: ['H2', 'H', 'O', 'O2', 'OH', 'H2O', 'HO2', 'H2O2', 'C', 'CH', 'CH2', 'CH2(S)', 'CH3', 'CH4', 'CO', 'CO2', 'HCO', 'CH2O', 'CH2OH', 'CH3O', 'CH3OH', 'C2H', 'C2H2', 'C2H3', 'C2H4', 'C2H5', 'C2H6', 'HCCO', 'CH2CO', 'HCCOH', 'N', 'NH', 'NH2', 'NH3', 'NNH', 'NO', 'NO2', 'N2O', 'HNO', 'CN', 'HCN', 'H2CN', 'HCNN', 'HCNO', 'HOCN', 'HNCO', 'NCO', 'N2', 'AR', 'C3H7', 'C3H8', 'CH2CHO', 'CH3CHO']
-            mappingFunction: "sqrt((x-.015)^2 + (y-.01)^2) > 0.0075 ? 0.0 : 5.85E-4"
+            mappingFunction: "sqrt((x-.015)^2 + (y-.01)^2) > 0.0075 ? 0.0 : 1.0"
     - !ablate::flow::fieldFunctions::DensityMassFractions
       &densityYiFlowFieldState
       state: *flowFieldState       
