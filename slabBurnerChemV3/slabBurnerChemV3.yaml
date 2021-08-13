@@ -12,8 +12,6 @@ timestepper:
     ts:max_steps: 1000000
     ts_dt: 1.0e-06
     ts_adapt_monitor: ""
-    ts_atol: 1E-3
-    ts_rtol: 1E-3
 flow: !ablate::flow::ReactingCompressibleFlow
   name: flowField
   mesh: !ablate::mesh::FileMesh

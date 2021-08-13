@@ -28,9 +28,9 @@ flow: !ablate::flow::ReactingCompressibleFlow
     options:
       dm_refine: 0
   options:
-    eulerpetscfv_type: upwind
+    eulerpetscfv_type: leastsquares
     eulerpetsclimiter_type: superbee
-    densityYipetscfv_type: upwind
+    densityYipetscfv_type: leastsquares
     densityYipetsclimiter_type: superbee
     Tpetscfv_type: leastsquares
     Tpetsclimiter_type: none
