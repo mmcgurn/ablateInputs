@@ -33,7 +33,7 @@ gas.TPY = inletTemperature, inletPressure, inletYi
 inletDensity = gas.density
 
 # add in the blowing conditions
-blowTemperature = 1000  # Kelvin
+blowTemperature = 1500  # Kelvin
 blowPressure = 101325  # Pascals
 blowYi = {'CH4': 1.0}
 gas.TPY = blowTemperature, blowPressure, blowYi
@@ -50,11 +50,11 @@ outletDensity = gas.density
 
 # compute the mass coming in
 mass = 0.0;
-# inletArea = 0.0254**2 # 3D
-inletArea = 0.0276 #2D
+inletArea = 0.0254**2 # 3D
+# inletArea = 0.0276 #2D
 mass += inletDensity * 5.0 * inletArea
-# slabArea = 0.00762*sqrt((.036501-0.025)**2 + (.01146- 0.0)**2) #3D
-slabArea = sqrt((.036501-0.025)**2 + (.01146- 0.0)**2) #2D
+slabArea = 0.00762*sqrt((.036501-0.025)**2 + (.01146- 0.0)**2) #3D
+# slabArea = sqrt((.036501-0.025)**2 + (.01146- 0.0)**2) #2D
 mass += blowDensity * sqrt(5**2 + 5**2) * slabArea
 
 outletVelocity = mass /(inletArea*outletDensity)
