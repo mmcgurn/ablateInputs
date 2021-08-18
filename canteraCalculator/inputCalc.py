@@ -51,10 +51,10 @@ outletDensity = gas.density
 # compute the mass coming in
 mass = 0.0;
 # inletArea = 0.0254**2 # 3D
-inletArea = 0.0276
-mass += inletDensity * 20.0 * inletArea
+inletArea = 0.0276 #2D
+mass += inletDensity * 5.0 * inletArea
 # slabArea = 0.00762*sqrt((.036501-0.025)**2 + (.01146- 0.0)**2) #3D
-slabArea = sqrt((.036501-0.025)**2 + (.01146- 0.0)**2)
+slabArea = sqrt((.036501-0.025)**2 + (.01146- 0.0)**2) #2D
 mass += blowDensity * sqrt(5**2 + 5**2) * slabArea
 
 outletVelocity = mass /(inletArea*outletDensity)

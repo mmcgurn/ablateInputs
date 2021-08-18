@@ -97,7 +97,7 @@ flow: !ablate::flow::ReactingCompressibleFlow
          eos: *eos
          temperature: 300.0
          pressure: 101325
-         velocity: "20.0, 0.0"
+         velocity: "5.0, 0.0"
          massFractions: !ablate::flow::fieldFunctions::MassFractions
            eos: *eos
            values: 
@@ -120,7 +120,7 @@ flow: !ablate::flow::ReactingCompressibleFlow
          eos: *eos
          temperature: 300.0
          pressure: 101325
-         velocity: "20.694108, 0.0"
+         velocity: "5.69410, 0.0"
          massFractions: !ablate::flow::fieldFunctions::MassFractions
            eos: *eos
            values: 
