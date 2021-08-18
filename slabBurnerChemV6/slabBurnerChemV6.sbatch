@@ -2,7 +2,7 @@
 #SBATCH --partition=ped3 --qos=ped3
 #SBATCH --clusters=faculty
 #SBATCH --time=72:00:00
-#SBATCH --nodes=12
+#SBATCH --nodes=1
 #SBATCH --ntasks-per-node=12
 #SBATCH --mem=100000
 #SBATCH --job-name="slbHot"
@@ -38,6 +38,6 @@ echo "current directory ="$PWD
 # Run all tests
 echo "Start Time " `date +%s`
 # srun -n $SLURM_NPROCS valgrind --tool=memcheck -q --num-callers=20 --suppressions=/projects/academic/ped3/petsc/lib/petsc/bin/maint/petsc-val.supp --log-file=valgrind.log.%p  /projects/academic/ped3/mtmcgurn/ablate/opt/ablate --input /panasas/scratch/grp-ped3/mtmcgurn/ablateInputs/slabBurnerChem2D/slabBurnerChem2D.yaml
-srun -n $SLURM_NPROCS  /projects/academic/chrest/mtmcgurn/ablateOpt/ablate --input /panasas/scratch/grp-ped3/mtmcgurn/ablateInputs/slabBurnerChemV6/slabBurnerChemV6.yaml -yaml::environment::title slabV6_$SLURM_JOBID -yaml::flow::mesh::options::dm_refine 6
+srun -n $SLURM_NPROCS  /projects/academic/chrest/mtmcgurn/ablateOpt/ablate --input /panasas/scratch/grp-ped3/mtmcgurn/ablateInputs/slabBurnerChemV6/slabBurnerChemV6.yaml -yaml::environment::title slabV6_$SLURM_JOBID -yaml::flow::mesh::options::dm_refine 4
 
 echo "End Time " `date +%s`
