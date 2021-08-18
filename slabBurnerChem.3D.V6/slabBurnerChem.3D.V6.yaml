@@ -147,4 +147,4 @@ flow: !ablate::flow::ReactingCompressibleFlow
   monitors:
     - !ablate::monitors::TimeStepMonitor
     - !ablate::monitors::Hdf5Monitor
-      interval: 1
+      interval: 100
