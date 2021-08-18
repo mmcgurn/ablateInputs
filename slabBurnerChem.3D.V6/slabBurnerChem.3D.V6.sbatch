@@ -2,9 +2,9 @@
 #SBATCH --partition=ped3 --qos=ped3
 #SBATCH --clusters=faculty
 #SBATCH --time=72:00:00
-#SBATCH --nodes=4
+#SBATCH --nodes=5
 #SBATCH --ntasks-per-node=16
-#SBATCH --mem=100000
+#SBATCH --mem=64000
 #SBATCH --job-name="slb3D"
 #SBATCH --mail-user=mtmcgurn@buffalo.edu
 #SBATCH --mail-type=END

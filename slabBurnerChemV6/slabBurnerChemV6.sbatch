@@ -4,7 +4,7 @@
 #SBATCH --time=72:00:00
 #SBATCH --nodes=4
 #SBATCH --ntasks-per-node=16
-#SBATCH --mem=100000
+#SBATCH --mem=64000
 #SBATCH --job-name="slb2D"
 #SBATCH --mail-user=mtmcgurn@buffalo.edu
 #SBATCH --mail-type=END
