@@ -18,8 +18,13 @@ echo "SLURMTMPDIR="$SLURMTMPDIR
 echo "working directory = "$SLURM_SUBMIT_DIR
 
 # Load the required modules
-module load chrest/release
-module load petsc-chrest/release
+module load intel-mpi/2019.5
+module load hdf5/1.12.0-mpi
+module load gcc/10.2.0
+module load cmake/3.17.1
+module load valgrind/3.14.0
+module load gdb/7.8
+module load petsc-chrest/v3.15.2_30-07-2021_8d1aee6
 
 # The initial srun will trigger the SLURM prologue on the compute nodes.
 NPROCS=`srun --nodes=${SLURM_NNODES} bash -c 'hostname' |wc -l`
