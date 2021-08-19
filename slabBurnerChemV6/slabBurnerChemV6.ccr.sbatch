@@ -1,6 +1,5 @@
 #!/bin/sh
 #SBATCH --partition=general-compute --qos=supporters
-#SBATCH --clusters=faculty
 #SBATCH --time=72:00:00
 #SBATCH --nodes=10
 #SBATCH --constraint=NIH
