@@ -20,10 +20,10 @@ plt.style.use('ggplot')
 plt.style.use('seaborn-pastel')
 
 # Load in the cti mech file
-gas = ct.Solution('../mechanisms/2S_CH4_CM2.org.cti')
+gas = ct.Solution('../ignitionDelayGriMech/grimech30.cti')
 
 # Define the reactor temperature and pressure
-reactor_temperature = 1000  # Kelvin
+reactor_temperature = 1200  # Kelvin
 reactor_pressure = 101325  # Pascals
 
 gas.TP = reactor_temperature, reactor_pressure
