@@ -14,5 +14,5 @@
 module load gcc/10.2.1
 
 ##### Launch parallel job using srun
-srun -n144 /g/g15/mcgurn4/ablateOpt/ablate --input /usr/workspace/ubchrest/mcgurn4/ablateInputs/slabBurnerChemV7/slabBurnerChemV7.yaml  -yaml::environment::title slab_$SLURM_JOBID -yaml::flow::mesh::options::dm_refine 6
+srun -n144 /g/g15/mcgurn4/ablateOpt/ablate --input /usr/workspace/ubchrest/mcgurn4/ablateInputs/slabBurnerChemSimpleV7/slabBurnerChemSimpleV7.yaml  -yaml::environment::title slab_$SLURM_JOBID -yaml::flow::mesh::options::dm_refine 6
 echo 'Done'
