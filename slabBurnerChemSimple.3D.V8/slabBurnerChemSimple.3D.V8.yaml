@@ -141,3 +141,5 @@ flow: !ablate::flow::ReactingGlobCompressibleFlow
     - !ablate::monitors::TimeStepMonitor
     - !ablate::monitors::Hdf5Monitor
       interval: 100
+    - !ablate::monitors::Restart
+      interval: 2500
