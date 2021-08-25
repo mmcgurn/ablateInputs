@@ -68,7 +68,7 @@ Curve Loop(1) = {15, -19, 23, -20};
 //+
 Plane Surface(1) = {1};
 //+
-Curve Loop(2) = {16, 13, 14, 15};
+Curve Loop(2) = {16, 13, 14, 15}; 
 //+
 Plane Surface(2) = {2};
 //+

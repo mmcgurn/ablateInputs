@@ -13,7 +13,7 @@ timestepper:
     ts_max_steps: 1000000
     ts_dt: 1.0e-06
     ts_adapt_monitor: ""
-flow: !ablate::flow::ReactingCompressibleFlow
+flow: !ablate::flow::ReactingGlobCompressibleFlow
   name: flowField
   mesh: !ablate::mesh::FileMesh
     name: slabBurner
@@ -71,11 +71,10 @@ flow: !ablate::flow::ReactingCompressibleFlow
               field: 0.769306931
             - fieldName: O2
               field: 0.230693069
-   - !ablate::flow::boundaryConditions::EssentialGhost
+   - !ablate::flow::boundaryConditions::ZeroGradientGhost
+     fieldName: densityYi
      boundaryName: "densityYi walls"
      labelIds: [29, 30]
-     boundaryValue: !ablate::flow::fieldFunctions::DensityMassFractions
-       state: *wallFlowFieldState  
    - !ablate::flow::boundaryConditions::EssentialGhost
      boundaryName: "euler inlet"
      labelIds: [26]
