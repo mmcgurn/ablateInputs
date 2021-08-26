@@ -19,7 +19,7 @@ flow: !ablate::flow::ReactingGlobCompressibleFlow
     name: slabBurner
     path: SlabMotor2D.msh
     options:
-      dm_refine: 5
+      dm_refine: 3
   options:
     eulerpetscfv_type: upwind
     densityYipetscfv_type: upwind
@@ -105,7 +105,7 @@ flow: !ablate::flow::ReactingGlobCompressibleFlow
      fieldName: euler
      boundaryName: "euler outlet"
      labelIds: [10]
-     - !ablate::flow::boundaryConditions::ZeroGradientGhost
+   - !ablate::flow::boundaryConditions::ZeroGradientGhost
      fieldName: densityYi
      boundaryName: "densityYi outlet"
      labelIds: [10]
