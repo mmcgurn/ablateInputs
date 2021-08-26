@@ -54,7 +54,7 @@ flow: !ablate::flow::ReactingGlobCompressibleFlow
       &densityYiFlowFieldState
       state: *flowFieldState       
   boundaryConditions:
-   - !ablate::flow::boundaryConditions::ZeroGradientGhost
+   - !ablate::flow::boundaryConditions::EssentialGhost
      fieldName: euler
      boundaryName: "euler walls"
      labelIds: [12, 15, 16]
