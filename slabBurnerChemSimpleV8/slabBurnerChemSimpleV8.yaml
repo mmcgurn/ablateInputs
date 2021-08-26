@@ -19,7 +19,7 @@ flow: !ablate::flow::ReactingGlobCompressibleFlow
     name: slabBurner
     path: SlabMotor2D.msh
     options:
-      dm_refine: 3
+      dm_refine: 5
   options:
     eulerpetscfv_type: upwind
     densityYipetscfv_type: upwind
