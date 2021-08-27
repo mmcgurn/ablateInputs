@@ -96,7 +96,7 @@ flow: !ablate::flow::ReactingGlobCompressibleFlow
               field: 1.0
    - !ablate::flow::boundaryConditions::EssentialGhost
      fieldName: densityYi
-     boundaryName: "densityYi walls"
+     boundaryName: "densityYi slab walls"
      labelIds: [15, 16]
      boundaryValue: !ablate::flow::fieldFunctions::DensityMassFractions
        state: *wallFlowFieldState  
