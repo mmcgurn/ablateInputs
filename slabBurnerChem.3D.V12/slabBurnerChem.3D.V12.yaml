@@ -14,13 +14,13 @@ timestepper:
     ts_dt: 1.0e-06
     ts_adapt_monitor: ""
     ts_adapt_safety: .6
-flow: !ablate::flow::ReactingCompressibleFlow
+flow: !ablate::flow::ReactingGlobCompressibleFlow
   name: flowField
   mesh: !ablate::mesh::FileMesh
     name: slabBurner
     path: ../geom/slabMotor.3D.msh
     options:
-      dm_refine: 3
+      dm_refine: 1
   options:
     eulerpetscfv_type: upwind
     densityYipetscfv_type: upwind
@@ -161,6 +161,7 @@ flow: !ablate::flow::ReactingCompressibleFlow
  
   monitors:
     - !ablate::monitors::TimeStepMonitor
+      interval: 25
     - !ablate::monitors::Hdf5Monitor
       interval: 100
     - !ablate::monitors::Restart
