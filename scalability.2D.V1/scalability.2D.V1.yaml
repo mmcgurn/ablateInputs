@@ -23,7 +23,6 @@ flow: !ablate::flow::ReactingCompressibleFlow
     upper: [0.01, 0.01]
     options:
       dm_refine: 0
-      dm_distribute: true
   options:
     eulerpetscfv_type: upwind
     densityYipetscfv_type: upwind
