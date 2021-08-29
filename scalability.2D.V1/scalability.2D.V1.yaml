@@ -18,7 +18,7 @@ flow: !ablate::flow::ReactingCompressibleFlow
   name: flowField
   mesh: !ablate::mesh::BoxMesh
     name: simpleBoxField
-    faces: [ 50, 50]
+    faces: [ 100, 100]
     lower: [ -.01, -.01]
     upper: [0.01, 0.01]
     options:
