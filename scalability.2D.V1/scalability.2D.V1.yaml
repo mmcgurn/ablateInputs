@@ -5,6 +5,7 @@ environment:
 arguments: 
   automaticTimeStepCalculator: off
   petsclimiter_type: none
+  dm_plex_separate_marker: ""
 timestepper:
   name: theMainTimeStepper
   arguments:
@@ -22,6 +23,7 @@ flow: !ablate::flow::ReactingCompressibleFlow
     upper: [0.01, 0.01]
     options:
       dm_refine: 0
+      dm_distribute: true
   options:
     eulerpetscfv_type: upwind
     densityYipetscfv_type: upwind
