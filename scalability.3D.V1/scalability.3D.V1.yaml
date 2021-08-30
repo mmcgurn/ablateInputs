@@ -50,15 +50,15 @@ flow: !ablate::flow::ReactingCompressibleFlow
           eos: *eos
           values: 
             - fieldName: N2
-              field: "sqrt(x^2 + y^2) < .005 ? 0.742533316 : 0.7246721 "
+              field: "sqrt(x^2 + y^2 + z^2) < .005 ? 0.742533316 : 0.7246721 "
             - fieldName: O2
-              field: "sqrt(x^2 + y^2) < .005 ? 0.0 : 0.22014124"
+              field: "sqrt(x^2 + y^2 + z^2) < .005 ? 0.0 : 0.22014124"
             - fieldName: CH4
-              field:  "sqrt(x^2 + y^2) < .005 ? 0.0 : 0.05518667" 
+              field:  "sqrt(x^2 + y^2 + z^2) < .005 ? 0.0 : 0.05518667" 
             - fieldName: H2O
-              field:  "sqrt(x^2 + y^2) < .005 ? 0.120500265 : 0.0" 
+              field:  "sqrt(x^2 + y^2 + z^2) < .005 ? 0.120500265 : 0.0" 
             - fieldName: CO2
-              field:  "sqrt(x^2 + y^2) < .005 ? 0.136966419 : 0.0" 
+              field:  "sqrt(x^2 + y^2 + z^2) < .005 ? 0.136966419 : 0.0" 
     - !ablate::flow::fieldFunctions::DensityMassFractions
       &densityYiFlowFieldState
       state: *flowFieldState       
