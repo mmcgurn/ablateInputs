@@ -4,7 +4,7 @@
 ##### These lines are for Slurm
 #SBATCH -N 300
 #SBATCH -J mile1
-#SBATCH -t 4:00:00
+#SBATCH -t 24:00:00
 #SBATCH -p pbatch
 #SBATCH --mail-type=ALL
 #SBATCH -A sunyb
