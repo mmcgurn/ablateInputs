@@ -11,6 +11,7 @@
 
 
 ##### Load Required modules
+module load  intel/19.0.4
 module load chrest/release
 
 ##### Launch parallel job using srun
