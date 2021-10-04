@@ -4,7 +4,7 @@ import gmsh
 
 gmsh.initialize()
 
-gmsh.open("/Users/mcgurn/scratch/ablateInputs/geom/slabMotor.3D.hex.msh")
+gmsh.open("/Users/mcgurn/chrestScratch/ablateInputs/geom/slabMotor.3D.hex.msh")
 
 # Load in the element
 [allElementTypes, allElementTags, allNodeTags] = gmsh.model.mesh.getElements(2)

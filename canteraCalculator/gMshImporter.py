@@ -4,19 +4,28 @@ import gmsh
 
 gmsh.initialize()
 
-gmsh.open("/Users/mcgurn/chrestScratch/ablateInputs/geom/slabMotor.3D.msh")
+gmsh.open("/Users/mcgurn/chrestScratch/ablateInputs/geom/slabMotor.3D.hex.msh")
 
 # Load in the element
-elementIds = gmsh.model.mesh.getElementsByCoordinates(0.044636811516239397, 0.0014524456734120389,-0.007080303862734838, 3, False)
+elementIds = gmsh.model.mesh.getElementsByCoordinates(0.138613, 0.0175073, 0.00679931, 3, False)
 
 # Print the element information
 for elementId in elementIds:
     print("Element: ", elementId)
     # Get the element
     element = gmsh.model.mesh.getElement(elementId)
+
+    avg = [0.0, 0.0, 0.0]
     # Print the nodes
     for n in element[1]:
+        avg[0] += gmsh.model.mesh.getNode(n)[0][0]/(len(element))
+        avg[1] += gmsh.model.mesh.getNode(n)[0][1]/(len(element))
+        avg[2] += gmsh.model.mesh.getNode(n)[0][2]/(len(element))
         print("\t", str(gmsh.model.mesh.getNode(n)[0][0]), ", ", str(gmsh.model.mesh.getNode(n)[0][1]), ", ", str(gmsh.model.mesh.getNode(n)[0][2]))
+
+    print("\tavg:", str(avg[0]), ", ", str(avg[1]), ", ", str(avg[2]))
+    print("\tnodes: ", element[1])
+
 
 
 element = gmsh.model.mesh.getElement(2419)
