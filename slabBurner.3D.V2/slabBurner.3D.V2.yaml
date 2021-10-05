@@ -8,7 +8,7 @@ arguments:
 timestepper:
   name: theMainTimeStepper
   io:
-    interval: 0
+    interval: 1000
   arguments:
     ts_type: rk
     ts_max_time: 1
