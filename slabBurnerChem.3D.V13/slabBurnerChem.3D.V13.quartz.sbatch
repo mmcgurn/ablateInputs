@@ -24,5 +24,5 @@ module load gcc/10.2.1
 module load  cmake/3.21.1 
 
 ##### Launch parallel job using srun
-srun -n10800/g/g15/mcgurn4/ablateOpt/ablate --input /p/lustre1/mcgurn4/ablateInputs/slabBurnerChem.3D.V13/slabBurnerChem.3D.V13.yaml  -yaml::environment::title slab_$SLURM_JOBID -yaml::flow::mesh::options::dm_refine 1
+srun -n10800 /g/g15/mcgurn4/ablateOpt/ablate --input /p/lustre1/mcgurn4/ablateInputs/slabBurnerChem.3D.V13/slabBurnerChem.3D.V13.yaml  -yaml::environment::title slab_$SLURM_JOBID -yaml::flow::mesh::options::dm_refine 1
 echo 'Done'
