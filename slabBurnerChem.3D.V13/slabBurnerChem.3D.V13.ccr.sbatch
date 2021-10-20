@@ -1,7 +1,7 @@
 #!/bin/sh
 #SBATCH --partition=general-compute --qos=supporters
 #SBATCH --time=72:00:00
-#SBATCH --nodes=40
+#SBATCH --nodes=20
 #SBATCH --constraint=NIH
 #SBATCH --ntasks-per-node=40
 #SBATCH --mem=192000
