@@ -1,8 +1,8 @@
 #!/bin/sh
 #SBATCH --partition=debug --qos=debug
 #SBATCH --time=01:00:00
-#SBATCH --nodes=8
-#SBATCH --ntasks-per-node=2
+#SBATCH --nodes=4
+#SBATCH --ntasks-per-node=8
 #SBATCH --job-name="slb2D"
 #SBATCH --mail-user=mtmcgurn@buffalo.edu
 #SBATCH --mail-type=END
