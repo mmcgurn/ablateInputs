@@ -2,7 +2,6 @@
 #SBATCH --partition=debug --qos=debug
 #SBATCH --time=01:00:00
 #SBATCH --nodes=8
-#SBATCH --constraint=NIH
 #SBATCH --ntasks-per-node=2
 #SBATCH --job-name="slb2D"
 #SBATCH --mail-user=mtmcgurn@buffalo.edu
