@@ -25,12 +25,18 @@ gas = ct.Solution('../ignitionDelayGriMech/grimech30.cti')
 # Define the reactor temperature and pressure
 density = 999.9
 pressure = 281125963.5
-yi = {"H2": .1, "H2O": .2, "N2": .3, "CO": .4}
-gas.DPY = density, pressure, yi
+yi = {"H2": 0.1, "H2O": 0.2, "N2": .3, "CO": 0.4, "CH4": 0.0, "NO": 0, "CH2": 0, "O2": 0}
 
+# compute the reference enthalpy
+gas.TPY = 298.15, 101325.0, yi
+enthalpyOfFormation = gas.h
+
+# Set the real t and p
+gas.DPY = density, pressure, yi
 
 # print the Cp
 print("Cp: ", gas.cp_mass)
-
-
+print("Cv: ", gas.cv_mass)
+print("u: ", gas.u - enthalpyOfFormation)
+print("h: ", gas.h - enthalpyOfFormation)
 
