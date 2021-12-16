@@ -27,9 +27,8 @@ gas = ct.Solution('../ignitionDelayGriMech/grimech30.cti')
 # Define inlet density
 inletTemperature = 300  # Kelvin
 inletPressure = 101325  # Pascals
-inletYi = {'N2': 0.769306931, 'O2': 0.230693069}
+inletYi = {'O2': 1.0}
 gas.TPY = inletTemperature, inletPressure, inletYi
-
 inletDensity = gas.density
 
 # add in the blowing conditions
@@ -37,25 +36,22 @@ blowTemperature = 1500  # Kelvin
 blowPressure = 101325  # Pascals
 blowYi = {'CH4': 1.0}
 gas.TPY = blowTemperature, blowPressure, blowYi
-
 blowDensity = gas.density
 
-# compute the outlet density
-outletTemperature = 300  # Kelvin
-outletPressure = 101325  # Pascals
-outletYi = {'N2': 0.769306931, 'O2': 0.230693069}
-gas.TPY = outletTemperature, outletPressure, outletYi
-
-outletDensity = gas.density
-
 # compute the mass coming in
-mass = 0.0;
-inletArea = 0.0254**2 # 3D
-# inletArea = 0.0276 #2D
-mass += inletDensity * 20.0 * inletArea
-slabArea = 0.00762*sqrt((.036501-0.025)**2 + (.01146- 0.0)**2) #3D
-# slabArea = sqrt((.036501-0.025)**2 + (.01146- 0.0)**2) #2D
-mass += blowDensity * sqrt(4**2 + 4**2) * slabArea
+inletG = 20 # kg/m2/s
+inletArea = 0.027686
 
-outletVelocity = mass /(inletArea*outletDensity)
-print("OutletVelocity", outletVelocity)
+inletVel = inletG/inletDensity
+inletMassRate = inletG*inletArea # kg/(m2 s) * m2 = kg/s
+
+# compute stoic ratio
+o2FuelRatio = 3.989
+
+# compute the fuelInlet
+fuelRate = inletMassRate/o2FuelRatio # kg/s
+fuelArea = 0.06858 #m2
+fuelVelocity = fuelRate/(blowDensity*fuelArea)
+
+print("inletVelocity", inletVel)
+print("fuelVelocity", fuelVelocity)
