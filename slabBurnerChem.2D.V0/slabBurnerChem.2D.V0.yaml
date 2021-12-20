@@ -20,7 +20,7 @@ timestepper:
     ts_adapt_monitor: ""
     ts_adapt_safety: .6
   io:
-    interval: 10
+    interval: 100
   domain: !ablate::domain::BoxMeshBoundaryCells
     name: simpleBoxField
     faces: [ 280, 40 ]
@@ -151,7 +151,7 @@ solvers:
       mInf: .3
     monitors:
     - !ablate::monitors::TimeStepMonitor
-      interval: 0
+      interval: 25
   - !ablate::boundarySolver::BoundarySolver
     id: inlet
     region:
