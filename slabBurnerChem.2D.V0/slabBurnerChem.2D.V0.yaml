@@ -15,15 +15,15 @@ timestepper:
   arguments:
     ts_type: rk
     ts_max_time: 1
-    ts_max_steps: 1000
+    ts_max_steps: 1000000
     ts_dt: 1.0e-10
     ts_adapt_monitor: ""
     ts_adapt_safety: .6
   io:
-    interval: 0
+    interval: 10
   domain: !ablate::domain::BoxMeshBoundaryCells
     name: simpleBoxField
-    faces: [ 140, 20]
+    faces: [ 280, 40 ]
     lower: [ 0.0, 0.0]
     upper: [ 0.165354, 0.027686]
     simplex: false
