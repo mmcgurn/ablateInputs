@@ -28,7 +28,7 @@ export PATH="${PETSC_DIR}/${PETSC_ARCH}/bin:$PATH"
 
 ##### Launch parallel job using srun
 srun -n864 /g/g15/mcgurn4/ablateOpt/ablate \
-	--input /p/lustre1/mcgurn4/ablateInputs/slabBurnerChem.2D.V0/slabBurnerChem.2D.V0.yaml \
+	--input /p/lustre1/mcgurn4/ablateInputs/slabBurnerChem.2D.V0/slabBurner.2D.V0.yaml \
 	-yaml::environment::title noRxn_560x80 \
 	-yaml::timestepper::domain::faces "[ 560, 80 ]"
 	
