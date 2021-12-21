@@ -16,7 +16,6 @@ module load valgrind/3.16.1
 module load gcc/10.2.1
 module load  cmake/3.21.1 
 
-
 # Load PETSC ENV
 export PETSC_DIR="/g/g15/mcgurn4/petsc"
 export PETSC_ARCH="arch-ablate-opt-gcc" # arch-ablate-debug or arch-ablate-opt
@@ -25,6 +24,9 @@ export HDF5_ROOT="${PETSC_DIR}/${PETSC_ARCH}"
 # Include the bin directory to access mpi commands
 export PATH="${PETSC_DIR}/${PETSC_ARCH}/bin:$PATH"
 
+# Make a temp directory so that tchem has a place to vomit its files
+mkdir tmp_$SLURM_JOBID
+cd tmp_$SLURM_JOBID
 
 ##### Launch parallel job using srun
 srun -n864 /g/g15/mcgurn4/ablateOpt/ablate \
