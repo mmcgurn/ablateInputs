@@ -31,7 +31,7 @@ cd tmp_$SLURM_JOBID
 ##### Launch parallel job using srun
 srun -n864 /g/g15/mcgurn4/ablateOpt/ablate \
 	--input /p/lustre1/mcgurn4/ablateInputs/slabBurnerChem.2D.V0/slabBurnerRxn2D.V0.yaml \
-	-yaml::environment::title rxn_560x80 \
-	-yaml::timestepper::domain::faces "[ 560, 80 ]"
+	-yaml::environment::title rxn_1120x160 \
+	-yaml::timestepper::domain::faces [1120,160]
 	
 echo 'Done'
