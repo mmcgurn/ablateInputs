@@ -23,23 +23,22 @@ timestepper:
     interval: 100
   domain: !ablate::domain::BoxMeshBoundaryCells
     name: simpleBoxField
-    faces: [ 280, 40 ]
+    faces: [ 1120, 160 ]
     lower: [ 0.0, 0.0]
     upper: [ 0.165354, 0.027686]
     simplex: false
     mainRegion:
-      name: flowRegion
+      name: chamberRegion
     boundaryFaceRegion:
       name: boundaryFaces
     preModifiers:
       - !ablate::domain::modifiers::SetFromOptions
         dm_refine: 0 #this must be zero
-        dm_label_view: fuelRegressionRegion
       - !ablate::domain::modifiers::DistributeWithGhostCells
     postModifiers:
       - !ablate::domain::modifiers::MergeLabels
         mergedRegion:
-          name: boundaryWalls
+          name: allBoundaryWalls
         regions:
           - name: boundaryCellsTop
           - name: boundaryCellsBottom
@@ -49,18 +48,22 @@ timestepper:
           name: slabBurner
         function: !ablate::mathFunctions::geom::Surface
           path: ../geom/slabBurner.v1.stp
-      - !ablate::domain::modifiers::CutLabel
+      - !ablate::domain::modifiers::SubtractLabel
         # cut the slabBurner out of the flowRegion
-        cutRegion:
+        differenceRegion:
           name: flowRegion
-        regions:
-          - name: slabBurner
-      - !ablate::domain::modifiers::CutLabel
+        minuendRegion:
+          name: chamberRegion
+        subtrahendRegion:
+          name: slabBurner
+      - !ablate::domain::modifiers::SubtractLabel
         # cut the slabBurner out of the boundaryWalls
-        cutRegion:
+        differenceRegion:
           name: boundaryWalls
-        regions:
-          - name: slabBurner
+        minuendRegion:
+          name: allBoundaryWalls
+        subtrahendRegion:
+          name: slabBurner
       - !ablate::domain::modifiers::TagLabelInterface
         # define the boundary between the slab burner and flow
         leftRegion:
