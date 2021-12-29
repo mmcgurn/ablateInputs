@@ -40,7 +40,7 @@ blowDensity = gas.density
 
 # compute the mass coming in
 inletG = 20 # kg/m2/s
-inletArea = 0.027686
+inletArea = 0.027686*(0.0127*2)
 
 inletVel = inletG/inletDensity
 inletMassRate = inletG*inletArea # kg/(m2 s) * m2 = kg/s
@@ -50,7 +50,7 @@ o2FuelRatio = 3.989
 
 # compute the fuelInlet
 fuelRate = inletMassRate/o2FuelRatio # kg/s
-fuelArea = 0.06858 #m2
+fuelArea = 0.06858*(0.00381*2) #m2
 fuelVelocity = fuelRate/(blowDensity*fuelArea)
 
 print("inletVelocity", inletVel)
