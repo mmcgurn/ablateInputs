@@ -32,6 +32,6 @@ cd tmp_$SLURM_JOBID
 srun -n13824 /g/g15/mcgurn4/ablateOpt/ablate \
 	--input /p/lustre1/mcgurn4/ablateInputs/slabBurnerChem.3D.V1/slabBurnerRxn.3D.V1.yaml \
 	-yaml::environment::title rxn3D_384_560x80x80 \
-	-yaml::timestepper::domain::faces [560, 80, 80]
+	-yaml::timestepper::domain::faces [560,80,80]
 	
 echo 'Done'
