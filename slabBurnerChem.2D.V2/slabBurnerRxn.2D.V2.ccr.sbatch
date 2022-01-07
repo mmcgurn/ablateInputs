@@ -20,6 +20,10 @@ echo "working directory = "$SLURM_SUBMIT_DIR
 # Load the required modules
 module load intel/19.5 hdf5/1.12.0-mpi mkl/2019.5 gcc/10.2.0 cmake/3.17.1
 
+# setup petsc
+export PETSC_DIR=/projects/academic/chrest/mtmcgurn/petsc  
+export PETSC_ARCH=PETSC_ABLATE_OPT
+export PKG_CONFIG_PATH="${PETSC_DIR}/${PETSC_ARCH}/lib/pkgconfig:$PKG_CONFIG_PATH"
 
 # The initial srun will trigger the SLURM prologue on the compute nodes.
 NPROCS=`srun --nodes=${SLURM_NNODES} bash -c 'hostname' |wc -l`
