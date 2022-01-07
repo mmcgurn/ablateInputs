@@ -2,7 +2,7 @@
 #SBATCH --partition=ped3 --qos=ped3
 #SBATCH --clusters=faculty
 #SBATCH --time=72:00:00
-#SBATCH --nodes=8
+#SBATCH --nodes=6
 #SBATCH --ntasks-per-node=16
 #SBATCH --mem=64000
 #SBATCH --job-name="slbBurn"
@@ -42,6 +42,6 @@ cd tmp_$SLURM_JOBID
 # Run all tests
 echo "Start Time " `date +%s`
 # srun -n $SLURM_NPROCS valgrind --tool=memcheck -q --num-callers=20 --suppressions=/projects/academic/ped3/petsc/lib/petsc/bin/maint/petsc-val.supp --log-file=valgrind.log.%p  /projects/academic/ped3/mtmcgurn/ablate/opt/ablate --input /panasas/scratch/grp-ped3/mtmcgurn/ablateInputs/slabBurnerChem2D/slabBurnerChem2D.yaml
-srun -n $SLURM_NPROCS  /projects/academic/chrest/mtmcgurn/ablateOpt/ablate --input /panasas/scratch/grp-ped3/mtmcgurn/ablateInputs/slabBurnerChem.2D.V2/slabBurnerRxn.2D.V2.ccr.sbatch
+srun -n $SLURM_NPROCS  /projects/academic/chrest/mtmcgurn/ablateOpt/ablate --input /panasas/scratch/grp-ped3/mtmcgurn/ablateInputs/slabBurnerChem.2D.V2/slabBurnerRxn.2D.V2.yaml
 
 echo "End Time " `date +%s`
