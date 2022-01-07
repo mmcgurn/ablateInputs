@@ -1,11 +1,11 @@
 #!/bin/sh
 #SBATCH --partition=ped3 --qos=ped3
 #SBATCH --clusters=faculty
-#SBATCH --time=48:00:00
-#SBATCH --nodes=12
-#SBATCH --ntasks-per-node=1
-#SBATCH --mem=10000
-#SBATCH --job-name="slbHot"
+#SBATCH --time=72:00:00
+#SBATCH --nodes=8
+#SBATCH --ntasks-per-node=16
+#SBATCH --mem=64000
+#SBATCH --job-name="slbBurn"
 #SBATCH --mail-user=mtmcgurn@buffalo.edu
 #SBATCH --mail-type=END
 
@@ -20,6 +20,7 @@ echo "working directory = "$SLURM_SUBMIT_DIR
 # Load the required modules
 module load intel/19.5 hdf5/1.12.0-mpi mkl/2019.5 gcc/10.2.0 cmake/3.17.1
 
+
 # The initial srun will trigger the SLURM prologue on the compute nodes.
 NPROCS=`srun --nodes=${SLURM_NNODES} bash -c 'hostname' |wc -l`
 echo NPROCS=$NPROCS
@@ -30,13 +31,13 @@ export I_MPI_PMI_LIBRARY=/usr/lib64/libpmi.so
 # Tell the tests what mpi command to use
 export TEST_MPI_COMMAND=srun
 
-# change to your build directory
-cd debug
-echo "current directory ="$PWD
+# Make a temp directory so that tchem has a place to vomit its files
+mkdir tmp_$SLURM_JOBID
+cd tmp_$SLURM_JOBID
 
 # Run all tests
 echo "Start Time " `date +%s`
 # srun -n $SLURM_NPROCS valgrind --tool=memcheck -q --num-callers=20 --suppressions=/projects/academic/ped3/petsc/lib/petsc/bin/maint/petsc-val.supp --log-file=valgrind.log.%p  /projects/academic/ped3/mtmcgurn/ablate/opt/ablate --input /panasas/scratch/grp-ped3/mtmcgurn/ablateInputs/slabBurnerChem2D/slabBurnerChem2D.yaml
-srun -n $SLURM_NPROCS  /projects/academic/chrest/mtmcgurn/ablateOpt/ablate --input /panasas/scratch/grp-ped3/mtmcgurn/ablateInputs/methaneDiffusionFlame/methaneDiffusionFlame.yaml -yaml::timestepper::arguments::ts_adapt_safety .9 -yaml::environment::title methaneDiffusionFlame_$SLURM_JOBID -yaml::flow::processes::[2]::options::ts_dt:1E-5
+srun -n $SLURM_NPROCS  /projects/academic/chrest/mtmcgurn/ablateOpt/ablate --input /panasas/scratch/grp-ped3/mtmcgurn/ablateInputs/slabBurnerChem.2D.V2/slabBurnerRxn.2D.V2.ccr.sbatch
 
 echo "End Time " `date +%s`
