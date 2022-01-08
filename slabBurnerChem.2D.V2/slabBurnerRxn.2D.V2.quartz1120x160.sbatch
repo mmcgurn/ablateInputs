@@ -2,7 +2,7 @@
 #### See https://hpc.llnl.gov/training/tutorials/slurm-and-moab#LC
 
 ##### These lines are for Slurm
-#SBATCH -N 24
+#SBATCH -N 48
 #SBATCH -J 3dSlab
 #SBATCH -t 24:00:00
 #SBATCH -p pbatch
@@ -29,9 +29,10 @@ mkdir tmp_$SLURM_JOBID
 cd tmp_$SLURM_JOBID
 
 ##### Launch parallel job using srun
-srun -n864 /g/g15/mcgurn4/ablateOpt/ablate \
-	--input /p/lustre1/mcgurn4/ablateInputs/slabBurnerChem.2D.V2/slabBurnerRxn2D.V2.yaml \
+srun -n1728 /g/g15/mcgurn4/ablateOpt/ablate \
+	--input /p/lustre1/mcgurn4/ablateInputs/slabBurnerChem.2D.V2/slabBurnerRxn.2D.V2.yaml \
 	-yaml::environment::title rxn_1120x160 \
 	-yaml::timestepper::domain::faces [1120,160]
 	
 echo 'Done'
+d
