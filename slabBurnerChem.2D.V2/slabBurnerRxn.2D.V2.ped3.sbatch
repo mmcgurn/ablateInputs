@@ -1,9 +1,10 @@
 #!/bin/sh
-#SBATCH --partition=general-compute --qos=supporters
+#SBATCH --partition=ped3 --qos=ped3
+#SBATCH --clusters=faculty
 #SBATCH --time=72:00:00
 #SBATCH --nodes=6
-#SBATCH --ntasks-per-node=40
-#SBATCH --mem=192000
+#SBATCH --ntasks-per-node=16
+#SBATCH --mem=64000
 #SBATCH --job-name="slbBurn"
 #SBATCH --mail-user=mtmcgurn@buffalo.edu
 #SBATCH --mail-type=END
@@ -43,7 +44,7 @@ echo "Start Time " `date +%s`
 # srun -n $SLURM_NPROCS valgrind --tool=memcheck -q --num-callers=20 --suppressions=/projects/academic/ped3/petsc/lib/petsc/bin/maint/petsc-val.supp --log-file=valgrind.log.%p  /projects/academic/ped3/mtmcgurn/ablate/opt/ablate --input /panasas/scratch/grp-ped3/mtmcgurn/ablateInputs/slabBurnerChem2D/slabBurnerChem2D.yaml
 srun -n $SLURM_NPROCS  /projects/academic/chrest/mtmcgurn/ablateOpt/ablate \
   --input /panasas/scratch/grp-ped3/mtmcgurn/ablateInputs/slabBurnerChem.2D.V2/slabBurnerRxn.2D.V2.yaml \
-  -yaml::environment::title rxn_ccr_1120x160
+  -yaml::environment::title rxn_ped_1120x160
 
 
 echo "End Time " `date +%s`
