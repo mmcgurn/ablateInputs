@@ -148,7 +148,7 @@ timestepper:
       state: *fuelFieldState
 
 solvers:
-  - !ablate::finiteVolume::CompressibleFlowSolver
+  - !ablate::finiteVolume::ReactingCompressibleFlowSolver
     id: flowField
     region:
       name: flowRegion
