@@ -151,7 +151,8 @@ solvers:
         eos: *eos
         alphaInit: 1.0
         maxAlphaAllowed: 100.0
-        domainLength: 0.165354  
+        domainLength: 0.165354
+        log: ablate::monitors::logs::StdOut
     fluxCalculator: !ablate::finiteVolume::fluxCalculator::AusmpUp
       mInf: .3
       pgs: *pgs
