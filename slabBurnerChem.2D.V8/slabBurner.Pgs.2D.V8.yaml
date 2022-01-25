@@ -13,10 +13,10 @@ timestepper:
     ts_adapt_monitor: ""
     ts_adapt_safety: 0.9
   io:
-    interval: 1000
+    interval: 100
   domain: !ablate::domain::BoxMeshBoundaryCells
     name: simpleBoxField
-    faces: [2240, 320]
+    faces: [280, 400]
     lower: [ 0.0, 0.0]
     upper: [ 0.165354, 0.027686]
     simplex: false
@@ -71,8 +71,8 @@ timestepper:
     fields:
       - !ablate::finiteVolume::CompressibleFlowFields
         eos: !ablate::eos::TChem  &eos
-         mechFile: ../mechanisms/2S_CH4_CM2.mech.dat
-         thermoFile: ../mechanisms/2S_CH4_CM2.thermo.dat
+         mechFile: ../mechanisms/2S_CH4_CM2.N2.mech.dat
+         thermoFile: ../mechanisms/2S_CH4_CM2.N2.thermo.dat
 #          mechFile: ../mechanisms/grimech30.mech.dat
 #          thermoFile: ../mechanisms/grimech30.thermo.dat
         conservedFieldOptions:
@@ -160,8 +160,7 @@ solvers:
         log: !ablate::monitors::logs::StdOut
       - !ablate::finiteVolume::processes::TChemReactions
         eos: *eos
-        inertSpecies: [N2]
-        massFractionBounds: [1E-10, 1]
+        massFractionBounds: [0.0, 1]
     fluxCalculator: !ablate::finiteVolume::fluxCalculator::AusmpUp
       mInf: .3
       pgs: *pgs
