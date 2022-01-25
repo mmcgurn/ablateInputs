@@ -1,6 +1,6 @@
 ---
 environment:
-  title: _2dSlabBurner_2
+  title: _2dSlabBurner
   tagDirectory: false
 arguments: {}
 timestepper:
@@ -11,7 +11,7 @@ timestepper:
     ts_max_steps: 100000000
     ts_dt: 1.0e-10
     ts_adapt_monitor: ""
-    ts_adapt_safety: 1.0
+    ts_adapt_safety: 0.9
   io:
     interval: 1000
   domain: !ablate::domain::BoxMeshBoundaryCells
@@ -76,7 +76,11 @@ timestepper:
 #          mechFile: ../mechanisms/grimech30.mech.dat
 #          thermoFile: ../mechanisms/grimech30.thermo.dat
         conservedFieldOptions:
-          petscfv_type: leastsquares
+          petscfv_type: upwind
+      - !ablate::domain::FieldDescription
+        name: pressure
+        type: FV
+        location: aux        
   initialization:
     - !ablate::finiteVolume::fieldFunctions::Euler
       state: &flowFieldState
@@ -157,7 +161,7 @@ solvers:
       - !ablate::finiteVolume::processes::TChemReactions
         eos: *eos
         inertSpecies: [N2]
-        minimumMassFraction: 1E-10
+        massFractionBounds: [1E-10, 1]
     fluxCalculator: !ablate::finiteVolume::fluxCalculator::AusmpUp
       mInf: .3
       pgs: *pgs
