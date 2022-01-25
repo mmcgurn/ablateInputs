@@ -160,8 +160,6 @@ solvers:
         log: !ablate::monitors::logs::StdOut
       - !ablate::finiteVolume::processes::TChemReactions
         eos: *eos
-        inertSpecies: [N2]
-        minimumMassFraction: 1E-10
     fluxCalculator: !ablate::finiteVolume::fluxCalculator::AusmpUp
       mInf: .3
       pgs: *pgs
