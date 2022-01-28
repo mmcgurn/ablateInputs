@@ -13,10 +13,10 @@ timestepper:
     ts_adapt_monitor: ""
     ts_adapt_safety: 0.9
   io:
-    interval: 100
+    interval: 1000
   domain: !ablate::domain::BoxMeshBoundaryCells
     name: simpleBoxField
-    faces: [280, 40]
+    faces: [2240, 320]
     lower: [ 0.0, 0.0]
     upper: [ 0.165354, 0.027686]
     simplex: false
@@ -71,30 +71,25 @@ timestepper:
     fields:
       - !ablate::finiteVolume::CompressibleFlowFields
         eos: !ablate::eos::TChem  &eos
-         mechFile: ../mechanisms/2S_CH4_CM2.N2.mech.dat
-         thermoFile: ../mechanisms/2S_CH4_CM2.N2.thermo.dat
-#          mechFile: ../mechanisms/grimech30.mech.dat
-#          thermoFile: ../mechanisms/grimech30.thermo.dat
+          mechFile: ../mechanisms/grimech30.mech.dat
+          thermoFile: ../mechanisms/grimech30.thermo.dat
         conservedFieldOptions:
           petscfv_type: upwind
       - !ablate::domain::FieldDescription
         name: pressure
         type: FV
-        location: aux        
+        location: aux    
   initialization:
     - !ablate::finiteVolume::fieldFunctions::Euler
       state: &flowFieldState
         eos: *eos
-        temperature: !ablate::mathFunctions::geom::Sphere
-          center: [.02,  0.013843]
-          radius: 0.01
+        temperature: !ablate::mathFunctions::geom::Box
+          lower: [0.0, 0.0]
+          upper: [0.02, 0.027686]
           insideValues: [1500]
           outsideValues: [300]
         pressure: 101325.0
-        velocity: !ablate::mathFunctions::geom::Sphere
-          center: [0,  0.013843]
-          radius: 0.005
-          insideValues: [1.0, 0.0]
+        velocity: "0, 0"
         massFractions: !ablate::finiteVolume::fieldFunctions::MassFractions
           eos: *eos
           values:
@@ -103,24 +98,6 @@ timestepper:
     - !ablate::finiteVolume::fieldFunctions::DensityMassFractions
       state: *flowFieldState
 
-    - !ablate::finiteVolume::fieldFunctions::Euler
-      # inlet
-      region:
-        name: boundaryCellsLeft
-      state: &inletFieldState
-        eos: *eos
-        temperature: 300.0
-        pressure: 101325
-        velocity: "1.0, 0.0"
-        massFractions: !ablate::finiteVolume::fieldFunctions::MassFractions
-          eos: *eos
-          values:
-            - fieldName: O2
-              field: 1.0
-    - !ablate::finiteVolume::fieldFunctions::DensityMassFractions
-      region:
-        name: boundaryCellsLeft
-      state: *inletFieldState
     - !ablate::finiteVolume::fieldFunctions::Euler
       # slab Burner
       region:
@@ -160,7 +137,6 @@ solvers:
         log: !ablate::monitors::logs::StdOut
       - !ablate::finiteVolume::processes::TChemReactions
         eos: *eos
-        massFractionBounds: [0.0, 1]
     fluxCalculator: !ablate::finiteVolume::fluxCalculator::AusmpUp
       mInf: .3
       pgs: *pgs
@@ -168,7 +144,7 @@ solvers:
       - !ablate::monitors::TimeStepMonitor
         interval: 25
       - !ablate::monitors::PhysicsTimeStep
-        interval: 25
+        interval: 25  
   - !ablate::boundarySolver::BoundarySolver
     id: inlet
     region:
@@ -179,6 +155,7 @@ solvers:
       - !ablate::boundarySolver::lodi::Inlet
         eos: *eos
         pgs: *pgs
+        velocity: "max(0.0, min(15, 1.0 + (t)*15/(.03))) , 0.0"
   - !ablate::boundarySolver::BoundarySolver
     id: outlet
     region:
@@ -213,24 +190,24 @@ solvers:
         eos: *eos
       - !ablate::boundarySolver::physics::Sublimation
         latentHeatOfFusion: 2.1e+5
-        effectiveConductivity: 0.26
+        effectiveConductivity: 0.01367
         additionalHeatFlux: !ablate::mathFunctions::geom::Sphere
           center: [.036,  0.01]
           radius: 0.005
-          insideValues: [150000] # 150 KW/m2
+          insideValues: "t < .03? 150000 : 0.0 "# 150 KW/m2
         massFractions: !ablate::finiteVolume::fieldFunctions::MassFractions
           eos: *eos
           values:
-#             - fieldName: H2
-#               field: 2.6605252679403324e-08
-             - fieldName: CH4
-               field: 0.03130099022620085
-            # - fieldName: C2H2
-#               field: 0.019041133292868283
-#             - fieldName: C2H4
-#               field: 0.9085604652430157
-#             - fieldName: C2H6
-#               field: 0.012981434565768965
-#             - fieldName: C3H8
-#               field: 0.02811595000348999
+            - fieldName: H2
+              field: 2.6605252679403324e-08
+            - fieldName: CH4
+              field: 0.03130099022620085
+            - fieldName: C2H2
+              field: 0.019041133292868283
+            - fieldName: C2H4
+              field: 0.9085604652430157
+            - fieldName: C2H6
+              field: 0.012981434565768965
+            - fieldName: C3H8
+              field: 0.02811595000348999
         
