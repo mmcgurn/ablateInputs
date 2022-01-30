@@ -155,7 +155,7 @@ solvers:
       - !ablate::boundarySolver::lodi::Inlet
         eos: *eos
         pgs: *pgs
-        velocity: "max(0.0, min(15, 1.0 + (t)*15/(.03))) , 0.0"
+        velocity: "max(0.0, min(15, 1.0 + (t)*15/(.06))) , 0.0"
   - !ablate::boundarySolver::BoundarySolver
     id: outlet
     region:
@@ -194,7 +194,7 @@ solvers:
         additionalHeatFlux: !ablate::mathFunctions::geom::Sphere
           center: [.036,  0.01]
           radius: 0.005
-          insideValues: "t < .03? 150000 : 0.0 "# 150 KW/m2
+          insideValues: "t < .06? 150000 : 0.0 "# 150 KW/m2
         massFractions: !ablate::finiteVolume::fieldFunctions::MassFractions
           eos: *eos
           values:
