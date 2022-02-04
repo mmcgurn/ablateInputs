@@ -132,7 +132,7 @@ solvers:
       - !ablate::finiteVolume::processes::PressureGradientScaling
         &pgs
         eos: *eos
-        alphaInit: 100.0
+        alphaInit: 15.0
         maxAlphaAllowed: 100.0
         domainLength: 0.165354
         log: !ablate::monitors::logs::StdOut
@@ -155,7 +155,7 @@ solvers:
       - !ablate::boundarySolver::lodi::Inlet
         eos: *eos
         pgs: *pgs
-        velocity: "t < .03 ? 0.5 :  min(15.0, 1.0 + (t - .03)*15/(.06 - .03)) , 0.0"
+        velocity: "15.0, 0.0"
   - !ablate::boundarySolver::BoundarySolver
     id: outlet
     region:

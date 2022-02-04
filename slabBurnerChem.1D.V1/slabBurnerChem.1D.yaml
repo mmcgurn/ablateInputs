@@ -5,6 +5,8 @@ environment:
 arguments: {}
 timestepper:
   name: theMainTimeStepper
+  io:
+    interval: 0
   arguments:
     ts_type: rk
     ts_max_time: 0.5
