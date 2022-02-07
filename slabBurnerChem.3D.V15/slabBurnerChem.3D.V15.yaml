@@ -13,10 +13,10 @@ timestepper:
     ts_adapt_monitor: ""
     ts_adapt_safety: 0.9
   io:
-    interval: 0 #SET
+    interval: 1000 
   domain: !ablate::domain::BoxMeshBoundaryCells
     name: simpleBoxField
-    faces: [140, 20, 20] #SET
+    faces: [280, 40, 40]
     lower: [ 0.0, 0.0, -0.0127]
     upper: [ 0.165354, 0.027686, 0.0127]
     simplex: false
