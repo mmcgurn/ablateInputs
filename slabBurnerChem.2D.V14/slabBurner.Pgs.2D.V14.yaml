@@ -28,7 +28,6 @@ timestepper:
       - !ablate::domain::modifiers::SetFromOptions
         dm_refine: 0 #this must be zero
       - !ablate::domain::modifiers::DistributeWithGhostCells
-        ghostCellDepth: 2
     postModifiers:
       - !ablate::domain::modifiers::MergeLabels
         mergedRegion:
@@ -188,6 +187,7 @@ solvers:
     processes:
       - !ablate::boundarySolver::lodi::IsothermalWall
         eos: *eos
+        pgs: *pgs
       - !ablate::boundarySolver::physics::Sublimation
         latentHeatOfFusion: 2.1e+5
         effectiveConductivity: 0.025

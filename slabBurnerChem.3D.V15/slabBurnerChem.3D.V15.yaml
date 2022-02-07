@@ -1,6 +1,6 @@
 ---
 environment:
-  title: _2dSlabBurner
+  title: _3dSlabBurner
   tagDirectory: false
 arguments: {}
 timestepper:
@@ -8,17 +8,17 @@ timestepper:
   arguments:
     ts_type: rk
     ts_max_time: 1
-    ts_max_steps: 100000000
+    ts_max_steps: 10000000
     ts_dt: 1.0e-10
     ts_adapt_monitor: ""
     ts_adapt_safety: 0.9
   io:
-    interval: 1000
+    interval: 0 #SET
   domain: !ablate::domain::BoxMeshBoundaryCells
     name: simpleBoxField
-    faces: [2240, 320]
-    lower: [ 0.0, 0.0]
-    upper: [ 0.165354, 0.027686]
+    faces: [140, 20, 20] #SET
+    lower: [ 0.0, 0.0, -0.0127]
+    upper: [ 0.165354, 0.027686, 0.0127]
     simplex: false
     mainRegion:
       name: chamberRegion
@@ -35,6 +35,8 @@ timestepper:
         regions:
           - name: boundaryCellsTop
           - name: boundaryCellsBottom
+          - name: boundaryCellsFront
+          - name: boundaryCellsBack
       - !ablate::domain::modifiers::CreateLabel
         # define the slab burner
         region:
@@ -78,18 +80,18 @@ timestepper:
       - !ablate::domain::FieldDescription
         name: pressure
         type: FV
-        location: aux    
+        location: aux      
   initialization:
     - !ablate::finiteVolume::fieldFunctions::Euler
       state: &flowFieldState
         eos: *eos
         temperature: !ablate::mathFunctions::geom::Box
-          lower: [0.0, 0.0]
-          upper: [0.02, 0.027686]
+          lower: [0.0, 0.0, -0.0127]
+          upper: [0.02, 0.027686,  0.0127]
           insideValues: [1500]
           outsideValues: [300]
         pressure: 101325.0
-        velocity: "0, 0"
+        velocity: "0.0, 0.0, 0.0"
         massFractions: !ablate::finiteVolume::fieldFunctions::MassFractions
           eos: *eos
           values:
@@ -104,9 +106,9 @@ timestepper:
         name: slabBurnerBoundaryCells
       state: &fuelFieldState
         eos: *eos
-        temperature: 643
-        pressure: 101325
-        velocity: "0.0, 0.0"
+        temperature: 643.0
+        pressure: 101325.0
+        velocity: "0.0, 00, 0.0"
         massFractions: !ablate::finiteVolume::fieldFunctions::MassFractions
           eos: *eos
           values:
@@ -127,7 +129,14 @@ solvers:
     eos: *eos
     transport: !ablate::eos::transport::Sutherland
       eos: *eos
+    monitors:
+    - !ablate::monitors::TimeStepMonitor
+      interval: 25
+    - !ablate::monitors::PhysicsTimeStep
+      interval: 25        
     additionalProcesses:
+      - !ablate::finiteVolume::processes::Gravity
+        vector: [0.0, -9.8, 0.0]
       - !ablate::finiteVolume::processes::PressureGradientScaling
         &pgs
         eos: *eos
@@ -138,12 +147,7 @@ solvers:
       - !ablate::finiteVolume::processes::TChemReactions
         eos: *eos
     fluxCalculator: !ablate::finiteVolume::fluxCalculator::AusmpUp
-      pgs: *pgs
-    monitors:
-      - !ablate::monitors::TimeStepMonitor
-        interval: 25
-      - !ablate::monitors::PhysicsTimeStep
-        interval: 25  
+      pgs: *pgs      
   - !ablate::boundarySolver::BoundarySolver
     id: inlet
     region:
@@ -192,7 +196,7 @@ solvers:
         latentHeatOfFusion: 2.1e+5
         effectiveConductivity: 0.025
         additionalHeatFlux: !ablate::mathFunctions::geom::Sphere
-          center: [.036,  0.01]
+          center: [.036,  0.01, 0.0]
           radius: 0.005
           insideValues: "t < .06? 150000 : 0.0 "# 150 KW/m2
         massFractions: !ablate::finiteVolume::fieldFunctions::MassFractions
@@ -210,4 +214,3 @@ solvers:
               field: 0.012981434565768965
             - fieldName: C3H8
               field: 0.02811595000348999
-        
