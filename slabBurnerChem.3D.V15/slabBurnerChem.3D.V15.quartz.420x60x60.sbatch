@@ -31,8 +31,8 @@ cd tmp_$SLURM_JOBID
 ##### Launch parallel job using srun
 srun -n13824 /g/g15/mcgurn4/ablateOpt/ablate \
 	--input /p/lustre1/mcgurn4/ablateInputs/slabBurnerChem.3D.V15/slabBurnerChem.3D.V15.yaml \
-	-yaml::environment::title pgs_350x50x50_upwind \
+	-yaml::environment::title pgs_420x60x60_upwind \
 	-yaml::timestepper::domain::fields::[0]::conservedFieldOptions::petscfv_type upwind \
-	-yaml::timestepper::domain::faces [350,50,50]
+	-yaml::timestepper::domain::faces [420,60,60]
 	
 echo 'Done'
