@@ -28,6 +28,8 @@ timestepper:
       - !ablate::domain::modifiers::SetFromOptions
         dm_refine: 0 #this must be zero
       - !ablate::domain::modifiers::DistributeWithGhostCells
+      - !ablate::domain::modifiers::View
+        options: ascii::ascii_info_detail
     postModifiers:
       - !ablate::domain::modifiers::MergeLabels
         mergedRegion:
