@@ -29,7 +29,7 @@ mkdir tmp_$SLURM_JOBID
 cd tmp_$SLURM_JOBID
 
 ##### Launch parallel job using srun
-srun -n43200 /g/g15/mcgurn4/ablateOpt/ablate \
+srun -n13824 /g/g15/mcgurn4/ablateOpt/ablate \
 	--input /p/lustre1/mcgurn4/ablateInputs/slabBurnerChem.3D.V15/slabBurnerChem.3D.V15.yaml \
 	-yaml::environment::title pgs_1120x160x160_upwind \
 	-yaml::timestepper::domain::fields::[0]::conservedFieldOptions::petscfv_type upwind \
