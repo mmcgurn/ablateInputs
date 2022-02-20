@@ -27,7 +27,6 @@ timestepper:
     preModifiers:
       - !ablate::domain::modifiers::SetFromOptions
         dm_refine: 0 #this must be zero
-      - !ablate::domain::modifiers::GhostBoundaryCells
       - !ablate::domain::modifiers::DistributeWithGhostCells
     postModifiers:
       - !ablate::domain::modifiers::MergeLabels
@@ -70,6 +69,7 @@ timestepper:
           name: slabBurnerBoundaryFaces
         rightBoundaryCellRegion:
           name: slabBurnerBoundaryCells
+      - !ablate::domain::modifiers::GhostBoundaryCells
     fields:
       - !ablate::finiteVolume::CompressibleFlowFields
         eos: !ablate::eos::TChem  &eos
