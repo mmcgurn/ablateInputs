@@ -200,7 +200,7 @@ solvers:
         additionalHeatFlux: !ablate::mathFunctions::geom::Sphere
           center: [.036,  0.01, 0.0]
           radius: 0.005
-          insideValues: "150000"# 150 KW/m2
+          insideValues: "t < .06? 150000 : 0.0 "# 150 KW/m2
         massFractions: !ablate::finiteVolume::fieldFunctions::MassFractions
           eos: *eos
           values:
