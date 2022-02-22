@@ -27,8 +27,9 @@ timestepper:
     preModifiers:
       - !ablate::domain::modifiers::SetFromOptions
         dm_refine: 0 #this must be zero
-      - !ablate::domain::modifiers::GhostBoundaryCells  
+        dm_partition_view: 1
       - !ablate::domain::modifiers::DistributeWithGhostCells
+        ghostCellDepth: 2
     postModifiers:
       - !ablate::domain::modifiers::MergeLabels
         mergedRegion:
@@ -68,6 +69,7 @@ timestepper:
           name: slabBurnerBoundaryFaces
         rightBoundaryCellRegion:
           name: slabBurnerBoundaryCells
+      - !ablate::domain::modifiers::GhostBoundaryCells    
     fields:
       - !ablate::finiteVolume::CompressibleFlowFields
         eos: !ablate::eos::TChem  &eos
@@ -194,7 +196,7 @@ solvers:
         additionalHeatFlux: !ablate::mathFunctions::geom::Sphere
           center: [.036,  0.01]
           radius: 0.005
-          insideValues: "150000"# 150 KW/m2
+          insideValues: "t < .06? 150000 : 0.0 "# 150 KW/m2
         massFractions: !ablate::finiteVolume::fieldFunctions::MassFractions
           eos: *eos
           values:
