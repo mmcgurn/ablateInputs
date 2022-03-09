@@ -143,7 +143,7 @@ solvers:
         end: [0.0363414, 0.027686, 0.0]
         number: 10
       bufferSize: 100
-      variables: [ temperature, velocity, yi, euler ]  
+      variables: [ euler, densityYi ]  
     - !ablate::monitors::Probes
       probes: !ablate::monitors::probes::Rake
         name: med
@@ -151,7 +151,7 @@ solvers:
         end: [0.0702652, 0.027686, 0.0]
         number: 10
       bufferSize: 100
-      variables: [ temperature, velocity, yi, euler ]  
+      variables: [ euler, densityYi ]  
     - !ablate::monitors::Probes
       probes: !ablate::monitors::probes::Rake
         name: back
@@ -159,7 +159,7 @@ solvers:
         end: [0.104189, 0.027686, 0.0]
         number: 10
       bufferSize: 100
-      variables: [ temperature, velocity, yi, euler ]  
+      variables: [ euler, densityYi]  
     additionalProcesses:
       - !ablate::finiteVolume::processes::PressureGradientScaling
         &pgs
