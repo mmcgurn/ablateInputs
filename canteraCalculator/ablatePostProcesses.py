@@ -1,6 +1,10 @@
 import h5py
+import numpy
 import numpy as np
 import os, sys
+import cantera as ct
+
+print('Runnning Cantera version: ' + ct.__version__)
 
 def toStringAtt(string):
     ascii_type = h5py.string_dtype('ascii', len(string))
@@ -46,12 +50,60 @@ def computeVel(fields):
     velField.attrs.create('componentName2', toStringAtt('vel2'))
     velField.attrs.create('vector_field_type', toStringAtt('vector'))
 
-
     for t in range(len(eulerField)):
         density = eulerField[t, :, 0]
         for d in range(dim):
             velField[t, :, d] = eulerField[t, :, d+2]/density
 
+
+def computeTemperature(fields):
+    eulerField = fields['solution_euler']
+    yiField = fields['yi']
+    velField = fields['vel']
+
+    tShape = list(eulerField.shape)
+    tShape.pop()
+    dim = velField.shape[-1]
+
+    # create the field
+    if 'T' in fields:
+        del fields['T']
+    tField = fields.create_dataset("T", tuple(tShape), eulerField.dtype)
+
+    # add the required fields
+    tField.attrs.create('timestepping', eulerField.attrs['timestepping'])
+    tField.attrs.create('componentName0', toStringAtt('0'))
+    tField.attrs.create('vector_field_type', toStringAtt('scalar'))
+
+    # Load in the cti mech file
+    gas = ct.Solution('../mechanisms/grimech30.cti')
+
+    speciesList = []
+    for s in range(yiField.shape[-1]):
+        attName = 'componentName' + str(s)
+        speciesList.append(yiField.attrs[attName])
+
+    for t in range(len(eulerField)):
+        density = eulerField[t, :, 0]
+        totalEnergy = eulerField[t, :, 1]/density
+        for p in range(len(totalEnergy)):
+            # compute the kinetic totalEnergy
+            kineticEnergy = 0.0
+            for c in range(dim):
+                kineticEnergy += velField[t, p, c]**2
+            internalEnergy = totalEnergy[p] - 0.5*kineticEnergy
+            specificVolume = 1.0/density[p]
+
+            # build the yi
+            yi = dict(zip(speciesList, yiField[t, p, :]))
+
+            # compute the reference enthalpy
+            gas.TPY = 298.15, 101325.0, yi
+            enthalpyOfFormation = gas.h
+
+            # set the internal energy
+            gas.UVY = (internalEnergy + enthalpyOfFormation), specificVolume, yi
+            tField[t, p] = gas.T
 
 def main(hdfFileName):
     h5 = h5py.File(hdfFileName, 'r+')
@@ -59,9 +111,13 @@ def main(hdfFileName):
     # Check each of the cell fields
     fields = h5['cell_fields']
 
+    import time
+    start = time.time()
     computeYi(fields)
     computeVel(fields)
-
+    computeTemperature(fields)
+    end = time.time()
+    print(end - start)
     for field in fields.items():
         print(field)
 
