@@ -22,7 +22,7 @@ plt.style.use('ggplot')
 plt.style.use('seaborn-pastel')
 
 # Load in the cti mech file
-gas = ct.Solution('../ignitionDelayGriMech/grimech30.cti')
+gas = ct.Solution('../mechanisms/grimech30.cti')
 
 # Define inlet density
 inletTemperature = 300  # Kelvin

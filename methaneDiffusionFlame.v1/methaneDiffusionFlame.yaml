@@ -1,0 +1,100 @@
+---
+environment:
+  title: _methaneDiffusionFlame
+  tagDirectory: true
+arguments: {}
+timestepper:
+  name: theMainTimeStepper
+  io:
+    interval: 10
+  arguments:
+    ts_type: rk
+    ts_max_time: 0.1463
+    ts_max_steps: 10
+    ts_dt: 1E-4
+    ts_adapt_safety: .5
+    ts_adapt_type: none
+  domain: !ablate::domain::BoxMeshBoundaryCells
+    name: simpleBoxField
+    faces: [ 4]
+    lower: [ 0]
+    upper: [0.01]
+    mainRegion:
+      name: mainRegion
+    boundaryFaceRegion:
+      name: boundaryFace
+    preModifiers:
+      - !ablate::domain::modifiers::SetFromOptions
+        dm_refine: 0
+      - !ablate::domain::modifiers::DistributeWithGhostCells
+    postModifiers:
+      - !ablate::domain::modifiers::TagLabelInterface
+        # tag the left boundary faces
+        leftRegion:
+          name: boundaryCellsLeft
+        rightRegion:
+          name: mainRegion
+        boundaryFaceRegion:
+          name: boundaryFaceLeft
+      - !ablate::domain::modifiers::SubtractLabel
+        # define the flow solver without the leftBoundary
+        differenceRegion:
+          name: flowRegion
+        minuendRegion:
+          name: mainRegion
+        subtrahendRegion:
+          name: boundaryFaceLeft
+      - !ablate::domain::modifiers::GhostBoundaryCells
+    fields:
+      - !ablate::finiteVolume::CompressibleFlowFields
+        eos: &eos !ablate::eos::TChem
+          mechFile: ../mechanisms/grimech30.mech.dat
+          thermoFile: ../mechanisms/grimech30.thermo.dat
+  initialization:
+    - !ablate::finiteVolume::fieldFunctions::Euler
+      state: &flowFieldState
+        eos: *eos
+        temperature: "x < 0.0 ? 10000: 300"
+        pressure: "x < 0.0 ? 101325*1000: 101325"
+        velocity: "x < 0.0 ? 100000: 0.0"
+        massFractions: !ablate::finiteVolume::fieldFunctions::MassFractions
+          eos: *eos
+          values:
+            - fieldName: O2
+              field: 1.0
+    - !ablate::finiteVolume::fieldFunctions::DensityMassFractions
+      state: *flowFieldState
+solvers:
+    - !ablate::finiteVolume::ReactingCompressibleFlowSolver
+      id: flow solver
+      region:
+        name: flowRegion
+      parameters:
+        cfl: .25
+      eos: *eos
+      computePhysicsTimeStep: false
+      transport:
+        !ablate::eos::transport::Sutherland
+        eos: *eos
+      monitors:
+        - !ablate::monitors::TimeStepMonitor
+        - !ablate::monitors::CurveMonitor
+        - !ablate::monitors::DmViewFromOptions
+          scope: initial
+          options: ":mesh.tex:ascii_latex"
+        - !ablate::monitors::DmViewFromOptions
+          scope: initial
+          options: ascii::ascii_info_detail
+    - !ablate::boundarySolver::BoundarySolver
+      id: openBoundaryRight
+      region:
+        name: boundaryCellsRight
+      fieldBoundary:
+        name: boundaryFace
+      processes:
+        - !ablate::boundarySolver::lodi::OpenBoundary
+          eos: *eos
+          reflectFactor: 0.0
+          referencePressure: 1
+          maxAcousticsLength: 1
+
