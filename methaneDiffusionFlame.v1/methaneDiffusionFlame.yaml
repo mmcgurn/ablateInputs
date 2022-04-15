@@ -1,22 +1,19 @@
 ---
 environment:
   title: _methaneDiffusionFlame
-  tagDirectory: true
+  tagDirectory: false
 arguments: {}
 timestepper:
   name: theMainTimeStepper
-  io:
-    interval: 10
   arguments:
     ts_type: rk
     ts_max_time: 0.1463
+    ts_dt: 1E-6
     ts_max_steps: 10
-    ts_dt: 1E-4
-    ts_adapt_safety: .5
-    ts_adapt_type: none
+    ts_adapt_safety: 0.5
   domain: !ablate::domain::BoxMeshBoundaryCells
     name: simpleBoxField
-    faces: [ 4]
+    faces: [ 10 ]
     lower: [ 0]
     upper: [0.01]
     mainRegion:
@@ -29,13 +26,13 @@ timestepper:
       - !ablate::domain::modifiers::DistributeWithGhostCells
     postModifiers:
       - !ablate::domain::modifiers::TagLabelInterface
-        # tag the left boundary faces
+        # tag the right boundary faces
         leftRegion:
-          name: boundaryCellsLeft
+          name: boundaryCellsRight
         rightRegion:
           name: mainRegion
         boundaryFaceRegion:
-          name: boundaryFaceLeft
+          name: boundaryFaceRight
       - !ablate::domain::modifiers::SubtractLabel
         # define the flow solver without the leftBoundary
         differenceRegion:
@@ -43,58 +40,70 @@ timestepper:
         minuendRegion:
           name: mainRegion
         subtrahendRegion:
-          name: boundaryFaceLeft
+          name: boundaryFaceRight
       - !ablate::domain::modifiers::GhostBoundaryCells
     fields:
       - !ablate::finiteVolume::CompressibleFlowFields
         eos: &eos !ablate::eos::TChem
           mechFile: ../mechanisms/grimech30.mech.dat
           thermoFile: ../mechanisms/grimech30.thermo.dat
+      - name: pressure
+        location: AUX
+        type: FVM
   initialization:
     - !ablate::finiteVolume::fieldFunctions::Euler
       state: &flowFieldState
         eos: *eos
-        temperature: "x < 0.0 ? 10000: 300"
-        pressure: "x < 0.0 ? 101325*1000: 101325"
-        velocity: "x < 0.0 ? 100000: 0.0"
-        massFractions: !ablate::finiteVolume::fieldFunctions::MassFractions
-          eos: *eos
-          values:
-            - fieldName: O2
-              field: 1.0
+        temperature:
+          !ablate::mathFunctions::LinearTable
+          file: initConditionsSIMIT.csv
+          independent: "x"
+          dependent: [ "T" ]
+          mappingFunction: "x"
+        pressure: "101325.0"
+        velocity: "0.0"
+        massFractions:
+          fieldName: massFractions
+          field:
+            !ablate::mathFunctions::LinearTable
+            file: initConditionsSIMIT.csv
+            independent: "x"
+            dependent: [ 'H2', 'H', 'O', 'O2', 'OH', 'H2O', 'HO2', 'H2O2', 'C', 'CH', 'CH2', 'CH2(S)', 'CH3', 'CH4', 'CO', 'CO2', 'HCO', 'CH2O', 'CH2OH', 'CH3O', 'CH3OH', 'C2H', 'C2H2', 'C2H3', 'C2H4', 'C2H5', 'C2H6', 'HCCO', 'CH2CO', 'HCCOH', 'N', 'NH', 'NH2', 'NH3', 'NNH', 'NO', 'NO2', 'N2O', 'HNO', 'CN', 'HCN', 'H2CN', 'HCNN', 'HCNO', 'HOCN', 'HNCO', 'NCO', 'AR', 'C3H7', 'C3H8', 'CH2CHO', 'CH3CHO', 'N2' ]
+            mappingFunction: "x"
     - !ablate::finiteVolume::fieldFunctions::DensityMassFractions
       state: *flowFieldState
 solvers:
-    - !ablate::finiteVolume::ReactingCompressibleFlowSolver
+    - !ablate::finiteVolume::CompressibleFlowSolver
       id: flow solver
       region:
         name: flowRegion
       parameters:
         cfl: .25
       eos: *eos
-      computePhysicsTimeStep: false
       transport:
-        !ablate::eos::transport::Sutherland
-        eos: *eos
+        k: 0.02
       monitors:
         - !ablate::monitors::TimeStepMonitor
         - !ablate::monitors::CurveMonitor
+          interval: 100
         - !ablate::monitors::DmViewFromOptions
           scope: initial
           options: ":mesh.tex:ascii_latex"
         - !ablate::monitors::DmViewFromOptions
           scope: initial
           options: ascii::ascii_info_detail
+#      additionalProcesses:
+#        - !ablate::finiteVolume::processes::ConstantPressureFix
+#          eos: *eos
+#          pressure: 101325.0
     - !ablate::boundarySolver::BoundarySolver
-      id: openBoundaryRight
+      id: openBoundaryLeft
       region:
-        name: boundaryCellsRight
+        name: boundaryCellsLeft
       fieldBoundary:
         name: boundaryFace
       processes:
-        - !ablate::boundarySolver::lodi::OpenBoundary
+        - !ablate::boundarySolver::lodi::Inlet
           eos: *eos
-          reflectFactor: 0.0
-          referencePressure: 1
-          maxAcousticsLength: 1
+
 
