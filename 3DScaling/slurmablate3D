@@ -35,5 +35,5 @@ echo "PETSC_ARGS= "$PETSC_ARGS
 echo "SUFFIX="$SUFFIX
 echo "*******************************************"
 
-srun -N 8 ~/ablateOpt/ablate --input $INPUT_FILE -log_view :/g/g20/cowie2/research/data/ablateChrestScaleTest3D_"$SLURM_JOB_NUM_NODES".csv:ascii_csv -convest_num_refine 3
+srun -N 8 ~/ablateOpt/ablate --input $INPUT_FILE -log_view :"$SLURM_JOB_NUM_NODES".csv:ascii_csv -convest_num_refine 3
 
