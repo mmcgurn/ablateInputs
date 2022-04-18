@@ -5,7 +5,6 @@
 ##SBATCH --ntasks-per-node=36
 #SBATCH -A sunyb
 #SBATCH -J "AblateTest"
-#SBATCH --mail-user=arcowie@buffalo.edu
 #SBATCH --mail-type=ALL
 ##SBATCH --requeue
 
@@ -23,7 +22,7 @@ export HDF5_ROOT="${PETSC_DIR}/${PETSC_ARCH}"
 #Include the bin directory to access mpi commands
 export PATH="${PETSC_DIR}/${PETSC_ARCH}/bin:$PATH"
 
-export INPUT_FILE=compressibleFlowVortexMod3D.yaml
+
 
 
 echo "SLURM_JOB_ID="$SLURM_JOB_ID
@@ -35,5 +34,5 @@ echo "PETSC_ARGS= "$PETSC_ARGS
 echo "SUFFIX="$SUFFIX
 echo "*******************************************"
 
-srun -N 100 ~/ablateOpt/ablate --input $INPUT_FILE -log_view :/g/g15/mcgurn4/3DScalingTest/ablateChrestScaleTest3D_"$SLURM_JOB_NUM_NODES".csv:ascii_csv -convest_num_refine 3
+srun -N 100 ~/ablateOpt/ablate --input compressibleFlowVortexMod3D.yaml -log_view :/p/lustre1/mcgurn4/ablateInputs/scaling3D.v1/ablateChrestScaleTest3D_"$SLURM_JOB_NUM_NODES".csv:ascii_csv -convest_num_refine 3
 
