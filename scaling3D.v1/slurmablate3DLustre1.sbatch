@@ -1,7 +1,7 @@
 #!/bin/sh
-#SBATCH -p pbatch
+#SBATCH -p pdebug
 #SBATCH -t 01:00:00
-#SBATCH -N 100
+#SBATCH -N 8
 ##SBATCH --ntasks-per-node=36
 #SBATCH -A sunyb
 #SBATCH -J "AblateTest"
@@ -34,5 +34,5 @@ echo "PETSC_ARGS= "$PETSC_ARGS
 echo "SUFFIX="$SUFFIX
 echo "*******************************************"
 
-srun -N 100 ~/ablateOpt/ablate --input compressibleFlowVortexMod3D.yaml -log_view :/p/lustre1/mcgurn4/ablateInputs/scaling3D.v1/ablateChrestScaleTest3D_"$SLURM_JOB_NUM_NODES".csv:ascii_csv -convest_num_refine 3
+srun -N 8 ~/ablateOpt/ablate --input compressibleFlowVortexMod3D.yaml -log_view :ablateChrestScaleTest3D_"$SLURM_JOB_NUM_NODES".csv:ascii_csv -convest_num_refine 3
 
