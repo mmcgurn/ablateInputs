@@ -1,0 +1,40 @@
+#!/bin/sh
+#SBATCH -p pbatch
+#SBATCH -t 01:00:00
+#SBATCH -N 100
+##SBATCH --ntasks-per-node=36
+#SBATCH -A sunyb
+#SBATCH -J "AblateTest"
+#SBATCH -o /g/g20/cowie2/research/chrest/data/ablateChrest.out
+#SBATCH --mail-user=arcowie@buffalo.edu
+#SBATCH --mail-type=ALL
+##SBATCH --requeue
+
+
+####### Load Modules
+module load mkl/2019.0
+module load valgrind/3.16.1
+module load gcc/10.2.1
+module load cmake/3.21.1
+
+export PETSC_DIR="/g/g15/mcgurn4/petsc"
+export PETSC_ARC="arch-ablate-opt-gcc"
+export PKG_CONFIG_PATH="${PETSC_DIR}/${PETSC_ARCH}/lib/pkgconfig:$PKG_CONFIG_PATH"
+export HDF5_ROOT="${PETSC_DIR}/${PETSC_ARCH}"
+#Include the bin directory to access mpi commands
+export PATH="${PETSC_DIR}/${PETSC_ARCH}/bin:$PATH"
+
+export INPUT_FILE=compressibleFlowVortexMod3D.yaml
+
+
+echo "SLURM_JOB_ID="$SLURM_JOB_ID
+echo "SLURM_JOB_NODELIST="$SLURM_JOB_NODELIST
+echo "SLURM_NNODES="$SLURM_NNODES
+echo "SLURMTMPDIR="$SLUMTMPDIR
+echo "Working directory="$SLURM_SUBMIT_DIR
+echo "PETSC_ARGS= "$PETSC_ARGS
+echo "SUFFIX="$SUFFIX
+echo "*******************************************"
+
+srun -N 100 ~/ablateOpt/ablate --input $INPUT_FILE -log_view :/g/g15/mcgurn4/3DScalingTest/ablateChrestScaleTest3D_"$SLURM_JOB_NUM_NODES".csv:ascii_csv -convest_num_refine 3
+
