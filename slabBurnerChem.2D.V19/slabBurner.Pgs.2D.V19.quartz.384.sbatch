@@ -42,7 +42,7 @@ export VELOCITY=.212175
 
 ##### Launch parallel job using srun
 srun -n13824 /g/g15/mcgurn4/ablateOpt/ablate \
-	--input /p/lustre1/mcgurn4/ablateInputs/slabBurnerChem.2D.V19/slabBurner.Pgs.2D.V19.yaml \
+	--input /p/lustre2/mcgurn4/ablateInputs/slabBurnerChem.2D.V19/slabBurner.Pgs.2D.V19.yaml \
 	-yaml::environment::title $TITLE \
 	-yaml::solvers::[1]::processes::[0]::velocity \"$VELOCITY\"
 	
