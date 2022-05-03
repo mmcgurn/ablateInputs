@@ -7,14 +7,14 @@ timestepper:
   name: theMainTimeStepper
   arguments:
     ts_type: rk
-    ts_max_time: 0.1463
+    ts_max_time: 0.2
     ts_dt: 1E-6
-    ts_adapt_safety: 0.9
+    ts_adapt_safety: 0.8
   domain: !ablate::domain::BoxMeshBoundaryCells
     name: simpleBoxField
     faces: [ 100 ]
     lower: [ 0]
-    upper: [0.01]
+    upper: [0.0081]
     preModifiers:
       - !ablate::domain::modifiers::SetFromOptions
         dm_refine: 0
@@ -29,13 +29,13 @@ timestepper:
         boundaryFaceRegion:
           name: boundaryFaceRight
       - !ablate::domain::modifiers::SubtractLabel
-        # define the flow solver without the leftBoundary
+        # define the flow solver without the rightBoundary
         differenceRegion:
           name: flowRegion
         minuendRegion:
-          name: domain
-        subtrahendRegion:
-          name: boundaryFaceRight
+          name: interiorCells
+        subtrahendRegions:
+          - name: boundaryFaceRight
       - !ablate::domain::modifiers::GhostBoundaryCells
     fields:
       - !ablate::finiteVolume::CompressibleFlowFields
@@ -76,18 +76,20 @@ solvers:
       cfl: .25
     eos: *eos
     transport: !ablate::eos::transport::Sutherland
+      &transportModel
       eos: *eos
       enabledProperties: ["conductivity", "diffusivity"]
     monitors:
       - !ablate::monitors::TimeStepMonitor
-      - !ablate::monitors::CurveMonitor
         interval: 10
-#     - !ablate::monitors::DmViewFromOptions
-#       scope: initial
-#       options: ":mesh.tex:ascii_latex"
-#     - !ablate::monitors::DmViewFromOptions
-#       scope: initial
-#       options: ascii::ascii_info_detail
+      - !ablate::monitors::CurveMonitor
+        interval: 100
+#      - !ablate::monitors::DmViewFromOptions
+#        scope: initial
+#        options: ":mesh.tex:ascii_latex"
+#      - !ablate::monitors::DmViewFromOptions
+#        scope: initial
+#        options: ascii::ascii_info_detail
     additionalProcesses:
       - !ablate::finiteVolume::processes::ConstantPressureFix
         eos: *eos
@@ -109,8 +111,10 @@ solvers:
       name: boundaryFaces
     processes:
       - !ablate::boundarySolver::physics::Sublimation
-        latentHeatOfFusion: 2.1e+5
-        effectiveConductivity: 0.025
+        latentHeatOfFusion: 210000.0
+        transportModel: *transportModel
+        eos: *eos
+        disablePressure: true
         massFractions: !ablate::finiteVolume::fieldFunctions::MassFractions
           eos: *eos
           values:
