@@ -31,14 +31,14 @@ cd tmp_$SLURM_JOBID
 export TITLE=2Dn384_G02
 export VELOCITY=.212175
 
-export TITLE=2Dn384_G20
-export VELOCITY="t<0.06?1.0:16.967126,0.0"
-
-export TITLE=2Dn384_G50
-export VELOCITY="t<0.06?1.0:42.417815,0.0"
-
-export TITLE=2Dn384_G100
-export VELOCITY="t<0.06?1.0:84.835630,0.0"
+# export TITLE=2Dn384_G20
+# export VELOCITY="t<0.06?1.0:16.967126,0.0"
+# 
+# export TITLE=2Dn384_G50
+# export VELOCITY="t<0.06?1.0:42.417815,0.0"
+# 
+# export TITLE=2Dn384_G100
+# export VELOCITY="t<0.06?1.0:84.835630,0.0"
 
 ##### Launch parallel job using srun
 srun -n13824 /g/g15/mcgurn4/ablateOpt/ablate \
