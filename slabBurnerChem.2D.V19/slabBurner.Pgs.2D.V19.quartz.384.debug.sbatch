@@ -2,10 +2,10 @@
 #### See https://hpc.llnl.gov/training/tutorials/slurm-and-moab#LC
 
 ##### These lines are for Slurm
-#SBATCH -N 384
-#SBATCH -J 2dSlab
-#SBATCH -t 24:00:00
-#SBATCH -p pbatch
+#SBATCH -N 8
+#SBATCH -J dbg
+#SBATCH -t 00:60:00
+#SBATCH -p pdebug
 #SBATCH --mail-type=ALL
 #SBATCH -A sunyb
 
@@ -41,7 +41,7 @@ export VELOCITY=.212175
 # export VELOCITY="t<0.06?1.0:84.835630,0.0"
 
 ##### Launch parallel job using srun
-srun -n13824 /g/g15/mcgurn4/ablateOpt/ablate \
+srun -n288 /g/g15/mcgurn4/ablateOpt/ablate \
 	--input /p/lustre1/mcgurn4/ablateInputs/slabBurnerChem.2D.V19/slabBurner.Pgs.2D.V19.yaml \
 	-yaml::environment::title $TITLE \
 	-yaml::solvers::[1]::processes::[0]::velocity \"$VELOCITY\"
