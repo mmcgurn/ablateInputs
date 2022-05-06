@@ -29,12 +29,14 @@ mkdir tmp_$SLURM_JOBID
 cd tmp_$SLURM_JOBID
 
 export TITLE=2Dn384_G02_DBG
-export VELOCITY=.212175
+export VELOCITY=".212175*min(1,20*t),0"
 
 ##### Launch parallel job using srun
 srun -n288 /g/g15/mcgurn4/ablateOpt/ablate \
 	--input /p/lustre2/mcgurn4/ablateInputs/slabBurnerChem.2D.V19/slabBurner.Pgs.2D.V19.yaml \
 	-yaml::environment::title $TITLE \
-	-yaml::solvers::[1]::processes::[0]::velocity \"$VELOCITY\"
+	-yaml::solvers::[1]::processes::[0]::velocity \"$VELOCITY\" \
+	-yaml::timestepper::domain::faces [1120,160]
+
 	
 echo 'Done'
