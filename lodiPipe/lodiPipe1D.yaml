@@ -37,8 +37,8 @@ timestepper:
           name: flowRegion
         minuendRegion:
           name: interiorCells
-        subtrahendRegion:
-          name: boundaryFaceRight
+        subtrahendRegions:
+          - name: boundaryFaceRight
       - !ablate::domain::modifiers::GhostBoundaryCells
     fields:
       - !ablate::finiteVolume::CompressibleFlowFields
@@ -46,8 +46,6 @@ timestepper:
           parameters:
             gamma: 1.4
             Rgas : 287.0
-        region:
-          name: domain
       - name: pressure
         location: AUX
         type: FVM

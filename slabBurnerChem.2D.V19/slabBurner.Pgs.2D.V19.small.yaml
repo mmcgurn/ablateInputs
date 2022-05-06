@@ -8,16 +8,16 @@ timestepper:
   arguments:
     ts_type: rk
     ts_max_time: 1
-    ts_max_steps: 1000000
+    ts_max_steps: 100000
     ts_dt: 1.0e-10
     ts_adapt_monitor: ""
     ts_adapt_safety: 0.8
   io:
     !ablate::io::Hdf5MultiFileSerializer
-    interval: 1000
+    interval: 25
   domain: !ablate::domain::BoxMeshBoundaryCells
     name: simpleBoxField
-    faces: [2240, 320]
+    faces: [140, 25]
     lower: [ 0.0, 0.0]
     upper: [ 0.165354, 0.027686]
     simplex: false
@@ -25,7 +25,6 @@ timestepper:
       - !ablate::domain::modifiers::SetFromOptions
         dm_refine: 0 #this must be zero
         dm_partition_view: 1
-#        dm_label_view: interiorFlowRegion
       - !ablate::domain::modifiers::DistributeWithGhostCells
         ghostCellDepth: 2
     postModifiers:
@@ -148,7 +147,6 @@ timestepper:
       region:
         name: slabBurnerBoundaryCells
       state: *fuelFieldState
-
 solvers:
   - !ablate::finiteVolume::CompressibleFlowSolver
     id: flowField
@@ -177,6 +175,7 @@ solvers:
         interval: 25
       - !ablate::monitors::PhysicsTimeStep
         interval: 25
+
   - !ablate::boundarySolver::BoundarySolver
     id: inlet
     region:
@@ -188,7 +187,7 @@ solvers:
       - !ablate::boundarySolver::lodi::Inlet
         eos: *eos
         pgs: *pgs
-        velocity: "min(15, t*15/.025) , 0.0"
+        velocity: ".212175*min(1,20*t),0"
   - !ablate::boundarySolver::BoundarySolver
     id: outlet
     region:
@@ -229,6 +228,6 @@ solvers:
         additionalHeatFlux: !ablate::mathFunctions::geom::Sphere
           center: [.036,  0.01]
           radius: 0.005
-          insideValues: "t < .06? 250000 : 0.0 "# 150 KW/m2
+          insideValues: "t < .025? 100000 : 0.0 "# 150 KW/m2
         massFractions: *fuelMassFrac
         
