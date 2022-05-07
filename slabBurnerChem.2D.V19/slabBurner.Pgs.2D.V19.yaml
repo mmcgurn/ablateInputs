@@ -27,7 +27,7 @@ timestepper:
         dm_partition_view: 1
 #        dm_label_view: interiorFlowRegion
       - !ablate::domain::modifiers::DistributeWithGhostCells
-        ghostCellDepth: 2
+        ghostCellDepth: 3
     postModifiers:
       - !ablate::domain::modifiers::MergeLabels
         mergedRegion:

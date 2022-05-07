@@ -2,7 +2,7 @@
 #### See https://hpc.llnl.gov/training/tutorials/slurm-and-moab#LC
 
 ##### These lines are for Slurm
-#SBATCH -N 384
+#SBATCH -N 128
 #SBATCH -J 2dSlab
 #SBATCH -t 24:00:00
 #SBATCH -p pbatch
@@ -29,20 +29,20 @@ export PATH="${PETSC_DIR}/${PETSC_ARCH}/bin:$PATH"
 mkdir tmp_$SLURM_JOBID
 cd tmp_$SLURM_JOBID
 
-export TITLE=2Dn384_half_G02
+export TITLE=2Dn128_half_G02
 export VELOCITY=".212175*min(1,20*t),0"
 
-# export TITLE=2Dn384_half_G20
+# export TITLE=2Dn128_half_G20
 # export VELOCITY="16.967126*min(1,20*t),0.0"
  
-# export TITLE=2Dn384_half_G50
+# export TITLE=2Dn128_half_G50
 # export VELOCITY="42.417815*min(1,20*t),0.0"
  
-# export TITLE=2Dn384_half_G100
+# export TITLE=2Dn128_half_G100
 # export VELOCITY="84.835630*min(1,20*t),0.0"
 
 ##### Launch parallel job using srun
-srun -n13824 /g/g15/mcgurn4/ablateOpt/ablate \
+srun -n4608 /g/g15/mcgurn4/ablateOpt/ablate \
 	--input /p/lustre2/mcgurn4/ablateInputs/slabBurnerChem.2D.V19/slabBurner.Pgs.2D.V19.yaml \
 	-yaml::environment::title $TITLE \
 	-yaml::solvers::[1]::processes::[0]::velocity \"$VELOCITY\" \
