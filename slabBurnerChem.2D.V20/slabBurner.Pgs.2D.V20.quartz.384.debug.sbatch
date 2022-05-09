@@ -36,6 +36,6 @@ srun -n13824 /g/g15/mcgurn4/ablatePgsMpiTest/build \
 	--input /p/lustre2/mcgurn4/ablateInputs/slabBurnerChem.2D.V20/slabBurner.Pgs.2D.V20.yaml \
 	-yaml::environment::title $TITLE \
 	-yaml::solvers::[1]::processes::[0]::velocity \"$VELOCITY\" \
-	-yaml::timestepper::io::interval 0 \
+	-yaml::timestepper::io::interval 0 
 	
 echo 'Done'
