@@ -18,7 +18,7 @@ timestepper:
     interval: 0
   domain: !ablate::domain::BoxMeshBoundaryCells
     name: simpleBoxField
-    faces: [ 100, 10]
+    faces: [ 10, 10]
     lower: [ 0.0, 0.0 ]
     upper: [ 1.0, .1 ]
     simplex: false
@@ -28,22 +28,22 @@ timestepper:
       - !ablate::domain::modifiers::DistributeWithGhostCells
         ghostCellDepth: 2
     postModifiers:
-      - !ablate::domain::modifiers::TagLabelInterface
-        # tag the bottom boundary faces
-        leftRegion:
-          name: boundaryCellsBottom
-        rightRegion:
-          name: interiorCells
-        boundaryFaceRegion:
-          name: boundaryFaceBottom
-      - !ablate::domain::modifiers::TagLabelInterface
-        # tag the top boundary faces
-        leftRegion:
-          name: boundaryCellsTop
-        rightRegion:
-          name: interiorCells
-        boundaryFaceRegion:
-          name: boundaryFaceTop
+#      - !ablate::domain::modifiers::TagLabelInterface
+#        # tag the bottom boundary faces
+#        leftRegion:
+#          name: boundaryCellsBottom
+#        rightRegion:
+#          name: interiorCells
+#        boundaryFaceRegion:
+#          name: boundaryFaceBottom
+#      - !ablate::domain::modifiers::TagLabelInterface
+#        # tag the top boundary faces
+#        leftRegion:
+#          name: boundaryCellsTop
+#        rightRegion:
+#          name: interiorCells
+#        boundaryFaceRegion:
+#          name: boundaryFaceTop
 #      - !ablate::domain::modifiers::SubtractLabel
 #        # define the flow solver without the rightBoundary
 #        differenceRegion:
