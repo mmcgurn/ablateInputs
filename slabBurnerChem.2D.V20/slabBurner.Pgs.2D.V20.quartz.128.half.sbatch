@@ -44,8 +44,8 @@ export VELOCITY=".212175*min(1,20*t),0"
 ##### Launch parallel job using srun
 srun -n4608 /g/g15/mcgurn4/ablateOpt/ablate \
 	--input /p/lustre2/mcgurn4/ablateInputs/slabBurnerChem.2D.V20/slabBurner.Pgs.2D.V20.yaml \
-	-yaml::environment::title $TITLE \
-	-yaml::solvers::[1]::processes::[0]::velocity \"$VELOCITY\" \
+	-yaml::environment::title 2Dn128_half_G02 \
+	-yaml::solvers::[1]::processes::[0]::velocity ".212175*min(1,20*t),0" \
 	-yaml::timestepper::domain::faces [1120,160]
 
 	
