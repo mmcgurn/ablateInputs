@@ -1,9 +1,3 @@
-from math import sqrt
-
-import pandas as pd
-import numpy as np
-
-import time
 
 # from https://cantera.org/examples/jupyter/reactors/batch_reactor_ignition_delay_NTC.ipynb.html
 
@@ -22,7 +16,7 @@ plt.style.use('ggplot')
 plt.style.use('seaborn-pastel')
 
 # Load in the cti mech file
-gas = ct.Solution('../mechanisms/grimech30.cti')
+gas = ct.Solution('../mechanisms/gri30.yaml')
 
 # Define inlet density
 inletTemperature = 300  # Kelvin
