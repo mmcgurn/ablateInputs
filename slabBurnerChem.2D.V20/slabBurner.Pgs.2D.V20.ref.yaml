@@ -1,6 +1,6 @@
 ---
 environment:
-  title: _2dSlabBurner
+  title: _2dSlabBurnerRef
   tagDirectory: false
 arguments: {}
 timestepper:
@@ -8,13 +8,13 @@ timestepper:
   arguments:
     ts_type: rk
     ts_max_time: 1
-    ts_max_steps: 2
+    ts_max_steps: 50
     ts_dt: 1.0e-10
     ts_adapt_monitor: ""
     ts_adapt_safety: 0.8
   io:
     !ablate::io::Hdf5MultiFileSerializer
-    interval: 10
+    interval: 0
   domain: !ablate::domain::BoxMeshBoundaryCells
     name: simpleBoxField
     faces: [140, 20]
@@ -170,6 +170,9 @@ solvers:
         log: !ablate::monitors::logs::StdOut
       - !ablate::finiteVolume::processes::TChemReactions
         eos: *eos
+        options: 
+          ts_rtol: 1.0E-4
+          ts_atol: 1e-12
     fluxCalculator: !ablate::finiteVolume::fluxCalculator::AusmpUp
       pgs: *pgs
     monitors:
@@ -177,12 +180,6 @@ solvers:
         interval: 25
       - !ablate::monitors::PhysicsTimeStep
         interval: 25
-      - !ablate::monitors::MixtureFractionMonitor
-        mixtureFractionCalculator: !ablate::chemistry::MixtureFractionCalculator
-          eos: *eos
-          massFractionsFuel:   *fuelMassFrac
-          massFractionsOxidizer:   *airMassFrac
-
   - !ablate::boundarySolver::BoundarySolver
     id: inlet
     region:

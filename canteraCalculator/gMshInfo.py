@@ -1,39 +1,123 @@
 import math
-
 import gmsh
 
 gmsh.initialize()
 
-gmsh.open("/Users/mcgurn/chrestScratch/ablateInputs/geom/slabMotor.3D.hex.msh")
+gmsh.open("/Users/mcgurn/scratch/petscTest/CombustionChamberV5_unrefinedv1.1.msh")
+
+# # define the outward facing faces
+faces = [
+    [1, 2, 3],
+    [2, 0, 3],
+    [1, 0, 2],
+    [1, 3, 0]]
+
+
+def cross(a, b):
+    return [a[1]*b[2] - a[2]*b[1], a[2]*b[0] - a[0]*b[2], a[0]*b[1]-a[1]*b[0]]
+
+def norm(a):
+    mag = math.sqrt(a[0] * a[0] + a[1] * a[1] + a[2] * a[2])
+    return [a[0] / mag, a[1] / mag, a[2] / mag]
+
+
+def inside(x, y, z, eleTag):
+    # Get the element
+    element = gmsh.model.mesh.getElement(eleTag)
+
+    nodeIds = element[1]
+    nodes = []
+    for n in nodeIds:
+        node = gmsh.model.mesh.getNode(n)
+        nodes.append(node[0])
+
+    # compute the normal for each face
+    for face in faces:
+        a = face[0]
+        b = face[1]
+        c = face[2]
+        ab = [nodes[b][0] - nodes[a][0], nodes[b][1] - nodes[a][1], nodes[b][2] - nodes[a][2]]
+        bc = [nodes[c][0] - nodes[b][0], nodes[c][1] - nodes[b][1], nodes[c][2] - nodes[b][2]]
+
+        point = [0, 0, 0]
+        for pt in face:
+            for d in range(3):
+                point[d] += nodes[pt][d]/3.0
+
+        area0 = cross(ab, bc)
+        norm0 = norm(area0)
+
+        # get the vector from poi to the face
+        check = [x - point[0], y - point[1], z - point[2]]
+
+        dot0 = check[0]*norm0[0]+check[1]*norm0[1]+check[2]*norm0[2]
+        if dot0 > 0:
+            return False
+    return True
+
+
 
 # Load in the element
-[allElementTypes, allElementTags, allNodeTags] = gmsh.model.mesh.getElements(2)
+[allElementTypes, allElementIds, allNodeTags] = gmsh.model.mesh.getElements(3)
 
-elementType = allElementTypes[0]
-elementTags = allElementTags[0]
-nodeTags = allNodeTags[0]
+elementIds = allElementIds[0]
+# find the node for coord
+# elementIds = gmsh.model.mesh.getElementsByCoordinates(2.061996637, 0.087991437, -0.006712493)
+# # march over each element
+for elementId in elementIds:
+    if inside(2.061996637, 0.087991437, -0.006712493, elementId):
+        print("Element: ", elementId)
+        # Get the element
+        element = gmsh.model.mesh.getElement(elementId)
+        print(element)
 
-# Get the type info
-typeInfo = gmsh.model.mesh.getElementProperties(elementType)
-print(typeInfo)
+        # Print the nodes
+        for n in element[1]:
+            print("\t", str(gmsh.model.mesh.getNode(n)[0][0]), ", ", str(gmsh.model.mesh.getNode(n)[0][1]), ", ", str(gmsh.model.mesh.getNode(n)[0][2]))
 
-faceHistory = {}
+#
+# elementType = allElementTypes[0]
+# elementTags = allElementTags[0]
+# nodeTags = allNodeTags[0]
+#
+# # Get the type info
+# typeInfo = gmsh.model.mesh.getElementProperties(elementType)
+# print(typeInfo)
+#
+# # find the element
+# elementIds = gmsh.model.mesh.getElementsByCoordinates(2.048686, 0.188245, -0.010771, -1, False)
+# print(elementIds)
+# #
+# #
+# # # Print the element information
+# for elementId in elementIds:
+#     print("Element: ", elementId)
+#     # Get the element
+#     element = gmsh.model.mesh.getElement(elementId)
+#     # Print the nodes
+#     for n in element[1]:
+#         print("\t", str(gmsh.model.mesh.getNode(n)[0][0]), ", ", str(gmsh.model.mesh.getNode(n)[0][1]), ", ", str(gmsh.model.mesh.getNode(n)[0][2]))
+#
 
-for eleTag in elementTags:
-    ele = gmsh.model.mesh.getElement(eleTag)
-    nodes = ele[1]
-    nodes.sort()
-    nodeKey = str(nodes)
-    print(nodeKey)
 
-    if nodeKey in faceHistory:
-        faceHistory[nodeKey] += 1
-    else:
-        faceHistory[nodeKey] = 1
-
-for nodeKey in faceHistory:
-    if faceHistory[nodeKey] > 1:
-        print("FaceHistory Duplicate: ", nodeKey)
+#
+# faceHistory = {}
+#
+# for eleTag in elementTags:
+#     ele = gmsh.model.mesh.getElement(eleTag)
+#     nodes = ele[1]
+#     nodes.sort()
+#     nodeKey = str(nodes)
+#     print(nodeKey)
+#
+#     if nodeKey in faceHistory:
+#         faceHistory[nodeKey] += 1
+#     else:
+#         faceHistory[nodeKey] = 1
+#
+# for nodeKey in faceHistory:
+#     if faceHistory[nodeKey] > 1:
+#         print("FaceHistory Duplicate: ", nodeKey)
 
 
 
