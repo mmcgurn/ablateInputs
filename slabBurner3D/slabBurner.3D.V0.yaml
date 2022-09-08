@@ -99,7 +99,7 @@ timestepper:
     fields:
       - !ablate::finiteVolume::CompressibleFlowFields
         eos: !ablate::eos::TChem  &eos
-          mechFile: !ablate::environment::Download https://raw.githubusercontent.com/UBCHREST/ablate/main/tests/unitTests/inputs/eos/gri30.yaml
+          mechFile: ../mechanisms/gri30.yaml
         conservedFieldOptions:
           petscfv_type: upwind
         region:
