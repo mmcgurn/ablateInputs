@@ -2,8 +2,8 @@
 #### See https://hpc.llnl.gov/training/tutorials/slurm-and-moab#LC
 
 ##### These lines are for Slurm
-#SBATCH -N 3
-#SBATCH -J 2dSlab
+#SBATCH -N 4
+#SBATCH -J 3DDebug
 #SBATCH -t 1:00:00
 #SBATCH -p pdebug
 #SBATCH --mail-type=ALL
@@ -30,8 +30,9 @@ mkdir tmp_$SLURM_JOBID
 cd tmp_$SLURM_JOBID
 
 ##### Launch parallel job using srun
-srun -n108 /g/g15/mcgurn4/ablateOpt/ablate \
+srun -n144 /g/g15/mcgurn4/ablateOpt/ablate \
 	--input /p/lustre2/mcgurn4/ablateInputs/slabBurner3D/slabBurner.3D.V0.yaml \
-	-yaml::environment::title 3Dn384c0Debug
+	-yaml::environment::title 3Dn384c0Debug \
+	-yaml::timestepper::io::interval 0
 	
 echo 'Done'
