@@ -41,7 +41,7 @@ export UPWIND=upwind
 # export FACES=420,60,60
 # export UPWIND=upwind
 
-# export TITLE=v0-280x40x40-384-ls
+# export TITLE=v0-420x60x60-384-ls
 # export FACES=420,60,60
 # export UPWIND=leastsquares
 
