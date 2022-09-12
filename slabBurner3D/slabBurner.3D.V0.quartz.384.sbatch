@@ -29,9 +29,16 @@ export PATH="${PETSC_DIR}/${PETSC_ARCH}/bin:$PATH"
 mkdir tmp_$SLURM_JOBID
 cd tmp_$SLURM_JOBID
 
+export TITLE=v0-280x40x40-384
+export FACES=280,40,40
+export UPWIND=upwind
+
 ##### Launch parallel job using srun
 srun -n13824 /g/g15/mcgurn4/ablateOpt/ablate \
 	--input /p/lustre2/mcgurn4/ablateInputs/slabBurner3D/slabBurner.3D.V0.yaml \
-	-yaml::environment::title 3Dn384c0 
+	-yaml::environment::title $TITLE \
+	-yaml::timestepper::domain::faces [$FACES] \
+	-yaml::timestepper::domain::fields::[0]::conservedFieldOptions::petscfv_type $UPWIND
+
 	
 echo 'Done'

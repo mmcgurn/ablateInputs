@@ -197,10 +197,10 @@ solvers:
       interval: 25
     - !ablate::monitors::PhysicsTimeStep
       interval: 25
-    - !ablate::monitors::MixtureFractionMonitor
-      mixtureFractionCalculator: !ablate::chemistry::MixtureFractionCalculator
-        eos: *eos
-        massFractionsFuel: *fuelMassFrac
+#     - !ablate::monitors::MixtureFractionMonitor
+#       mixtureFractionCalculator: !ablate::chemistry::MixtureFractionCalculator
+#         eos: *eos
+#         massFractionsFuel: *fuelMassFrac
         massFractionsOxidizer: *oxMassFrac
     - !ablate::monitors::Probes
       probes: !ablate::monitors::probes::Rake
@@ -303,5 +303,5 @@ solvers:
           radius: 0.005
           insideValues: "t < .06? 250000 : 0.0 "# 150 KW/m2
         massFractions: *fuelMassFrac
-    monitors:
-      - !ablate::monitors::BoundarySolverMonitor
+#     monitors:
+#       - !ablate::monitors::BoundarySolverMonitor
