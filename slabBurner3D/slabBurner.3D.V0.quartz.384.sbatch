@@ -33,6 +33,18 @@ export TITLE=v0-280x40x40-384
 export FACES=280,40,40
 export UPWIND=upwind
 
+# export TITLE=v0-280x40x40-384-ls
+# export FACES=280,40,40
+# export UPWIND=leastsquares
+
+# export TITLE=v0-420x60x60-384
+# export FACES=420,60,60
+# export UPWIND=upwind
+
+# export TITLE=v0-280x40x40-384-ls
+# export FACES=420,60,60
+# export UPWIND=leastsquares
+
 ##### Launch parallel job using srun
 srun -n13824 /g/g15/mcgurn4/ablateOpt/ablate \
 	--input /p/lustre2/mcgurn4/ablateInputs/slabBurner3D/slabBurner.3D.V0.yaml \
