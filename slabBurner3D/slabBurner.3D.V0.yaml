@@ -249,7 +249,7 @@ solvers:
       - !ablate::boundarySolver::lodi::Inlet
         eos: *eos
         pgs: *pgs
-        velocity: "min(15.38, t*15.38/1E-3) , 0.0, 0.0"
+        velocity: "min(17.071563410242785, t*17.071563410242785/1E-3) , 0.0, 0.0"
   - !ablate::boundarySolver::BoundarySolver
     id: outlet
     region:

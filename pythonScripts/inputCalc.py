@@ -33,7 +33,7 @@ gas.TPY = blowTemperature, blowPressure, blowYi
 blowDensity = gas.density
 
 # compute the mass coming in
-inletG = 20 # kg/m2/s
+inletG = 22.19 # kg/m2/s
 inletArea = 0.027686*(0.0127*2)
 
 inletVel = inletG/inletDensity
