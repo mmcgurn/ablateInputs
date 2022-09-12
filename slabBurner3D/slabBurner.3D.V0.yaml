@@ -201,7 +201,7 @@ solvers:
 #       mixtureFractionCalculator: !ablate::chemistry::MixtureFractionCalculator
 #         eos: *eos
 #         massFractionsFuel: *fuelMassFrac
-        massFractionsOxidizer: *oxMassFrac
+#         massFractionsOxidizer: *oxMassFrac
     - !ablate::monitors::Probes
       probes: !ablate::monitors::probes::Rake
         name: front
