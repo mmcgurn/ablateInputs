@@ -30,7 +30,7 @@ mkdir tmp_$SLURM_JOBID
 cd tmp_$SLURM_JOBID
 
 export TITLE=v0-280x40x40-dbg
-export FACES=280,40,40
+export FACES=140,20,20
 export UPWIND=upwind
 
 ##### Launch parallel job using srun
