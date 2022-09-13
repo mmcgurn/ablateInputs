@@ -286,7 +286,7 @@ solvers:
       - !ablate::boundarySolver::lodi::IsothermalWall
         eos: *eos
         pgs: *pgs
-  - !ablate::boundarySolver::DebugBoundarySolver
+  - !ablate::boundarySolver::BoundarySolver
     id: slab boundary
     region:
       name: slabBurnerBoundaryCells
