@@ -47,7 +47,7 @@ export UPWIND=upwind
 
 ##### Launch parallel job using srun
 srun -n13824 /g/g15/mcgurn4/ablateOpt/ablate \
-	--input /p/lustre2/mcgurn4/ablateInputs/slabBurner3D/slabBurner.3D.V0.yaml \
+	--input /p/lustre1/mcgurn4/ablateInputs/slabBurner3D/slabBurner.3D.V0.yaml \
 	-yaml::environment::title $TITLE \
 	-yaml::timestepper::domain::faces [$FACES] \
 	-yaml::timestepper::domain::fields::[0]::conservedFieldOptions::petscfv_type $UPWIND
