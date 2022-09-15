@@ -2,7 +2,7 @@
 #### See https://hpc.llnl.gov/training/tutorials/slurm-and-moab#LC
 
 ##### These lines are for Slurm
-#SBATCH -N 384
+#SBATCH -N 36
 #SBATCH -J cylinder
 #SBATCH -t 24:00:00
 #SBATCH -p pbatch
@@ -29,18 +29,18 @@ export PATH="${PETSC_DIR}/${PETSC_ARCH}/bin:$PATH"
 mkdir tmp_$SLURM_JOBID
 cd tmp_$SLURM_JOBID
 
-export TITLE=flowOverCylinder
+export TITLE=flowOverCylinder-pgs
 export FACES=280,40,40
 export UPWIND=upwind
 
-# export TITLE=flowOverCylinder-ls
+# export TITLE=flowOverCylinder-pgs-ls
 # export FACES=280,40,40
 # export UPWIND=leastsquares
 
 
 ##### Launch parallel job using srun
-srun -n13824 /g/g15/mcgurn4/ablateOpt/ablate \
-	--input /p/lustre1/mcgurn4/ablateInputs/flowOverCylinder/flowOverCylinder.3D.V0.yaml \
+srun -n1296 /g/g15/mcgurn4/ablateOpt/ablate \
+	--input /p/lustre1/mcgurn4/ablateInputs/flowOverCylinder/flowOverCylinder.3D.pgs.yaml \
 	-yaml::environment::title $TITLE \
 	-yaml::timestepper::domain::faces [$FACES] \
 	-yaml::timestepper::domain::fields::[0]::conservedFieldOptions::petscfv_type $UPWIND

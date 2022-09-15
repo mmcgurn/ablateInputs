@@ -10,6 +10,7 @@ timestepper:
     ts_max_time: 1
     ts_max_steps: 20000000000
     ts_dt: 1.0e-10
+    ts_adapt_type: none
     ts_adapt_monitor: ""
     ts_adapt_safety: 0.9
   io: !ablate::io::Hdf5MultiFileSerializer
@@ -73,8 +74,8 @@ timestepper:
       - !ablate::domain::modifiers::GhostBoundaryCells
     fields:
       - !ablate::finiteVolume::CompressibleFlowFields
-        eos: !ablate::eos::TChem  &eos
-          mechFile: ../mechanisms/gri30.yaml
+        eos: !ablate::eos::PerfectGas &eos
+          parameters: {}
         conservedFieldOptions:
           petscfv_type: upwind
         region:
@@ -92,14 +93,7 @@ timestepper:
         temperature: 300
         pressure: 101325.0
         velocity: "0.0, 0.0, 0.0"
-        massFractions: !ablate::finiteVolume::fieldFunctions::MassFractions
-          &oxMassFrac
-          eos: *eos
-          values:
-            - fieldName: O2
-              field: 1.0
-    - !ablate::finiteVolume::fieldFunctions::DensityMassFractions
-      state: *flowFieldState
+
 
     - !ablate::finiteVolume::fieldFunctions::Euler
       # glowPlug Burner
@@ -110,15 +104,8 @@ timestepper:
         temperature: 1273.15
         pressure: 101325.0
         velocity: "0.0, 00, 0.0"
-        massFractions: !ablate::finiteVolume::fieldFunctions::MassFractions
-          eos: *eos
-          values:
-            - fieldName: O2
-              field: 1.0
-    - !ablate::finiteVolume::fieldFunctions::DensityMassFractions
-      region:
-        name: glowPlugBoundaryCells
-      state: *globPlugFieldState
+
+
 solvers:
   - !ablate::finiteVolume::CompressibleFlowSolver
     id: flowField
@@ -142,10 +129,9 @@ solvers:
         maxAlphaAllowed: 100.0
         domainLength: 0.165354
         log: !ablate::monitors::logs::StdOut
-      - !ablate::finiteVolume::processes::TChemReactions
-        eos: *eos
     fluxCalculator: !ablate::finiteVolume::fluxCalculator::AusmpUp
-      pgs: *pgs      
+      pgs: *pgs
+    computePhysicsTimeStep: true    
   - !ablate::boundarySolver::BoundarySolver
     id: inlet
     region:
