@@ -1,6 +1,6 @@
 ---
 environment:
-  title: _flowOverCylinder
+  title: _openFlowOverCylinder
   tagDirectory: false
 arguments:
   outputAuxVector: true
@@ -165,9 +165,12 @@ solvers:
       name: boundaryFaces
     mergeFaces: true
     processes:
-      - !ablate::boundarySolver::lodi::IsothermalWall
-        eos: *eos
+      - !ablate::boundarySolver::lodi::OpenBoundary
+        referencePressure: 101325.0
+        maxAcousticsLength: 0.165354
+        reflectFactor: .15
         pgs: *pgs
+        eos: *eos
   - !ablate::boundarySolver::BoundarySolver
     id: glowPlug
     region:

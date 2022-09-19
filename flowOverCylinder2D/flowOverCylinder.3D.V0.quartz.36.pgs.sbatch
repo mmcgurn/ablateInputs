@@ -29,21 +29,14 @@ export PATH="${PETSC_DIR}/${PETSC_ARCH}/bin:$PATH"
 mkdir tmp_$SLURM_JOBID
 cd tmp_$SLURM_JOBID
 
-export TITLE=foc-280
+export TITLE=flowOverCylinder-pgs
 export FACES=280,40,40
-export UPWIND=leastsquares
+export UPWIND=upwind
 
-export TITLE=foc-420
-export FACES=420,60,60
-export UPWIND=leastsquares
+# export TITLE=flowOverCylinder-pgs-ls
+# export FACES=280,40,40
+# export UPWIND=leastsquares
 
-export TITLE=foc-560
-export FACES=560,80,80
-export UPWIND=leastsquares
-
-export TITLE=foc-700
-export FACES=700,100,100
-export UPWIND=leastsquares
 
 ##### Launch parallel job using srun
 srun -n1296 /g/g15/mcgurn4/ablateOpt/ablate \

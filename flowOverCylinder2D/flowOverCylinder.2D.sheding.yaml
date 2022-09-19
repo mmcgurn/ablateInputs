@@ -7,21 +7,22 @@ arguments:
 timestepper:
   arguments:
     ts_type: rk
-    ts_max_time: 1
-    ts_max_steps: 20000000000
+    ts_max_time: 1.75
+    ts_max_steps: 2000000
     ts_dt: 1.0e-10
     ts_adapt_monitor: ""
     ts_adapt_safety: 0.9
   io: !ablate::io::Hdf5MultiFileSerializer
-    interval: 1000
+    interval: 100
   domain: !ablate::domain::BoxMeshBoundaryCells
     name: simpleBoxField
-    faces: [280, 40, 40]
-    lower: [ 0.0, 0.0, -0.0127]
-    upper: [ 0.165354, 0.027686, 0.0127]
+    faces: [150, 75]
+    lower: [ 0.0, 0.0]
+    upper: [ 0.314, 0.157]
     simplex: false
     options:
       dm_partition_view: 1
+#       dm_label_view: flowRegion
     preModifiers:
       # distribute the mesh across the mpi rank with ghost cells
       - !ablate::domain::modifiers::DistributeWithGhostCells
@@ -34,16 +35,13 @@ timestepper:
         regions:
           - name: boundaryCellsTop
           - name: boundaryCellsBottom
-          - name: boundaryCellsFront
-          - name: boundaryCellsBack
       # create a label for defining the glowPlug
       - !ablate::domain::modifiers::CreateLabel
         region:
           name: glowPlugRegion
-        function: !ablate::mathFunctions::geom::Cylinder
-          start: [ 0.02615, 0.0, 0.0 ]
-          end: [ 0.02615, 0.027686, 0.0 ]
-          radius: 0.005
+        function: !ablate::mathFunctions::geom::Sphere
+          center: [ 0.1046666667, 0.0785]
+          radius: 0.0157
       - !ablate::domain::modifiers::SubtractLabel
         # cut the slabBurner and glow plug out of the flowRegion
         differenceRegion:
@@ -52,14 +50,7 @@ timestepper:
           name: interiorCells
         subtrahendRegions:
           - name: glowPlugRegion
-      - !ablate::domain::modifiers::SubtractLabel
-        # cut the slabBurner and glow plug out of the boundaryWalls
-        differenceRegion:
-          name: wallBoundaryRegion
-        minuendRegion:
-          name: allWallBoundaryRegion
-        subtrahendRegions:
-          - name: glowPlugRegion
+
       - !ablate::domain::modifiers::TagLabelInterface
         # define the boundary between the glow plug and flow
         leftRegion:
@@ -76,7 +67,7 @@ timestepper:
         eos: !ablate::eos::PerfectGas &eos
           parameters: {}
         conservedFieldOptions:
-          petscfv_type: upwind
+          petscfv_type: leastsquares
         region:
           name: domain
       - !ablate::domain::FieldDescription
@@ -91,7 +82,7 @@ timestepper:
         eos: *eos
         temperature: 300
         pressure: 101325.0
-        velocity: "0.0, 0.0, 0.0"
+        velocity: "0.0, 0.0"
 
 
     - !ablate::finiteVolume::fieldFunctions::Euler
@@ -100,10 +91,9 @@ timestepper:
         name: glowPlugBoundaryCells
       state: &globPlugFieldState
         eos: *eos
-        temperature: 1273.15
+        temperature: 300.00
         pressure: 101325.0
-        velocity: "0.0, 00, 0.0"
-
+        velocity: "0.0, 00"
 
 solvers:
   - !ablate::finiteVolume::CompressibleFlowSolver
@@ -111,26 +101,26 @@ solvers:
     region:
       name: flowRegion
     parameters:
-      cfl: 0.5
+      cfl: 0.2
     eos: *eos
     transport: &transportModel !ablate::eos::transport::Sutherland
       eos: *eos
     monitors:
     - !ablate::monitors::TimeStepMonitor
-      interval: 25
+      interval: 0
     - !ablate::monitors::PhysicsTimeStep
-      interval: 25
+      interval: 0
+    computePhysicsTimeStep: false  
     additionalProcesses:
       - !ablate::finiteVolume::processes::PressureGradientScaling
         &pgs
         eos: *eos
-        alphaInit: 15.0
-        maxAlphaAllowed: 100.0
+        alphaInit: 1.0
+        maxAlphaAllowed: 10.0
         domainLength: 0.165354
-        log: !ablate::monitors::logs::StdOut
+        log: !ablate::monitors::logs::StdOut  
     fluxCalculator: !ablate::finiteVolume::fluxCalculator::AusmpUp
       pgs: *pgs
-    computePhysicsTimeStep: false    
   - !ablate::boundarySolver::BoundarySolver
     id: inlet
     region:
@@ -141,8 +131,9 @@ solvers:
     processes:
       - !ablate::boundarySolver::lodi::Inlet
         eos: *eos
+        velocity: "min(15, t*15/1E-3) , 0.0"
         pgs: *pgs
-        velocity: "min(17.071563410242785, t*17.071563410242785/1E-3) , 0.0, 0.0"
+        
   - !ablate::boundarySolver::BoundarySolver
     id: outlet
     region:
@@ -153,19 +144,22 @@ solvers:
     processes:
       - !ablate::boundarySolver::lodi::OpenBoundary
         referencePressure: 101325.0
-        maxAcousticsLength: 0.165354
-        reflectFactor: .15
-        pgs: *pgs
+        maxAcousticsLength: 0.314
+        reflectFactor: 0.15
         eos: *eos
+        pgs: *pgs
   - !ablate::boundarySolver::BoundarySolver
     id: walls
     region:
-      name: wallBoundaryRegion
+      name: allWallBoundaryRegion
     fieldBoundary:
       name: boundaryFaces
     mergeFaces: true
     processes:
-      - !ablate::boundarySolver::lodi::IsothermalWall
+      - !ablate::boundarySolver::lodi::OpenBoundary
+        referencePressure: 101325.0
+        maxAcousticsLength: 0.314
+        reflectFactor: 0.15
         eos: *eos
         pgs: *pgs
   - !ablate::boundarySolver::BoundarySolver
