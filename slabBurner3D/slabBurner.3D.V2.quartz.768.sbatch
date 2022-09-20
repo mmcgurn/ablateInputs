@@ -39,7 +39,7 @@ export UPWIND=leastsquares
 
 ##### Launch parallel job using srun
 srun -n27648 /g/g15/mcgurn4/ablateOpt/ablate \
-	--input /p/lustre1/mcgurn4/ablateInputs/slabBurner3D/slabBurner.3D.V2.yaml \
+	--input /p/lustre2/mcgurn4/ablateInputs/slabBurner3D/slabBurner.3D.V2.yaml \
 	-yaml::environment::title $TITLE \
 	-yaml::timestepper::domain::faces [$FACES] \
 	-yaml::timestepper::domain::fields::[0]::conservedFieldOptions::petscfv_type $UPWIND
