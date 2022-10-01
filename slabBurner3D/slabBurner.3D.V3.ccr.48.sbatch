@@ -4,9 +4,9 @@
 #SBATCH --nodes=48
 #SBATCH --ntasks-per-node=40
 #SBATCH --mem=192000
+#SBATCH --constraint=NIH
 #SBATCH --job-name="slbBurn"
 #SBATCH --mail-user=mtmcgurn@buffalo.edu
-#SBATCH --mail-type=END
 
 # Print the current environment
 echo "SLURM_JOBID="$SLURM_JOBID
@@ -21,7 +21,7 @@ module load intel/19.5 hdf5/1.12.0-mpi mkl/2019.5 gcc/10.2.0 cmake/3.22.3
 
 # setup petsc
 export PETSC_DIR=/projects/academic/chrest/mtmcgurn/petsc  
-export PETSC_ARCH=PETSC_ABLATE_OPT
+export PETSC_ARCH=arch-ablate-opt
 export PKG_CONFIG_PATH="${PETSC_DIR}/${PETSC_ARCH}/lib/pkgconfig:$PKG_CONFIG_PATH"
 
 # The initial srun will trigger the SLURM prologue on the compute nodes.
