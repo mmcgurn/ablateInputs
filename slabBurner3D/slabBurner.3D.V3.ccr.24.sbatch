@@ -1,7 +1,7 @@
 #!/bin/sh
 #SBATCH --partition=general-compute --qos=supporters
 #SBATCH --time=72:00:00
-#SBATCH --nodes=48
+#SBATCH --nodes=24
 #SBATCH --ntasks-per-node=40
 #SBATCH --constraint=NIH
 #SBATCH --job-name="slbBurn"
@@ -37,7 +37,7 @@ export TEST_MPI_COMMAND=srun
 mkdir tmp_$SLURM_JOBID
 cd tmp_$SLURM_JOBID
 
-export TITLE=v3-490x70x70-48a
+export TITLE=v3-490x70x70-24
 export FACES=490,70,70
 export UPWIND=leastsquares
 
