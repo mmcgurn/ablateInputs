@@ -1,9 +1,8 @@
 #!/bin/sh
 #SBATCH --partition=general-compute --qos=supporters
 #SBATCH --time=72:00:00
-#SBATCH --nodes=48
+#SBATCH --nodes=24
 #SBATCH --ntasks-per-node=40
-#SBATCH --mem=192000
 #SBATCH --constraint=NIH
 #SBATCH --job-name="slbBurn"
 #SBATCH --mail-user=mtmcgurn@buffalo.edu
