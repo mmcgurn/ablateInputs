@@ -45,7 +45,7 @@ mkdir tmp_$SLURM_JOBID
 cd tmp_$SLURM_JOBID
 
 export TITLE=v3-245x35x35-dbg
-export FACES=245,35,35
+export FACES=122,35,35
 export UPWIND=leastsquares
 
 # Run all tests
