@@ -2,7 +2,7 @@
 #SBATCH --partition=debug
 #SBATCH --qos=debug 
 #SBATCH --time=01:00:00
-#SBATCH --nodes=2
+#SBATCH --nodes=4
 #SBATCH --ntasks-per-node=12
 #SBATCH --job-name="debug"
 #SBATCH --mail-user=mtmcgurn@buffalo.edu
