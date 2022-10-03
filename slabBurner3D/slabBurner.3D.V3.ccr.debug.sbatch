@@ -1,5 +1,6 @@
 #!/bin/sh
 #SBATCH --partition=debug
+#SBATCH --qos=debug 
 #SBATCH --time=01:00:00
 #SBATCH --nodes=2
 #SBATCH --ntasks-per-node=12
