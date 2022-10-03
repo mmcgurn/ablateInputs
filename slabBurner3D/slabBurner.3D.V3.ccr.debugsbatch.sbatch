@@ -1,10 +1,9 @@
 #!/bin/sh
-#SBATCH --partition=general-compute --qos=supporters
-#SBATCH --time=72:00:00
-#SBATCH --nodes=24
-#SBATCH --ntasks-per-node=40
-#SBATCH --constraint=NIH
-#SBATCH --job-name="slbBurn"
+#SBATCH --partition=debug
+#SBATCH --time=01:00:00
+#SBATCH --nodes=2
+#SBATCH --ntasks-per-node=12
+#SBATCH --job-name="debug"
 #SBATCH --mail-user=mtmcgurn@buffalo.edu
 #SBATCH --mail-type=ALL
 #SBATCH --exclusive
@@ -44,8 +43,8 @@ export TEST_MPI_COMMAND=srun
 mkdir tmp_$SLURM_JOBID
 cd tmp_$SLURM_JOBID
 
-export TITLE=v3-490x70x70-2
-export FACES=490,70,70
+export TITLE=v3-245x35x35-dbg
+export FACES=245,35,35
 export UPWIND=leastsquares
 
 # Run all tests
