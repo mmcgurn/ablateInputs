@@ -6,6 +6,8 @@
 #SBATCH --constraint=NIH
 #SBATCH --job-name="slbBurn"
 #SBATCH --mail-user=mtmcgurn@buffalo.edu
+#SBATCH --mail-type=ALL
+#SBATCH --exclusive
 
 # Print the current environment
 echo "SLURM_JOBID="$SLURM_JOBID
@@ -16,7 +18,12 @@ echo "SLURMTMPDIR="$SLURMTMPDIR
 echo "working directory = "$SLURM_SUBMIT_DIR
 
 # Load the required modules
-module load intel/19.5 hdf5/1.12.0-mpi mkl/2019.5 gcc/10.2.0 cmake/3.22.3  
+module load intel/20.2
+module load intel-mpi/2020.2
+module load gcc/11.2.0
+module load cmake/3.22.3
+module load valgrind/3.14.0
+module load gdb/7.8
 
 # setup petsc
 export PETSC_DIR=/projects/academic/chrest/mtmcgurn/petsc  
