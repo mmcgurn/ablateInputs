@@ -44,8 +44,8 @@ export TEST_MPI_COMMAND=srun
 mkdir tmp_$SLURM_JOBID
 cd tmp_$SLURM_JOBID
 
-export TITLE=v3-560x80x80-92
-export FACES=560,80,80
+export TITLE=v3-490x70x70-92
+export FACES=490,70,70
 export UPWIND=leastsquares
 
 # Run all tests
