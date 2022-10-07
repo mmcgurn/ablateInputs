@@ -4,11 +4,13 @@
 ##### These lines are for Slurm
 #SBATCH -N 1024
 #SBATCH -J slabV3
-#SBATCH -t 24:00:00
+#SBATCH -t 64:00:00
 #SBATCH -p pbatch
 #SBATCH --mail-type=ALL
 #SBATCH -A sunyb
 #SBATCH --mail-user=mtmcgurn@buffalo.edu
+#SBATCH --reservation=dat_10_7
+#SBATCH --qos=exempt
 
 ##### Load Required modules
 # gcc
@@ -29,13 +31,13 @@ export PATH="${PETSC_DIR}/${PETSC_ARCH}/bin:$PATH"
 mkdir tmp_$SLURM_JOBID
 cd tmp_$SLURM_JOBID
 
-# export TITLE=v4-490x70x70-1024
-# export FACES=490,70,70
-# export UPWIND=leastsquares
-
-export TITLE=v4-560x80x80-1024
-export FACES=560,80,80
+export TITLE=v4-490x70x70-1024
+export FACES=490,70,70
 export UPWIND=leastsquares
+
+# export TITLE=v4-560x80x80-1024
+# export FACES=560,80,80
+# export UPWIND=leastsquares
 
 ##### Launch parallel job using srun
 srun -n36864 /g/g15/mcgurn4/ablateOpt/ablate \
