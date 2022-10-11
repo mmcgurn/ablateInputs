@@ -30,12 +30,8 @@ mkdir tmp_$SLURM_JOBID
 cd tmp_$SLURM_JOBID
 
 export TITLE=v0-336x48-1
-export FACES=336x48
+export FACES=336,48
 export UPWIND=leastsquares
-
-# export TITLE=v4-560x80x80-1024
-# export FACES=560,80,80
-# export UPWIND=leastsquares
 
 ##### Launch parallel job using srun
 srun -n36 /g/g15/mcgurn4/ablateOpt/ablate \

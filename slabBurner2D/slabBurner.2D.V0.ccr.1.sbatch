@@ -1,8 +1,10 @@
 #!/bin/sh
-#SBATCH --partition=general-compute --qos=supporters
+#SBATCH --partition=ped3
+#SBATCH --qos=ped3
+#SBATCH --clusters=faculty
 #SBATCH --time=72:00:00
 #SBATCH --nodes=1
-#SBATCH --ntasks-per-node=40
+#SBATCH --ntasks-per-node=12
 #SBATCH --job-name="slbBurn"
 #SBATCH --mail-user=mtmcgurn@buffalo.edu
 #SBATCH --mail-type=ALL
@@ -44,7 +46,7 @@ mkdir tmp_$SLURM_JOBID
 cd tmp_$SLURM_JOBID
 
 export TITLE=v0-336x48-1
-export FACES=336x48
+export FACES=336,48
 export UPWIND=leastsquares
 
 # Run all tests
