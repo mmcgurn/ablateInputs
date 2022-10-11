@@ -3,7 +3,6 @@
 #SBATCH --time=72:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=40
-#SBATCH --constraint=NIH
 #SBATCH --job-name="slbBurn"
 #SBATCH --mail-user=mtmcgurn@buffalo.edu
 #SBATCH --mail-type=ALL
