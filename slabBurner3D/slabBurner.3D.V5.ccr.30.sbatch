@@ -2,7 +2,7 @@
 #SBATCH --partition=general-compute --qos=supporters
 #SBATCH --time=72:00:00
 #SBATCH --nodes=30
-#SBATCH --ntasks-per-node=56
+#SBATCH --ntasks-per-node=40
 #SBATCH --constraint=IB
 #SBATCH --job-name="slbBurn"
 #SBATCH --mail-user=mtmcgurn@buffalo.edu
