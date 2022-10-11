@@ -51,7 +51,7 @@ export UPWIND=leastsquares
 # Run all tests
 echo "Start Time " `date +%s`
 srun -n $SLURM_NPROCS  /projects/academic/chrest/mtmcgurn/ablateOpt/ablate \
-  --input /panasas/scratch/grp-ped3/mtmcgurn/ablateInputs/slabBurner2D/slabBurner.2D.V0.yaml \
+  --input /panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner2D/slabBurner.2D.V0.yaml \
    -yaml::environment::title $TITLE \
    -yaml::timestepper::domain::faces [$FACES] \
    -yaml::timestepper::domain::fields::[0]::conservedFieldOptions::petscfv_type $UPWIND
