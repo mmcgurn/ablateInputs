@@ -1,6 +1,6 @@
 #!/bin/sh
 #SBATCH --partition=scavenger
-#SBATCH --qos=supporters
+#SBATCH --qos=scavenger
 #SBATCH --account=chrest
 #SBATCH --time=72:00:00
 #SBATCH --nodes=35
