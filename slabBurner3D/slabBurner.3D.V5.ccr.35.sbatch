@@ -1,5 +1,5 @@
 #!/bin/sh
-#SBATCH --partition=general-compute
+#SBATCH --partition=scavenger
 #SBATCH --qos=supporters
 #SBATCH --account=chrest
 #SBATCH --time=72:00:00
