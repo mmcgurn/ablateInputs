@@ -1,9 +1,11 @@
 #!/bin/sh
-#SBATCH --partition=general-compute --qos=supporters
+#SBATCH --partition=general-compute
+#SBATCH --qos=supporters
+#SBATCH --account=chrest
 #SBATCH --time=72:00:00
-#SBATCH --nodes=92
+#SBATCH --nodes=48
 #SBATCH --ntasks-per-node=40
-#SBATCH --constraint=NIH
+#SBATCH --constraint=IB
 #SBATCH --job-name="slbBurn"
 #SBATCH --mail-user=mtmcgurn@buffalo.edu
 #SBATCH --mail-type=ALL
@@ -44,17 +46,21 @@ export TEST_MPI_COMMAND=srun
 mkdir tmp_$SLURM_JOBID
 cd tmp_$SLURM_JOBID
 
-export TITLE=v5-336x48x48-92
+export TITLE=v5-6G-336x48x48-48
 export FACES=336,48,48
 export UPWIND=leastsquares
+export VELOCITY="min(3.985120454,t*3.985120454/.01),0.0,0.0"
+
 
 # Run all tests
 echo "Start Time " `date +%s`
 srun -n $SLURM_NPROCS  /projects/academic/chrest/mtmcgurn/ablateOpt/ablate \
-  --input /panasas/scratch/grp-ped3/mtmcgurn/ablateInputs/slabBurner3D/slabBurner.3D.V5.yaml \
+  --input /panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner3D/slabBurner.3D.V5.yaml \
    -yaml::environment::title $TITLE \
    -yaml::timestepper::domain::faces [$FACES] \
-   -yaml::timestepper::domain::fields::[0]::conservedFieldOptions::petscfv_type $UPWIND
+   -yaml::timestepper::domain::fields::[0]::conservedFieldOptions::petscfv_type $UPWIND \
+   -yaml::solvers::[1]::processes::[0]::velocity \"$VELOCITY\"
+
  
 
 echo "End Time " `date +%s`
