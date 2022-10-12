@@ -10,6 +10,7 @@
 #SBATCH --mail-user=mtmcgurn@buffalo.edu
 #SBATCH --mail-type=ALL
 #SBATCH --exclusive
+#SBATCH --requeue
 
 # Print the current environment
 echo "SLURM_JOBID="$SLURM_JOBID
