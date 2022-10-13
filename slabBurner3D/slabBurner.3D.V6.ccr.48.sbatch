@@ -51,15 +51,15 @@ export FACES=336,48,48
 export UPWIND=leastsquares
 export VELOCITY="min(14.96274499,t*14.96274499/.01),0.0,0.0"
 
-export TITLE=v6-22G-280x40x40-48
-export FACES=280,40,40
-export UPWIND=leastsquares
-export VELOCITY="min(14.96274499,t*14.96274499/.01),0.0,0.0"
-
-export TITLE=v6-22G-210x30x30-48
-export FACES=210,30,30
-export UPWIND=leastsquares
-export VELOCITY="min(14.96274499,t*14.96274499/.01),0.0,0.0"
+# export TITLE=v6-22G-280x40x40-48
+# export FACES=280,40,40
+# export UPWIND=leastsquares
+# export VELOCITY="min(14.96274499,t*14.96274499/.01),0.0,0.0"
+# 
+# export TITLE=v6-22G-210x30x30-48
+# export FACES=210,30,30
+# export UPWIND=leastsquares
+# export VELOCITY="min(14.96274499,t*14.96274499/.01),0.0,0.0"
 
 
 # Run all tests
