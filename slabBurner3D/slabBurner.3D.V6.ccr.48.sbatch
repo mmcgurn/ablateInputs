@@ -46,22 +46,26 @@ export TEST_MPI_COMMAND=srun
 mkdir tmp_$SLURM_JOBID
 cd tmp_$SLURM_JOBID
 
-# export TITLE=v5-6G-336x48x48-48
-# export FACES=336,48,48
-# export UPWIND=leastsquares
-# export VELOCITY="min(3.985120454,t*3.985120454/.01),0.0,0.0"
-
-export TITLE=v5-10G-336x48x48-48
+export TITLE=v6-22G-336x48x48-48
 export FACES=336,48,48
 export UPWIND=leastsquares
-export VELOCITY="min(6.459806083,t*3.985120454/.01),0.0,0.0"
+export VELOCITY="min(14.96274499,t*14.96274499/.01),0.0,0.0"
 
+export TITLE=v6-22G-280x40x40-48
+export FACES=280,40,40
+export UPWIND=leastsquares
+export VELOCITY="min(14.96274499,t*14.96274499/.01),0.0,0.0"
+
+export TITLE=v6-22G-210x30x30-48
+export FACES=210,30,30
+export UPWIND=leastsquares
+export VELOCITY="min(14.96274499,t*14.96274499/.01),0.0,0.0"
 
 
 # Run all tests
 echo "Start Time " `date +%s`
 srun -n $SLURM_NPROCS  /projects/academic/chrest/mtmcgurn/ablateOpt/ablate \
-  --input /panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner3D/slabBurner.3D.V5.yaml \
+  --input /panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner3D/slabBurner.3D.V6.yaml \
    -yaml::environment::title $TITLE \
    -yaml::timestepper::domain::faces [$FACES] \
    -yaml::timestepper::domain::fields::[0]::conservedFieldOptions::petscfv_type $UPWIND \
