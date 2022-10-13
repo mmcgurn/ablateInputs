@@ -5,7 +5,6 @@
 #SBATCH --time=1:00:00
 #SBATCH --nodes=4
 #SBATCH --ntasks-per-node=12
-#SBATCH --constraint=IB
 #SBATCH --job-name="slbBurn"
 #SBATCH --mail-user=mtmcgurn@buffalo.edu
 #SBATCH --mail-type=ALL
