@@ -293,5 +293,6 @@ solvers:
           rays: 20
           properties: !ablate::eos::radiationProperties::Zimmer
             eos: *eos
+          log: !ablate::monitors::logs::StdOut  
     monitors:
       - !ablate::monitors::BoundarySolverMonitor
