@@ -1,0 +1,48 @@
+#!/bin/bash
+#### See https://hpc.llnl.gov/training/tutorials/slurm-and-moab#LC
+
+##### These lines are for Slurm
+#SBATCH -N 512
+#SBATCH -J 18G
+#SBATCH -t 72:00:00
+#SBATCH -p pbatch
+#SBATCH --mail-type=ALL
+#SBATCH -A sunyb
+#SBATCH --mail-user=mtmcgurn@buffalo.edu
+#SBATCH —reservation=dat_10_14
+#SBATCH --qos=exempt
+
+##### Load Required modules
+# gcc
+module load mkl/2019.0
+module load valgrind/3.16.1
+module load gcc/10.2.1
+module load  cmake/3.21.1 
+
+# Load PETSC ENV
+export PETSC_DIR="/g/g15/mcgurn4/petsc"
+export PETSC_ARCH="arch-ablate-opt-gcc" # arch-ablate-debug or arch-ablate-opt
+export PKG_CONFIG_PATH="${PETSC_DIR}/${PETSC_ARCH}/lib/pkgconfig:$PKG_CONFIG_PATH"
+export HDF5_ROOT="${PETSC_DIR}/${PETSC_ARCH}"  
+# Include the bin directory to access mpi commands
+export PATH="${PETSC_DIR}/${PETSC_ARCH}/bin:$PATH"
+
+# Make a temp directory so that tchem has a place to vomit its files
+mkdir tmp_$SLURM_JOBID
+cd tmp_$SLURM_JOBID
+
+export TITLE=v7-18G-336x48x48-512
+export FACES=336,48,48
+export UPWIND=leastsquares
+export VELOCITY="min(12.53526045,t*12.53526045/.01),0.0,0.0"
+
+##### Launch parallel job using srun
+srun -n18432 /g/g15/mcgurn4/ablateOpt/ablate \
+	--input /p/lustre2/ubchrest/ablateInputs/slabBurner3D/slabBurner.3D.V7.yaml \
+	-yaml::environment::title $TITLE \
+	-yaml::timestepper::domain::faces [$FACES] \
+	-yaml::timestepper::domain::fields::[0]::conservedFieldOptions::petscfv_type $UPWIND \
+    -yaml::solvers::[1]::processes::[0]::velocity \"$VELOCITY\"
+
+	
+echo 'Done'

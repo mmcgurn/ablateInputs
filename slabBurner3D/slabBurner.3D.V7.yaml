@@ -1,4 +1,4 @@
-# increase in reflection factor
+# no rad, add back fake heatflux
 ---
 environment:
   title: _3dSlabBurner
@@ -14,7 +14,7 @@ timestepper:
     ts_adapt_monitor: ""
     ts_adapt_safety: 0.75
   io: !ablate::io::Hdf5MultiFileSerializer
-    interval: 0
+    interval: 1000
   domain: !ablate::domain::BoxMeshBoundaryCells
     name: simpleBoxField
     faces: [560,80,80]
@@ -285,14 +285,9 @@ solvers:
         pgs: *pgs
         eos: *eos
         massFractions: *fuelMassFrac
-        radiationInterval: 0
-        radiation: !ablate::radiation::SurfaceRadiation
-          id: surfaceflux
-          region:
-            name: interiorFlowRegion
-          rays: 10
-          properties: !ablate::eos::radiationProperties::Zimmer
-            eos: *eos
-          log: !ablate::monitors::logs::StdOut  
+        additionalHeatFlux: !ablate::mathFunctions::geom::Sphere
+          center: [ .036,  0.01 ]
+          radius: 0.0075
+          insideValues: "60000"# 60 KW/m2
     monitors:
       - !ablate::monitors::BoundarySolverMonitor

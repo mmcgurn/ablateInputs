@@ -60,13 +60,15 @@ export VELOCITY="min(6.459806083,t*3.985120454/.01),0.0,0.0"
 
 # Run all tests
 echo "Start Time " `date +%s`
-srun -n $SLURM_NPROCS  /projects/academic/chrest/mtmcgurn/ablateOpt/ablate \
-  --input /panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner3D/slabBurner.3D.V5.yaml \
-   -yaml::environment::title $TITLE \
-   -yaml::timestepper::domain::faces [$FACES] \
-   -yaml::timestepper::domain::fields::[0]::conservedFieldOptions::petscfv_type $UPWIND \
-   -yaml::solvers::[1]::processes::[0]::velocity \"$VELOCITY\"
 
+#srun -n $SLURM_NPROCS  /projects/academic/chrest/mtmcgurn/ablateOpt/ablate \
+#  --input /panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner3D/slabBurner.3D.V5.yaml \
+#   -yaml::environment::title $TITLE \
+#   -yaml::timestepper::domain::faces [$FACES] \
+#   -yaml::timestepper::domain::fields::[0]::conservedFieldOptions::petscfv_type $UPWIND \
+#   -yaml::solvers::[1]::processes::[0]::velocity \"$VELOCITY\"
+
+srun -n $SLURM_NPROCS   /projects/academic/chrest/mtmcgurn/petscDebugOpt/example 
  
 
 echo "End Time " `date +%s`
