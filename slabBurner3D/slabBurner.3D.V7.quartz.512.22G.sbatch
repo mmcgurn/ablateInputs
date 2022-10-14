@@ -2,7 +2,7 @@
 #### See https://hpc.llnl.gov/training/tutorials/slurm-and-moab#LC
 
 ##### These lines are for Slurm
-#SBATCH -N 512
+#SBATCH -N 1024
 #SBATCH -J 22G
 #SBATCH -t 72:00:00
 #SBATCH -p pbatch
@@ -31,13 +31,13 @@ export PATH="${PETSC_DIR}/${PETSC_ARCH}/bin:$PATH"
 mkdir tmp_$SLURM_JOBID
 cd tmp_$SLURM_JOBID
 
-export TITLE=v7-22G-336x48x48-512
+export TITLE=v7-22G-336x48x48-1024
 export FACES=336,48,48
 export UPWIND=leastsquares
 export VELOCITY="min(14.96274499,t*14.96274499/.01),0.0,0.0"
 
 ##### Launch parallel job using srun
-srun -n18432 /g/g15/mcgurn4/ablateOpt/ablate \
+srun -n368642 /g/g15/mcgurn4/ablateOpt/ablate \
 	--input /p/lustre2/ubchrest/ablateInputs/slabBurner3D/slabBurner.3D.V7.yaml \
 	-yaml::environment::title $TITLE \
 	-yaml::timestepper::domain::faces [$FACES] \
