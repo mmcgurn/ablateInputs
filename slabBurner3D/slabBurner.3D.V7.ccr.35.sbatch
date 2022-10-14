@@ -55,7 +55,7 @@ export VELOCITY="min(3.985120454,t*3.985120454/.01),0.0,0.0"
 # Run all tests
 echo "Start Time " `date +%s`
 srun -n $SLURM_NPROCS  /projects/academic/chrest/mtmcgurn/ablateOpt/ablate \
-  --input /panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner3D/slabBurner.3D.V6.yaml \
+  --input /panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner3D/slabBurner.3D.V7.yaml \
    -yaml::environment::title $TITLE \
    -yaml::timestepper::domain::faces [$FACES] \
    -yaml::timestepper::domain::fields::[0]::conservedFieldOptions::petscfv_type $UPWIND \
