@@ -9,7 +9,7 @@
 #SBATCH --mail-type=ALL
 #SBATCH -A sunyb
 #SBATCH --mail-user=mtmcgurn@buffalo.edu
-#SBATCH —reservation=dat_10_14
+#SBATCH --reservation=dat_10_14
 #SBATCH --qos=exempt
 
 ##### Load Required modules
@@ -38,7 +38,7 @@ export VELOCITY="min(14.96274499,t*14.96274499/.01),0.0,0.0"
 
 ##### Launch parallel job using srun
 srun -n18432 /g/g15/mcgurn4/ablateOpt/ablate \
-	--input /p/lustre2/mcgurn4/ablateInputs/slabBurner3D/slabBurner.3D.V7.yaml \
+	--input /p/lustre2/ubchrest/ablateInputs/slabBurner3D/slabBurner.3D.V7.yaml \
 	-yaml::environment::title $TITLE \
 	-yaml::timestepper::domain::faces [$FACES] \
 	-yaml::timestepper::domain::fields::[0]::conservedFieldOptions::petscfv_type $UPWIND \

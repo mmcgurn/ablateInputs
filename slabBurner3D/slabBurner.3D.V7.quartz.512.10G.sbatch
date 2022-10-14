@@ -9,7 +9,7 @@
 #SBATCH --mail-type=ALL
 #SBATCH -A sunyb
 #SBATCH --mail-user=mtmcgurn@buffalo.edu
-#SBATCH —reservation=dat_10_14
+#SBATCH --reservation=dat_10_14
 #SBATCH --qos=exempt
 
 ##### Load Required modules
