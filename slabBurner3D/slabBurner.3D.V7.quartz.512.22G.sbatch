@@ -37,7 +37,7 @@ export UPWIND=leastsquares
 export VELOCITY="min(14.96274499,t*14.96274499/.01),0.0,0.0"
 
 ##### Launch parallel job using srun
-srun -n368642 /g/g15/mcgurn4/ablateOpt/ablate \
+srun -n36864 /g/g15/mcgurn4/ablateOpt/ablate \
 	--input /p/lustre2/ubchrest/ablateInputs/slabBurner3D/slabBurner.3D.V7.yaml \
 	-yaml::environment::title $TITLE \
 	-yaml::timestepper::domain::faces [$FACES] \
