@@ -288,6 +288,6 @@ solvers:
         additionalHeatFlux: !ablate::mathFunctions::geom::Sphere
           center: [ .036,  0.01 ]
           radius: 0.0075
-          insideValues: "60000"# 60 KW/m2
+          insideValues: "160000"# 60 KW/m2
     monitors:
       - !ablate::monitors::BoundarySolverMonitor
