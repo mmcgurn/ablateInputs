@@ -9,15 +9,15 @@ timestepper:
   arguments:
     ts_type: rk
     ts_max_time: 1
-    ts_max_steps: 200000000
+    ts_max_steps: 100
     ts_dt: 1.0e-10
     ts_adapt_monitor: ""
     ts_adapt_safety: 0.75
   io: !ablate::io::Hdf5MultiFileSerializer
-    interval: 10
+    interval: 100
   domain: !ablate::domain::BoxMeshBoundaryCells
     name: simpleBoxField
-    faces: [20,20]
+    faces: [40,20]
     lower: [ 0.0, 0.0]
     upper: [ 0.165354, 0.027686]
     simplex: false
@@ -148,23 +148,17 @@ timestepper:
           eos: *eos
           values:
             - fieldName: H2
-              field: 3.11573908295E-07
+              field: 2.6605252679403324e-08
             - fieldName: CH4
-              field: 1.37640311576E-01
-            - fieldName: CO
-              field: 5.59511130432E-01
-            - fieldName: CO2
-              field: 2.67621505110E-05
+              field: 0.03130099022620085
             - fieldName: C2H2
-              field: 8.12221908950E-04
+              field: 0.019041133292868283
             - fieldName: C2H4
-              field: 8.12221908950E-04
+              field: 0.9085604652430157
             - fieldName: C2H6
-              field: 2.61085823724E-02
-            - fieldName: CH2CO
-              field: 2.00544314596E-07
+              field: 0.012981434565768965
             - fieldName: C3H8
-              field: 2.51803728765E-02
+              field: 0.02811595000348999
     - !ablate::finiteVolume::fieldFunctions::DensityMassFractions
       region:
         name: slabBurnerBoundaryCells
@@ -287,14 +281,9 @@ solvers:
         pgs: *pgs
         eos: *eos
         massFractions: *fuelMassFrac
-        radiationInterval: 10
-        radiation: !ablate::radiation::SurfaceRadiation
-          id: surfaceflux
-          region:
-            name: interiorFlowRegion
-          rays: 20
-          properties: !ablate::eos::radiationProperties::Zimmer
-            eos: *eos
-          log: !ablate::monitors::logs::StdOut  
+        additionalHeatFlux: !ablate::mathFunctions::geom::Sphere
+          center: [ .036,  0.01 ]
+          radius: 0.0075
+          insideValues: "60000"# 60 KW/m2
     monitors:
       - !ablate::monitors::BoundarySolverMonitor
