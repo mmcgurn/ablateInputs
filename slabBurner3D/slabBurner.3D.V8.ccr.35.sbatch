@@ -5,7 +5,7 @@
 ##SBATCH --qos=supporters
 #SBATCH --account=chrest
 #SBATCH --time=72:00:00
-#SBATCH --nodes=64
+#SBATCH --nodes=35
 #SBATCH --ntasks-per-node=56
 #SBATCH --constraint=IB
 #SBATCH --job-name="slbBurn"
@@ -49,7 +49,7 @@ export TEST_MPI_COMMAND=srun
 mkdir tmp_$SLURM_JOBID
 cd tmp_$SLURM_JOBID
 
-# export TITLE=v5-6G-336x48x48-48
+# export TITLE=v5-6G-336x48x48-35
 # export FACES=336,48,48
 # export UPWIND=leastsquares
 # export VELOCITY="min(3.985120454,t*3.985120454/.01),0.0,0.0"
