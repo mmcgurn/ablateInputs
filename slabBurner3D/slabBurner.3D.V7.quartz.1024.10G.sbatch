@@ -1,0 +1,47 @@
+#!/bin/bash
+#### See https://hpc.llnl.gov/training/tutorials/slurm-and-moab#LC
+
+##### These lines are for Slurm
+#SBATCH -N 1024
+#SBATCH -J 10G
+#SBATCH -t 24:00:00
+#SBATCH -p pbatch
+#SBATCH --mail-type=ALL
+#SBATCH -A sunyb
+#SBATCH --mail-user=mtmcgurn@buffalo.edu
+
+
+##### Load Required modules
+# gcc
+module load mkl/2019.0
+module load valgrind/3.16.1
+module load gcc/10.2.1
+module load  cmake/3.21.1 
+
+# Load PETSC ENV
+export PETSC_DIR="/g/g15/mcgurn4/petsc"
+export PETSC_ARCH="arch-ablate-opt-gcc" # arch-ablate-debug or arch-ablate-opt
+export PKG_CONFIG_PATH="${PETSC_DIR}/${PETSC_ARCH}/lib/pkgconfig:$PKG_CONFIG_PATH"
+export HDF5_ROOT="${PETSC_DIR}/${PETSC_ARCH}"  
+# Include the bin directory to access mpi commands
+export PATH="${PETSC_DIR}/${PETSC_ARCH}/bin:$PATH"
+
+# Make a temp directory so that tchem has a place to vomit its files
+mkdir tmp_$SLURM_JOBID
+cd tmp_$SLURM_JOBID
+
+export TITLE=v7-10G-490x70x70-1024
+export FACES=490,70,70
+export UPWIND=leastsquares
+export VELOCITY="min(6.459806083,t*6.459806083/.01),0.0,0.0"
+
+##### Launch parallel job using srun
+srun -n36864 /g/g15/mcgurn4/ablateOpt/ablate \
+	--input /p/lustre2/ubchrest/ablateInputs/slabBurner3D/slabBurner.3D.V7.yaml \
+	-yaml::environment::title $TITLE \
+	-yaml::timestepper::domain::faces [$FACES] \
+	-yaml::timestepper::domain::fields::[0]::conservedFieldOptions::petscfv_type $UPWIND \
+    -yaml::solvers::[1]::processes::[0]::velocity \"$VELOCITY\"
+
+	
+echo 'Done'
