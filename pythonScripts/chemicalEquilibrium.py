@@ -20,7 +20,7 @@ plt.style.use('ggplot')
 plt.style.use('seaborn-pastel')
 
 # Load in the cti mech file
-gas = ct.Solution('../ignitionDelayGriMech/grimech30.cti')
+gas = ct.Solution('../mechanisms/grimech30.cti')
 
 # Calculate simple fuel decomposition (paraffin wax), and oxidizer stoichiometric mass coefficient
 # Paraffin wax is CnH_(2n+2), taking n = 31...
