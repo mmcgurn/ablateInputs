@@ -55,7 +55,7 @@ cd tmp_$SLURM_JOBID
 # export VELOCITY="min(3.985120454,t*3.985120454/.01),0.0,0.0"
 
 export TITLE=v8-6G-420x60x60-64
-export FACES=420x60x60
+export FACES=420,60,60
 export UPWIND=leastsquares
 export VELOCITY="min(3.985120454,t*3.985120454/.01),0.0,0.0"
 
