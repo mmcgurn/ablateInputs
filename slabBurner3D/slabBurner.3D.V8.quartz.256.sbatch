@@ -34,15 +34,15 @@ export FACES=420,60,60
 export UPWIND=leastsquares
 export VELOCITY="min(3.985120454,t*3.985120454/.01),0.0,0.0"
 
-export TITLE=v8-9G-420x60x60-256
-export FACES=420,60,60
-export UPWIND=leastsquares
-export VELOCITY="min(6.459806083,t*6.459806083/.01),0.0,0.0"
+# export TITLE=v8-9G-420x60x60-256
+# export FACES=420,60,60
+# export UPWIND=leastsquares
+# export VELOCITY="min(6.459806083,t*6.459806083/.01),0.0,0.0"
 
-export TITLE=v8-22G-420x60x60-256
-export FACES=420,60,60
-export UPWIND=leastsquares
-export VELOCITY="min(14.96274499,t*14.96274499/.01),0.0,0.0"
+# export TITLE=v8-22G-420x60x60-256
+# export FACES=420,60,60
+# export UPWIND=leastsquares
+# export VELOCITY="min(14.96274499,t*14.96274499/.01),0.0,0.0"
 
 
 ##### Launch parallel job using srun
