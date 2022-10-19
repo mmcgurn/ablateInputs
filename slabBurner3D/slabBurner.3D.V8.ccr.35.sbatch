@@ -50,13 +50,13 @@ mkdir tmp_$SLURM_JOBID
 cd tmp_$SLURM_JOBID
 
 
-export TITLE=v8-6G-420x60x60-45
-export FACES=420,60,60
+export TITLE=v8-6G-364x52x52-45
+export FACES=364,52,52
 export UPWIND=leastsquares
 export VELOCITY="min(3.985120454,t*3.985120454/.01),0.0,0.0"
 
-#export TITLE=v8-22G-420x60x60-45
-#export FACES=420,60,60
+#export TITLE=v8-22G-364x52x52-45
+#export FACES==364,52,52
 #export UPWIND=leastsquares
 #export VELOCITY="min(14.96274499,t*14.96274499/.01),0.0,0.0"
 
