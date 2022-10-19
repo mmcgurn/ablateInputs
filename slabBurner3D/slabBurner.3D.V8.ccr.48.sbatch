@@ -1,18 +1,16 @@
 #!/bin/sh
-#SBATCH --partition=scavenger
-#SBATCH --qos=scavenger
-##SBATCH --partition=general-compute
-##SBATCH --qos=supporters
+#SBATCH --partition=general-compute
+#SBATCH --qos=supporters
 #SBATCH --account=chrest
 #SBATCH --time=72:00:00
-#SBATCH --nodes=72
-#SBATCH --ntasks-per-node=56
+#SBATCH --nodes=48
+#SBATCH --ntasks-per-node=40
 #SBATCH --constraint=IB
 #SBATCH --job-name="slbBurn"
 #SBATCH --mail-user=mtmcgurn@buffalo.edu
 #SBATCH --mail-type=ALL
 #SBATCH --exclusive
-#SBATCH --requeue
+
 
 # Print the current environment
 echo "SLURM_JOBID="$SLURM_JOBID
@@ -49,15 +47,17 @@ export TEST_MPI_COMMAND=srun
 mkdir tmp_$SLURM_JOBID
 cd tmp_$SLURM_JOBID
 
-# export TITLE=v5-6G-336x48x48-48
+
+# export TITLE=v8-6G-420x60x60-48
 # export FACES=336,48,48
 # export UPWIND=leastsquares
 # export VELOCITY="min(3.985120454,t*3.985120454/.01),0.0,0.0"
 
-export TITLE=v8-6G-420x60x60-72
-export FACES=420x60x60
+export TITLE=v8-22G-420x60x60-48
+export FACES=336,48,48
 export UPWIND=leastsquares
-export VELOCITY="min(3.985120454,t*3.985120454/.01),0.0,0.0"
+export VELOCITY="min(14.96274499,t*14.96274499/.01),0.0,0.0"
+
 
 # Run all tests
 echo "Start Time " `date +%s`
