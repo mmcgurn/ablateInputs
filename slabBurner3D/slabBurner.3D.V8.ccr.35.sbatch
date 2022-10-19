@@ -55,7 +55,7 @@ export FACES=336,48,48
 export UPWIND=leastsquares
 export VELOCITY="min(3.985120454,t*3.985120454/.01),0.0,0.0"
 
-#export TITLE=v8-22G-336x48x48-65
+#export TITLE=v8-22G-336x48x48-35
 #export FACES=336,48,48
 #export UPWIND=leastsquares
 #export VELOCITY="min(14.96274499,t*14.96274499/.01),0.0,0.0"
