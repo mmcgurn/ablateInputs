@@ -46,12 +46,12 @@ mkdir tmp_$SLURM_JOBID
 cd tmp_$SLURM_JOBID
 
 
-export TITLE=v3-6G-560x80-q
+export TITLE=v3-6G-560x80-48
 export FACES=560,80
 export UPWIND=leastsquares
 export VELOCITY="min(3.985120454,t*3.985120454/.01),0.0"
 
-# export TITLE=v3-22G-560x80-q
+# export TITLE=v3-22G-560x80-48
 # export FACES=560,80
 # export UPWIND=leastsquares
 # export VELOCITY="min(14.96274499,t*14.96274499/.01),0.0"
