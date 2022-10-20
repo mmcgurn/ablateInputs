@@ -11,8 +11,8 @@ timestepper:
     ts_max_time: 1
     ts_max_steps: 10000000
     ts_dt: 1.0e-10
-    ts_adapt_monitor: ""
     ts_adapt_safety: 0.75
+    ts_adapt_type: none
   io: !ablate::io::Hdf5MultiFileSerializer
     interval: 1000
   domain: !ablate::domain::BoxMeshBoundaryCells
@@ -188,7 +188,7 @@ solvers:
     region:
       name: interiorFlowRegion
     parameters:
-      cfl: 0.5
+      cfl: 0.4
     eos: *eos
     transport: &transportModel !ablate::eos::transport::Sutherland
       eos: *eos
@@ -212,14 +212,15 @@ solvers:
       - !ablate::finiteVolume::processes::PressureGradientScaling
         &pgs
         eos: *eos
-        alphaInit: 15.0
+        alphaInit: 5.0
         maxAlphaAllowed: 100.0
         domainLength: 0.165354
         log: !ablate::monitors::logs::StdOut
       - !ablate::finiteVolume::processes::TChemReactions
         eos: *eos
     fluxCalculator: !ablate::finiteVolume::fluxCalculator::AusmpUp
-      pgs: *pgs      
+      pgs: *pgs   
+    computePhysicsTimeStep: true        
   - !ablate::boundarySolver::BoundarySolver
     id: inlet
     region:
