@@ -47,7 +47,7 @@ timestepper:
         function: !ablate::mathFunctions::geom::Cylinder
           start: [ 0.02615, 0.012186]
           end: [ 0.02615, 0.027686]
-          radius: 0.005
+          radius: 0.00245
       - !ablate::domain::modifiers::SubtractLabel
         # cut the slabBurner and glow plug out of the flowRegion
         differenceRegion:
@@ -212,7 +212,7 @@ solvers:
       - !ablate::finiteVolume::processes::PressureGradientScaling
         &pgs
         eos: *eos
-        alphaInit: 15.0
+        alphaInit: 5.0
         maxAlphaAllowed: 100.0
         domainLength: 0.165354
         log: !ablate::monitors::logs::StdOut
