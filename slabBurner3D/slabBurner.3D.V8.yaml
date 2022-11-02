@@ -49,7 +49,7 @@ timestepper:
         function: !ablate::mathFunctions::geom::Cylinder
           start: [ 0.02615, 0.012186, 0.0 ]
           end: [ 0.02615, 0.027686, 0.0 ]
-          radius: 0.005
+          radius: 0.00245
       - !ablate::domain::modifiers::SubtractLabel
         # cut the slabBurner and glow plug out of the flowRegion
         differenceRegion:
