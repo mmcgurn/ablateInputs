@@ -21,7 +21,8 @@ timestepper:
     lower: [ 0.0, 0.0, -0.0127]
     upper: [ 0.165354, 0.027686, 0.0127]
     simplex: false
-    options: {}
+    options:
+      dm_plex_hash_location: true
     preModifiers:
       # distribute the mesh across the mpi rank with ghost cells
       - !ablate::domain::modifiers::DistributeWithGhostCells
@@ -284,7 +285,7 @@ solvers:
           id: surfaceflux
           region:
             name: flowRegion
-          rays: 50
+          rays: 25
           properties: !ablate::eos::radiationProperties::Zimmer
             eos: *eos
           log: !ablate::monitors::logs::StdOut
