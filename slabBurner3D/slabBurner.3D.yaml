@@ -279,9 +279,14 @@ solvers:
         pgs: *pgs
         eos: *eos
         massFractions: *fuelMassFrac
-        additionalHeatFlux: !ablate::mathFunctions::geom::Sphere
-          center: [ .036,  0.01 ]
-          radius: 0.0075
-          insideValues: "60000"# 60 KW/m2
+        radiationInterval: 10
+        radiation: !ablate::radiation::SurfaceRadiation
+          id: surfaceflux
+          region:
+            name: flowRegion
+          rays: 50
+          properties: !ablate::eos::radiationProperties::Zimmer
+            eos: *eos
+          log: !ablate::monitors::logs::StdOut
     monitors:
       - !ablate::monitors::BoundarySolverMonitor
