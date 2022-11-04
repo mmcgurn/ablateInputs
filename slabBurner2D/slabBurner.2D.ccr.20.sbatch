@@ -5,8 +5,8 @@
 ##SBATCH --qos=supporters
 #SBATCH --account=chrest
 #SBATCH --time=72:00:00
-#SBATCH --nodes=20
-#SBATCH --ntasks-per-node=56
+#SBATCH --nodes=3
+#SBATCH --ntasks-per-node=40
 #SBATCH --constraint=IB
 #SBATCH --job-name="slbBurn"
 #SBATCH --mail-user=mtmcgurn@buffalo.edu
