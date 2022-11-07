@@ -97,9 +97,6 @@ timestepper:
         incompleteLabel: true
       - !ablate::domain::modifiers::GhostBoundaryCells
           # the DmViewFromOptions should output once with full mesh/dm details
-      - !ablate::monitors::DmViewFromOptions
-        scope: initial
-        options: ascii::ascii_info_detail
     fields:
       - !ablate::finiteVolume::CompressibleFlowFields
         eos: !ablate::eos::TChem  &eos
