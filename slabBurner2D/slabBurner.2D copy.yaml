@@ -8,22 +8,24 @@ arguments:
 timestepper:
   arguments:
     ts_type: rk
-    ts_max_time: 1
-    ts_max_steps: 10000000
+    ts_max_time: 10
+    ts_max_steps: 0
     ts_dt: 1.0e-10
     ts_adapt_safety: 0.75
     ts_adapt_type: none
   io: !ablate::io::Hdf5MultiFileSerializer
-    interval: 10
+    interval: 0
   domain: !ablate::domain::BoxMeshBoundaryCells
     name: simpleBoxField
-    faces: [490,70]
+    faces: [40,30]
     lower: [ 0.0, 0.0]
     upper: [ 0.165354, 0.027686]
     simplex: false
-    options:
-      dm_plex_hash_location: true
+    options: {}
     preModifiers:
+      # distribute the mesh across the mpi rank with ghost cells
+      - !ablate::domain::modifiers::MeshMapper
+        "x +.1, y"
       # distribute the mesh across the mpi rank with ghost cells
       - !ablate::domain::modifiers::DistributeWithGhostCells
         ghostCellDepth: 2
@@ -280,14 +282,9 @@ solvers:
         pgs: *pgs
         eos: *eos
         massFractions: *fuelMassFrac
-        radiationInterval: 10
-        radiation: !ablate::radiation::SurfaceRadiation
-          id: surfaceflux
-          region:
-            name: flowRegion
-          rays: 25
-          properties: !ablate::eos::radiationProperties::Zimmer
-            eos: *eos
-          log: !ablate::monitors::logs::StdOut
+        additionalHeatFlux: !ablate::mathFunctions::geom::Sphere
+          center: [ .036,  0.01 ]
+          radius: 0.0075
+          insideValues: "60000"# 60 KW/m2
     monitors:
       - !ablate::monitors::BoundarySolverMonitor
