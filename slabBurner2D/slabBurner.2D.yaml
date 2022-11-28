@@ -216,6 +216,9 @@ solvers:
         log: !ablate::monitors::logs::StdOut
       - !ablate::finiteVolume::processes::TChemReactions
         eos: *eos
+        options:
+          # set a minimum temperature for the chemical kinetics ode integration
+          thresholdTemperature: 560
     fluxCalculator: !ablate::finiteVolume::fluxCalculator::AusmpUp
       pgs: *pgs   
     computePhysicsTimeStep: true        
