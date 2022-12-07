@@ -103,6 +103,9 @@ timestepper:
       - !ablate::finiteVolume::CompressibleFlowFields
         eos: !ablate::eos::TChem  &eos
           mechFile: ../mechanisms/gri30.yaml
+          options:
+            # set a minimum temperature for the chemical kinetics ode integration
+            thresholdTemperature: 560
         conservedFieldOptions:
           petscfv_type: leastsquares
         region:
@@ -197,7 +200,7 @@ solvers:
     - !ablate::monitors::PhysicsTimeStep
       interval: 25
     - !ablate::monitors::MixtureFractionMonitor
-      mixtureFractionCalculator: !ablate::chemistry::MixtureFractionCalculator
+      mixtureFractionCalculator: !ablate::monitors::MixtureFractionCalculator
         eos: *eos
         massFractionsFuel: *fuelMassFrac
         massFractionsOxidizer: *oxMassFrac
@@ -215,11 +218,8 @@ solvers:
         maxAlphaAllowed: 100.0
         domainLength: 0.165354
         log: !ablate::monitors::logs::StdOut
-      - !ablate::finiteVolume::processes::TChemReactions
+      - !ablate::finiteVolume::processes::Chemistry
         eos: *eos
-        options:
-          # set a minimum temperature for the chemical kinetics ode integration
-          thresholdTemperature: 560
     fluxCalculator: !ablate::finiteVolume::fluxCalculator::AusmpUp
       pgs: *pgs      
   - !ablate::boundarySolver::BoundarySolver
@@ -288,7 +288,7 @@ solvers:
           id: surfaceflux
           region:
             name: flowRegion
-          rays: 5
+          rays: 10
           properties: !ablate::eos::radiationProperties::Zimmer
             eos: *eos
           log: !ablate::monitors::logs::StdOut

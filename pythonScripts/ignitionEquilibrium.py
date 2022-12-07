@@ -20,7 +20,7 @@ plt.style.use('ggplot')
 plt.style.use('seaborn-pastel')
 
 # Load in the cti mech file
-gas = ct.Solution('../ignitionDelayGriMech/grimech30.cti')
+gas = ct.Solution("/Users/mcgurn/scratch/ablateInputs/mechanisms/gri30.yaml")
 
 # Define the reactor temperature and pressure
 reactor_temperature = 300  # Kelvin
@@ -43,6 +43,7 @@ print("u + hf: ", gas.u)
 print("rho*yi: ", np.array2string(gas.Y * gas.density, separator=',', max_line_width=100000))
 print("yi: ", np.array2string(gas.Y, separator=',', max_line_width=100000))
 print("basis: ", gas.basis)
+print("mw_mix: ", gas.mean_molecular_weight)
 
 # equilibrate
 gas.equilibrate('HP')
@@ -56,3 +57,5 @@ print("u + hf: ", gas.u)
 print("rho*yi: ", np.array2string(gas.Y * gas.density, separator=',', max_line_width=100000))
 print("yi: ", np.array2string(gas.Y, separator=',', max_line_width=100000))
 print("basis: ", gas.basis)
+print("mw_mix: ", gas.mean_molecular_weight)
+
