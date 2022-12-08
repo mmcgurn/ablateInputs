@@ -288,7 +288,7 @@ solvers:
           id: surfaceflux
           region:
             name: flowRegion
-          rays: 10
+          rays: 6
           properties: !ablate::eos::radiationProperties::Zimmer
             eos: *eos
           log: !ablate::monitors::logs::StdOut
