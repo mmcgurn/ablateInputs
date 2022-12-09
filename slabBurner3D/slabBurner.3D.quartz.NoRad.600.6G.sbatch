@@ -29,12 +29,12 @@ export PATH="${PETSC_DIR}/${PETSC_ARCH}/bin:$PATH"
 mkdir tmp_$SLURM_JOBID
 cd tmp_$SLURM_JOBID
 
-export TITLE=6G-600
+export TITLE=6G-600-noRad
 export VELOCITY="min(3.985120454,t*3.985120454/.01),0.0,0.0"
 
 ##### Launch parallel job using srun
 srun -n21600 /g/g15/mcgurn4/ablateOpt/ablate \
-	--input /p/lustre2/ubchrest/ablateInputs/slabBurner3D/slabBurner.3D.yaml \
+	--input /p/lustre2/ubchrest/ablateInputs/slabBurner3D/slabBurner.NoRad.3D.yaml \
 	-yaml::environment::title $TITLE \
     -yaml::solvers::[1]::processes::[0]::velocity \"$VELOCITY\"
 
