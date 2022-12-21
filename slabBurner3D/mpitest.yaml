@@ -1,0 +1,14 @@
+---
+name: slabBurner.3D.quartz.600.6G.test.
+enumerations:
+  - !enumerator::enumerations::List
+    name: sf_window_sync
+    values: [ fence, active, lock ]
+  - !enumerator::enumerations::List
+    name: sf_window_flavor
+    values: [ create, dynamic, allocate]
+generator:
+  !enumerator::generators::FileTemplateGenerator
+  path: slabBurner.3D.quartz.600.6G.input.sbatch
+reporters:
+  - !enumerator::reporters::StreamReporter
