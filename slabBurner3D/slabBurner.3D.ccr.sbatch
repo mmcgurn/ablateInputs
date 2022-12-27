@@ -51,7 +51,7 @@ export TITLE=6G-600-petscSf-active-allocate
 export VELOCITY="min(3.985120454,t*3.985120454/.01),0.0,0.0"
 
 ##### Launch parallel job using srun
-srun -n 560 --overcommit /projects/academic/chrest/mtmcgurn/ablateOpt \
+srun -n 560 --overcommit /projects/academic/chrest/mtmcgurn/ablateOpt/ablate \
 	--input panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner3D/slabBurner.3D.yaml \
 	-yaml::environment::title $TITLE \
     -yaml::solvers::[1]::processes::[0]::velocity \"$VELOCITY\" \
