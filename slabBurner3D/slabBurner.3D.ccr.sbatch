@@ -48,7 +48,7 @@ export TEST_MPI_COMMAND=srun
 mkdir tmp_$SLURM_JOBID
 cd tmp_$SLURM_JOBID
 
-export TITLE=6G-600-petscSf-active-allocate
+export TITLE=6G-600-$SLURM_JOBID
 export VELOCITY="min(3.985120454,t*3.985120454/.01),0.0,0.0"
 
 ##### Launch parallel job using srun
