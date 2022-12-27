@@ -52,7 +52,7 @@ export TITLE=6G-600-$SLURM_JOBID
 export VELOCITY="min(3.985120454,t*3.985120454/.01),0.0,0.0"
 
 ##### Launch parallel job using srun
-srun -n 100 --overcommit \
+srun -n 56 \
  	/projects/academic/chrest/mtmcgurn/ablateOpt/ablate \
 	--input /panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner3D/slabBurner.3D.yaml \
 	-yaml::environment::title $TITLE \
