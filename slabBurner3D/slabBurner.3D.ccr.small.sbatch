@@ -52,20 +52,20 @@ export TITLE=6G-600-$SLURM_JOBID
 export VELOCITY="min(3.985120454,t*3.985120454/.01),0.0,0.0"
 
 ##### Launch parallel job using srun
-# srun -n 100 --overcommit \
-#  	/projects/academic/chrest/mtmcgurn/ablateOpt/ablate \
-# 	--input /panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner3D/slabBurner.3D.yaml \
-# 	-yaml::environment::title $TITLE \
-# 	-yaml::timestepper::domain::faces [112,17,17] \
-#     -yaml::solvers::[1]::processes::[0]::velocity \"$VELOCITY\" \
-#     -yaml::timestepper::arguments::ts_max_steps 150 
-    
 srun -n 100 --overcommit \
-  /projects/academic/chrest/valgrind/bin/valgrind --tool=memcheck -q --num-callers=20 \
-	--suppressions=$PETSC_DIR/share/petsc/valgrind/petsc-val.supp \
-	--log-file=valgrind.log.%p \
- 	/projects/academic/chrest/mtmcgurn/ablateDebug/ablate \
+ 	/projects/academic/chrest/mtmcgurn/ablateOpt/ablate \
 	--input /panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner3D/slabBurner.3D.yaml \
+	-yaml::environment::title $TITLE \
 	-yaml::timestepper::domain::faces [112,17,17] \
+    -yaml::solvers::[1]::processes::[0]::velocity \"$VELOCITY\" \
     -yaml::timestepper::arguments::ts_max_steps 150 
+    
+# srun -n 100 --overcommit \
+#   /projects/academic/chrest/valgrind/bin/valgrind --tool=memcheck -q --num-callers=20 \
+# 	--suppressions=$PETSC_DIR/share/petsc/valgrind/petsc-val.supp \
+# 	--log-file=valgrind.log.%p \
+#  	/projects/academic/chrest/mtmcgurn/ablateDebug/ablate \
+# 	--input /panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner3D/slabBurner.3D.yaml \
+# 	-yaml::timestepper::domain::faces [112,17,17] \
+#     -yaml::timestepper::arguments::ts_max_steps 150 
 
