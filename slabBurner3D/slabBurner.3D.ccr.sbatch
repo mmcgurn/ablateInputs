@@ -55,5 +55,4 @@ srun -n 560 --overcommit /projects/academic/chrest/mtmcgurn/ablateOpt/ablate \
 	--input /panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner3D/slabBurner.3D.yaml \
 	-yaml::environment::title $TITLE \
     -yaml::solvers::[1]::processes::[0]::velocity \"$VELOCITY\" \
-    -yaml::timestepper::arguments::ts_max_steps 150 \
-    -sf_type window -sf_window_sync active -sf_window_flavor allocate 
+    -yaml::timestepper::arguments::ts_max_steps 150 
