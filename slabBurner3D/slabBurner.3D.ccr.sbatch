@@ -4,7 +4,7 @@
 #SBATCH --account=chrest
 #SBATCH --time=6:00:00
 #SBATCH --nodes=10
-#SBATCH --ntasks-per-node=16
+#SBATCH --ntasks-per-node=56
 #SBATCH --constraint=IB
 #SBATCH --job-name="slbBurn"
 #SBATCH --mail-user=mtmcgurn@buffalo.edu
@@ -52,7 +52,11 @@ export TITLE=6G-600-petscSf-active-allocate
 export VELOCITY="min(3.985120454,t*3.985120454/.01),0.0,0.0"
 
 ##### Launch parallel job using srun
-srun -n 560 --overcommit /projects/academic/chrest/mtmcgurn/ablateDebug/ablate \
+srun -n 560 --overcommit \
+  /projects/academic/chrest/valgrind/bin/valgrind --tool=memcheck -q --num-callers=20 \
+	--suppressions=$PETSC_DIR/share/petsc/valgrind/petsc-val.supp \
+	--log-file=valgrind.log.%p \
+ 	/projects/academic/chrest/mtmcgurn/ablateDebug/ablate \
 	--input /panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner3D/slabBurner.3D.yaml \
 	-yaml::environment::title $TITLE \
     -yaml::solvers::[1]::processes::[0]::velocity \"$VELOCITY\" \
