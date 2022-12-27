@@ -30,7 +30,8 @@ module load gdb/7.8
 
 # setup petsc
 export PETSC_DIR=/projects/academic/chrest/mtmcgurn/petsc  
-export PETSC_ARCH=arch-ablate-opt
+# export PETSC_ARCH=arch-ablate-opt
+export PETSC_ARCH=arch-ablate-debug
 export PKG_CONFIG_PATH="${PETSC_DIR}/${PETSC_ARCH}/lib/pkgconfig:$PKG_CONFIG_PATH"
 
 # The initial srun will trigger the SLURM prologue on the compute nodes.
@@ -51,7 +52,7 @@ export TITLE=6G-600-petscSf-active-allocate
 export VELOCITY="min(3.985120454,t*3.985120454/.01),0.0,0.0"
 
 ##### Launch parallel job using srun
-srun -n 560 --overcommit /projects/academic/chrest/mtmcgurn/ablateOpt/ablate \
+srun -n 560 --overcommit /projects/academic/chrest/mtmcgurn/ablateDebug/ablate \
 	--input /panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner3D/slabBurner.3D.yaml \
 	-yaml::environment::title $TITLE \
     -yaml::solvers::[1]::processes::[0]::velocity \"$VELOCITY\" \
