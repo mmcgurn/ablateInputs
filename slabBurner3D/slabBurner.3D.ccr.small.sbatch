@@ -30,8 +30,8 @@ module load gdb/7.8
 
 # setup petsc
 export PETSC_DIR=/projects/academic/chrest/mtmcgurn/petsc  
-# export PETSC_ARCH=arch-ablate-opt
-export PETSC_ARCH=arch-ablate-debug
+export PETSC_ARCH=arch-ablate-opt
+# export PETSC_ARCH=arch-ablate-debug
 export PKG_CONFIG_PATH="${PETSC_DIR}/${PETSC_ARCH}/lib/pkgconfig:$PKG_CONFIG_PATH"
 
 # The initial srun will trigger the SLURM prologue on the compute nodes.
@@ -58,8 +58,9 @@ srun -n 56 \
 	-yaml::environment::title $TITLE \
 	-yaml::timestepper::domain::faces [112,17,17] \
     -yaml::solvers::[1]::processes::[0]::velocity \"$VELOCITY\" \
-    -yaml::timestepper::arguments::ts_max_steps 150 
-    
+	-yaml::timestepper::io::interval 25
+	
+#     
 # srun -n 56 --overcommit \
 #   /projects/academic/chrest/valgrind/bin/valgrind --tool=memcheck -q --num-callers=20 \
 # 	--suppressions=$PETSC_DIR/share/petsc/valgrind/petsc-val.supp \

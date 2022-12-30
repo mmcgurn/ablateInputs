@@ -2,7 +2,7 @@
 #SBATCH --partition=scavenger
 #SBATCH --qos=scavenger
 #SBATCH --account=chrest
-#SBATCH --time=6:00:00
+#SBATCH --time=72:00:00
 #SBATCH --nodes=10
 #SBATCH --ntasks-per-node=56
 #SBATCH --constraint=IB
@@ -30,8 +30,8 @@ module load gdb/7.8
 
 # setup petsc
 export PETSC_DIR=/projects/academic/chrest/mtmcgurn/petsc  
-# export PETSC_ARCH=arch-ablate-opt
-export PETSC_ARCH=arch-ablate-debug
+export PETSC_ARCH=arch-ablate-opt
+# export PETSC_ARCH=arch-ablate-debug
 export PKG_CONFIG_PATH="${PETSC_DIR}/${PETSC_ARCH}/lib/pkgconfig:$PKG_CONFIG_PATH"
 
 # The initial srun will trigger the SLURM prologue on the compute nodes.
@@ -49,15 +49,12 @@ mkdir tmp_$SLURM_JOBID
 cd tmp_$SLURM_JOBID
 
 export TITLE=6G-600-$SLURM_JOBID
-export VELOCITY="min(3.985120454,t*3.985120454/.01),0.0,0.0"
+export VELOCITY="min(3.985120454,t*3.985120454/.001),0.0,0.0"
 
 ##### Launch parallel job using srun
-srun -n 560 --overcommit \
-  /projects/academic/chrest/valgrind/bin/valgrind --tool=memcheck -q --num-callers=20 \
-	--suppressions=$PETSC_DIR/share/petsc/valgrind/petsc-val.supp \
-	--log-file=valgrind.log.%p \
- 	/projects/academic/chrest/mtmcgurn/ablateDebug/ablate \
+srun -n 560 \
+ 	/projects/academic/chrest/mtmcgurn/ablateOpt/ablate \
+ 	-yaml::timestepper::domain::faces [280,40,40] \
 	--input /panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner3D/slabBurner.3D.yaml \
 	-yaml::environment::title $TITLE \
-    -yaml::solvers::[1]::processes::[0]::velocity \"$VELOCITY\" \
-    -yaml::timestepper::arguments::ts_max_steps 150 
+    -yaml::solvers::[1]::processes::[0]::velocity \"$VELOCITY\" 

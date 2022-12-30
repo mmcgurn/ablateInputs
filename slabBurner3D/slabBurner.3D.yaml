@@ -120,11 +120,13 @@ timestepper:
     - !ablate::finiteVolume::fieldFunctions::Euler
       state: &flowFieldState
         eos: *eos
-        temperature:  !ablate::mathFunctions::geom::Sphere
-          center: [ .036,  0.01, 0.0 ]
-          radius: 0.005
-          insideValues: 1500
-          outsideValues: 300
+#         temperature:  !ablate::mathFunctions::geom::Sphere
+#           center: [ .036,  0.01, 0.0 ]
+#           radius: 0.005
+#           insideValues: 1500
+#           outsideValues: 300
+        # try not have this heating zone
+        temperature: 300
         pressure: 101325.0
         velocity: "0.0, 0.0, 0.0"
         massFractions: !ablate::finiteVolume::fieldFunctions::MassFractions
