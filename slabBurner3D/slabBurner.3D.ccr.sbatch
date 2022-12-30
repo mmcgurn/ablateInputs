@@ -57,4 +57,5 @@ srun -n 560 \
  	-yaml::timestepper::domain::faces [280,40,40] \
 	--input /panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner3D/slabBurner.3D.yaml \
 	-yaml::environment::title $TITLE \
-    -yaml::solvers::[1]::processes::[0]::velocity \"$VELOCITY\" 
+    -yaml::solvers::[1]::processes::[0]::velocity \"$VELOCITY\" \
+    -yaml::timestepper::io::interval 250
