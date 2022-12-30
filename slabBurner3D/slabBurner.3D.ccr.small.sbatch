@@ -2,7 +2,7 @@
 #SBATCH --partition=scavenger
 #SBATCH --qos=scavenger
 #SBATCH --account=chrest
-#SBATCH --time=24:00:00
+#SBATCH --time=72:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=56
 #SBATCH --constraint=IB
@@ -49,7 +49,7 @@ mkdir tmp_$SLURM_JOBID
 cd tmp_$SLURM_JOBID
 
 export TITLE=6G-600-$SLURM_JOBID
-export VELOCITY="min(3.985120454,t*3.985120454/.01),0.0,0.0"
+export VELOCITY="min(3.985120454,t*3.985120454/.001),0.0,0.0"
 
 ##### Launch parallel job using srun
 srun -n 56 \
@@ -58,7 +58,7 @@ srun -n 56 \
 	-yaml::environment::title $TITLE \
 	-yaml::timestepper::domain::faces [112,17,17] \
     -yaml::solvers::[1]::processes::[0]::velocity \"$VELOCITY\" \
-	-yaml::timestepper::io::interval 25
+	-yaml::timestepper::io::interval 100
 	
 #     
 # srun -n 56 --overcommit \
