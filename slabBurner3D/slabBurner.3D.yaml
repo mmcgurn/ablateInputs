@@ -12,12 +12,12 @@ timestepper:
     ts_max_steps: 200000000
     ts_dt: 1.0e-10
     ts_adapt_monitor: ""
-    ts_adapt_safety: 0.75
+    ts_adapt_safety: 0.95
   io: !ablate::io::Hdf5MultiFileSerializer
     interval: 1000
   domain: !ablate::domain::BoxMeshBoundaryCells
     name: simpleBoxField
-    faces: [490,70,70] # this is ~.36mm
+    faces: [420,60,60] # this is ~.36mm
     lower: [ 0.0, 0.0, -0.0127]
     upper: [ 0.165354, 0.027686, 0.0127]
     simplex: false

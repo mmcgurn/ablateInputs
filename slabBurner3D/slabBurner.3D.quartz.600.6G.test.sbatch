@@ -4,7 +4,7 @@
 ##### These lines are for Slurm
 #SBATCH -N 600
 #SBATCH -J 6G
-#SBATCH -t 24:00:00
+#SBATCH -t 6:00:00
 #SBATCH -p pbatch
 #SBATCH --mail-type=ALL
 #SBATCH -A sunyb
@@ -29,19 +29,14 @@ export PATH="${PETSC_DIR}/${PETSC_ARCH}/bin:$PATH"
 mkdir tmp_$SLURM_JOBID
 cd tmp_$SLURM_JOBID
 
-export TITLE=6G-600-rf1_5
-export VELOCITY="min(3.985120454,t*3.985120454/.001),0.0,0.0"
-export RFFACTOR=1.5
-
-# export TITLE=6G-600-rf15
-# export VELOCITY="min(3.985120454,t*3.985120454/.001),0.0,0.0"
-# export RFFACTOR=15
+export TITLE=6G-600-petscSf
+export VELOCITY="min(3.985120454,t*3.985120454/.01),0.0,0.0"
 
 ##### Launch parallel job using srun
-srun -n21600 /p/lustre2/mcgurn4/ablateOpt/ablate \
+srun -n21600 /p/lustre2/mcgurn4/ablateOpt/ablate -log_view :log.$SLURM_JOBID.txt:ascii_flamegraph \
 	--input /p/lustre2/ubchrest/ablateInputs/slabBurner3D/slabBurner.3D.yaml \
 	-yaml::environment::title $TITLE \
     -yaml::solvers::[1]::processes::[0]::velocity \"$VELOCITY\" \
-	-yaml::solvers::[2]::processes::[0]::reflectFactor $RFFACTOR
-	
+    -yaml::timestepper::arguments::ts_max_steps 150
+
 echo 'Done'

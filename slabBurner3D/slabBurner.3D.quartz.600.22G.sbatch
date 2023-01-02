@@ -3,7 +3,7 @@
 
 ##### These lines are for Slurm
 #SBATCH -N 600
-#SBATCH -J 6G
+#SBATCH -J 22G
 #SBATCH -t 24:00:00
 #SBATCH -p pbatch
 #SBATCH --mail-type=ALL
@@ -29,12 +29,12 @@ export PATH="${PETSC_DIR}/${PETSC_ARCH}/bin:$PATH"
 mkdir tmp_$SLURM_JOBID
 cd tmp_$SLURM_JOBID
 
-export TITLE=6G-600-rf1_5
-export VELOCITY="min(3.985120454,t*3.985120454/.001),0.0,0.0"
+export TITLE=22G-600-rf1_5
+export VELOCITY="min(14.96274499,t*14.96274499/.001),0.0,0.0"
 export RFFACTOR=1.5
 
-# export TITLE=6G-600-rf15
-# export VELOCITY="min(3.985120454,t*3.985120454/.001),0.0,0.0"
+# export TITLE=22G-600-rf15
+# export VELOCITY="min(14.96274499,t*14.96274499/.001),0.0,0.0"
 # export RFFACTOR=15
 
 ##### Launch parallel job using srun
@@ -43,5 +43,5 @@ srun -n21600 /p/lustre2/mcgurn4/ablateOpt/ablate \
 	-yaml::environment::title $TITLE \
     -yaml::solvers::[1]::processes::[0]::velocity \"$VELOCITY\" \
 	-yaml::solvers::[2]::processes::[0]::reflectFactor $RFFACTOR
-	
+
 echo 'Done'
