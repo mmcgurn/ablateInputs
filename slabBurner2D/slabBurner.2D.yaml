@@ -141,7 +141,7 @@ timestepper:
         name: slabBurnerBoundaryCells
       state: &fuelFieldState
         eos: *eos
-        temperature: 643.0
+        temperature: 727.4
         pressure: 101325.0
         velocity: "0.0, 00"
         massFractions: !ablate::finiteVolume::fieldFunctions::MassFractions
@@ -278,7 +278,7 @@ solvers:
       name: slabBurnerBoundaryFaces
     processes:
       - !ablate::boundarySolver::physics::Sublimation
-        latentHeatOfFusion: 2.1e+5
+        latentHeatOfFusion: 1462876
         transportModel: *transportModel
         pgs: *pgs
         eos: *eos
@@ -291,5 +291,6 @@ solvers:
           rays: 25
           properties: !ablate::eos::radiationProperties::Zimmer
             eos: *eos
+        emissivity: 0.91    
     monitors:
       - !ablate::monitors::BoundarySolverMonitor
