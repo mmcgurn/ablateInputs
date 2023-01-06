@@ -3,7 +3,7 @@
 #SBATCH --qos=scavenger
 #SBATCH --account=chrest
 #SBATCH --time=72:00:00
-#SBATCH --nodes=10
+#SBATCH --nodes=8
 #SBATCH --ntasks-per-node=56
 #SBATCH --constraint=IB
 #SBATCH --job-name="slbBurn"
@@ -48,13 +48,13 @@ export TEST_MPI_COMMAND=srun
 mkdir tmp_$SLURM_JOBID
 cd tmp_$SLURM_JOBID
 
-export TITLE=6G-600-$SLURM_JOBID
+export TITLE=6G-448-rf15-$SLURM_JOBID
 export VELOCITY="min(3.985120454,t*3.985120454/.001),0.0,0.0"
 
 ##### Launch parallel job using srun
-srun -n 560 \
+srun -n 448 \
  	/projects/academic/chrest/mtmcgurn/ablateOpt/ablate \
- 	-yaml::timestepper::domain::faces [280,40,40] \
+ 	-yaml::timestepper::domain::faces [240,35,35] \
 	--input /panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner3D/slabBurner.3D.yaml \
 	-yaml::environment::title $TITLE \
     -yaml::solvers::[1]::processes::[0]::velocity \"$VELOCITY\" \

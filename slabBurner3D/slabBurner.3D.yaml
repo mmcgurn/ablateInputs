@@ -245,7 +245,7 @@ solvers:
       - !ablate::boundarySolver::lodi::OpenBoundary
         referencePressure: 101325.0
         maxAcousticsLength: 0.165354
-        reflectFactor: 1.5
+        reflectFactor: 15.0
         pgs: *pgs
         eos: *eos
   - !ablate::boundarySolver::BoundarySolver
