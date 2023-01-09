@@ -56,7 +56,7 @@ export VELOCITY="min(3.985120454,t*3.985120454/.01),0.0"
 
 # Run all tests
 srun -n $SLURM_NPROCS  /projects/academic/chrest/mtmcgurn/ablateOpt/ablate \
-  --input /panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner3D/slabBurner.2D.yaml \
+  --input /panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner2D/slabBurner.2D.yaml \
    -yaml::environment::title $TITLE \
    -yaml::timestepper::domain::faces [$FACES] \
    -yaml::solvers::[1]::processes::[0]::velocity \"$VELOCITY\"
