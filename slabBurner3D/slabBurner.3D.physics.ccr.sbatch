@@ -48,8 +48,11 @@ export TEST_MPI_COMMAND=srun
 mkdir tmp_$SLURM_JOBID
 cd tmp_$SLURM_JOBID
 
-export TITLE=6G-448-rf15-physics-$SLURM_JOBID
-export VELOCITY="min(3.985120454,t*3.985120454/.001),0.0,0.0"
+# export TITLE=6G-448-rf15-physics-$SLURM_JOBID
+# export VELOCITY="min(3.985120454,t*3.985120454/.001),0.0,0.0"
+
+export TITLE=22G-448-rf15-physics-$SLURM_JOBID
+export VELOCITY="min(14.96274499,t*14.96274499/.01),0.0,0.0"
 
 ##### Launch parallel job using srun
 srun -n 448 \
