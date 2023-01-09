@@ -5,7 +5,7 @@
 ##SBATCH --qos=supporters
 #SBATCH --account=chrest
 #SBATCH --time=72:00:00
-#SBATCH --nodes=3
+#SBATCH --nodes=1
 #SBATCH --ntasks-per-node=40
 #SBATCH --constraint=IB
 #SBATCH --job-name="slbBurn"
@@ -49,18 +49,16 @@ export TEST_MPI_COMMAND=srun
 mkdir tmp_$SLURM_JOBID
 cd tmp_$SLURM_JOBID
 
-export TITLE=6G-560x80-20
-export FACES=560,80
-export UPWIND=leastsquares
+export TITLE=6G-280x40-$SLURM_JOBID
+export FACES=280,40
 export VELOCITY="min(3.985120454,t*3.985120454/.01),0.0"
 
 
 # Run all tests
 srun -n $SLURM_NPROCS  /projects/academic/chrest/mtmcgurn/ablateOpt/ablate \
-  --input /panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner2D/slabBurner.2D.yaml \
+  --input /panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner3D/slabBurner.2D.yaml \
    -yaml::environment::title $TITLE \
    -yaml::timestepper::domain::faces [$FACES] \
-   -yaml::timestepper::domain::fields::[0]::conservedFieldOptions::petscfv_type $UPWIND \
    -yaml::solvers::[1]::processes::[0]::velocity \"$VELOCITY\"
 
  
