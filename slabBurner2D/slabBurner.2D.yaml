@@ -14,10 +14,10 @@ timestepper:
     ts_adapt_safety: 0.75
     ts_adapt_type: none
   io: !ablate::io::Hdf5MultiFileSerializer
-    interval: 10
+    interval: 100
   domain: !ablate::domain::BoxMeshBoundaryCells
     name: simpleBoxField
-    faces: [490,70]
+    faces: [280,40]
     lower: [ 0.0, 0.0]
     upper: [ 0.165354, 0.027686]
     simplex: false

@@ -32,7 +32,16 @@ gas.TP = reactor_temperature, reactor_pressure
 print("Species: ", gas.species_names)
 print("NumberOfSpecies: ", len(gas.species_names))
 # Define the fuel, oxidizer and set the stoichiometry
-gas.set_equivalence_ratio(phi=1.0, fuel="CH4", oxidizer={"o2": 1.0, "n2": 3.76})
+gas.set_equivalence_ratio(phi=1.0,
+                          fuel={
+                              "H2":  2.6605252679403324e-08,
+                              "CH4":  0.03130099022620085,
+                              "C2H2":  0.019041133292868283,
+                              "C2H4": 0.9085604652430157,
+                              "C2H6": 0.012981434565768965,
+                              "C3H8":  0.02811595000348999
+                          },
+                          oxidizer={"o2": 1.0})
 
 # compute the reference enthalpy
 gas.TP = 298.15, reactor_pressure
@@ -104,6 +113,16 @@ plt.arrow(0, 0.008, tau, 0, width=0.0001, head_width=0.0005,
           head_length=0.001, length_includes_head=True, color="r", shape="full")
 plt.annotate(r"$Ignition Delay: \tau_{ign}$", xy=(0,0), xytext=(0.01, 0.0082), fontsize=16);
 plt.show()
+
+plt.figure()
+plt.plot(time_history.t, time_history.T, "-o")
+plt.xlabel("Time (s)")
+plt.ylabel("$T$")
+
+plt.xlim([0,0.2])
+plt.show()
+
+
 # If you want to save all the data - molefractions, temperature, pressure, etc
 # uncomment the next line
 # timeHistory.to_csv("time_history.csv")
