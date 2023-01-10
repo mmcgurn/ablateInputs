@@ -49,16 +49,18 @@ export TEST_MPI_COMMAND=srun
 mkdir tmp_$SLURM_JOBID
 cd tmp_$SLURM_JOBID
 
-export TITLE=6G-280x40-$SLURM_JOBID
+export TITLE=6G-280x40-minf-$SLURM_JOBID
 export FACES=280,40
 export VELOCITY="min(3.985120454,t*3.985120454/.01),0.0"
-
+export MINF=0
 
 # Run all tests
 srun -n $SLURM_NPROCS  /projects/academic/chrest/mtmcgurn/ablateOpt/ablate \
-  --input /panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner2D/slabBurner.2D.yaml \
+  --input /panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner2D/slabBurner.2D.nopgs.yaml \
    -yaml::environment::title $TITLE \
    -yaml::timestepper::domain::faces [$FACES] \
-   -yaml::solvers::[1]::processes::[0]::velocity \"$VELOCITY\"
+   -yaml::solvers::[1]::processes::[0]::velocity \"$VELOCITY\" \
+   -yaml::solvers::[0]::fluxCalculator::mInf $MINF
+
 
  
