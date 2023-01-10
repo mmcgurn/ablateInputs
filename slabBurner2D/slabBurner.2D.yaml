@@ -189,7 +189,7 @@ solvers:
     region:
       name: interiorFlowRegion
     parameters:
-      cfl: 0.5
+      cfl: 0.3
     eos: *eos
     transport: &transportModel !ablate::eos::transport::Sutherland
       eos: *eos
@@ -278,7 +278,7 @@ solvers:
       name: slabBurnerBoundaryFaces
     processes:
       - !ablate::boundarySolver::physics::Sublimation
-        latentHeatOfFusion: 1462876
+        latentHeatOfFusion: 1E30  #1462876
         transportModel: *transportModel
         pgs: *pgs
         eos: *eos
