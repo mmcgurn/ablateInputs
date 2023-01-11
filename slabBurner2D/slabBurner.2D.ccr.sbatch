@@ -59,6 +59,12 @@ export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner2D/slabB
 # export VELOCITY="min(3.985120454,t*3.985120454/.001),0.0"
 # export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner2D/slabBurner.2D.yaml
 
+# export TITLE=6G-280x40-adapt-$SLURM_JOBID
+# export FACES=280,40
+# export VELOCITY="min(3.985120454,t*3.985120454/.001),0.0"
+# export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner2D/slabBurner.2D.adapt.yaml
+
+
 # Run all tests
 srun -n $SLURM_NPROCS  /projects/academic/chrest/mtmcgurn/ablateOpt/ablate \
   --input $FILE \

@@ -12,7 +12,6 @@ timestepper:
     ts_max_steps: 10000000
     ts_dt: 1.0e-10
     ts_adapt_safety: 0.75
-    ts_adapt_type: none
   io: !ablate::io::Hdf5MultiFileSerializer
     interval: 100
   domain: !ablate::domain::BoxMeshBoundaryCells
@@ -210,11 +209,18 @@ solvers:
         interval: 25
         minimumSimulationTime: .02 #about 2 flow throughs
     additionalProcesses:
+      - !ablate::finiteVolume::processes::PressureGradientScaling
+        &pgs
+        eos: *eos
+        alphaInit: 5.0
+        maxAlphaAllowed: 100.0
+        domainLength: 0.165354
+        log: !ablate::monitors::logs::StdOut
       - !ablate::finiteVolume::processes::Chemistry
         eos: *eos
     fluxCalculator: !ablate::finiteVolume::fluxCalculator::AusmpUp
-      mInf: 0.2  
-    computePhysicsTimeStep: true        
+      pgs: *pgs   
+    computePhysicsTimeStep: false        
   - !ablate::boundarySolver::BoundarySolver
     id: inlet
     region:
@@ -225,6 +231,7 @@ solvers:
     processes:
       - !ablate::boundarySolver::lodi::Inlet
         eos: *eos
+        pgs: *pgs
         velocity: "min(14.96274499, t*14.96274499/.01) , 0.0"
   - !ablate::boundarySolver::BoundarySolver
     id: outlet
@@ -238,6 +245,7 @@ solvers:
         referencePressure: 101325.0
         maxAcousticsLength: 0.165354
         reflectFactor: 1.5
+        pgs: *pgs
         eos: *eos
   - !ablate::boundarySolver::BoundarySolver
     id: walls
@@ -249,6 +257,7 @@ solvers:
     processes:
       - !ablate::boundarySolver::lodi::IsothermalWall
         eos: *eos
+        pgs: *pgs
   - !ablate::boundarySolver::BoundarySolver
     id: glowPlug
     region:
@@ -259,6 +268,7 @@ solvers:
     processes:
       - !ablate::boundarySolver::lodi::IsothermalWall
         eos: *eos
+        pgs: *pgs
   - !ablate::boundarySolver::BoundarySolver
     id: slab boundary
     region:
@@ -269,6 +279,7 @@ solvers:
       - !ablate::boundarySolver::physics::Sublimation
         latentHeatOfFusion: 1462876.0
         transportModel: *transportModel
+        pgs: *pgs
         eos: *eos
         massFractions: *fuelMassFrac
         radiationInterval: 10

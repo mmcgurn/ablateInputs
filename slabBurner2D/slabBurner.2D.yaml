@@ -106,7 +106,7 @@ timestepper:
             # set a minimum temperature for the chemical kinetics ode integration
             thresholdTemperature: 560
         conservedFieldOptions:
-          petscfv_type: upwind
+          petscfv_type: leastsquares
         region:
           name: domain
       - !ablate::domain::FieldDescription
