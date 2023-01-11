@@ -51,16 +51,19 @@ cd tmp_$SLURM_JOBID
 
 export TITLE=6G-280x40-minf-$SLURM_JOBID
 export FACES=280,40
-export VELOCITY="min(3.985120454,t*3.985120454/.01),0.0"
-export MINF=0
+export VELOCITY="min(3.985120454,t*3.985120454/.001),0.0"
+export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner2D/slabBurner.2D.nopgs.yaml
+
+# export TITLE=6G-280x40-pgs-$SLURM_JOBID
+# export FACES=280,40
+# export VELOCITY="min(3.985120454,t*3.985120454/.001),0.0"
+# export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner2D/slabBurner.2D.yaml
 
 # Run all tests
 srun -n $SLURM_NPROCS  /projects/academic/chrest/mtmcgurn/ablateOpt/ablate \
-  --input /panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner2D/slabBurner.2D.nopgs.yaml \
+  --input $FILE \
    -yaml::environment::title $TITLE \
    -yaml::timestepper::domain::faces [$FACES] \
-   -yaml::solvers::[1]::processes::[0]::velocity \"$VELOCITY\" \
-   -yaml::solvers::[0]::fluxCalculator::mInf $MINF
-
+   -yaml::solvers::[1]::processes::[0]::velocity \"$VELOCITY\" 
 
  

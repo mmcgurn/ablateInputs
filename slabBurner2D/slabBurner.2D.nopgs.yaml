@@ -213,7 +213,7 @@ solvers:
       - !ablate::finiteVolume::processes::Chemistry
         eos: *eos
     fluxCalculator: !ablate::finiteVolume::fluxCalculator::AusmpUp
-      mInf: 0.0  
+      mInf: 0.2  
     computePhysicsTimeStep: true        
   - !ablate::boundarySolver::BoundarySolver
     id: inlet
@@ -267,7 +267,7 @@ solvers:
       name: slabBurnerBoundaryFaces
     processes:
       - !ablate::boundarySolver::physics::Sublimation
-        latentHeatOfFusion: 1E30  #1462876
+        latentHeatOfFusion: 1462876.0
         transportModel: *transportModel
         eos: *eos
         massFractions: *fuelMassFrac

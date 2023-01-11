@@ -278,7 +278,7 @@ solvers:
       name: slabBurnerBoundaryFaces
     processes:
       - !ablate::boundarySolver::physics::Sublimation
-        latentHeatOfFusion: 1E30  #1462876
+        latentHeatOfFusion: 1462876.0
         transportModel: *transportModel
         pgs: *pgs
         eos: *eos
