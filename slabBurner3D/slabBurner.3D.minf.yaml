@@ -208,17 +208,10 @@ solvers:
         interval: 25
         minimumSimulationTime: .02 #about 2 flow throughs
     additionalProcesses:
-      - !ablate::finiteVolume::processes::PressureGradientScaling
-        &pgs
-        eos: *eos
-        alphaInit: 5.0
-        maxAlphaAllowed: 100.0
-        domainLength: 0.165354
-        log: !ablate::monitors::logs::StdOut
       - !ablate::finiteVolume::processes::Chemistry
         eos: *eos
     fluxCalculator: !ablate::finiteVolume::fluxCalculator::AusmpUp
-      pgs: *pgs      
+      mInf: .2
     computePhysicsTimeStep: true  
   - !ablate::boundarySolver::BoundarySolver
     id: inlet
@@ -230,7 +223,6 @@ solvers:
     processes:
       - !ablate::boundarySolver::lodi::Inlet
         eos: *eos
-        pgs: *pgs
         velocity: "min(14.96274499, t*14.96274499/.01) , 0.0, 0.0"
   - !ablate::boundarySolver::BoundarySolver
     id: outlet
@@ -244,7 +236,6 @@ solvers:
         referencePressure: 101325.0
         maxAcousticsLength: 0.165354
         reflectFactor: 15.0
-        pgs: *pgs
         eos: *eos
   - !ablate::boundarySolver::BoundarySolver
     id: walls
@@ -256,7 +247,6 @@ solvers:
     processes:
       - !ablate::boundarySolver::lodi::IsothermalWall
         eos: *eos
-        pgs: *pgs
   - !ablate::boundarySolver::BoundarySolver
     id: glowPlug
     region:
@@ -267,7 +257,6 @@ solvers:
     processes:
       - !ablate::boundarySolver::lodi::IsothermalWall
         eos: *eos
-        pgs: *pgs
   - !ablate::boundarySolver::BoundarySolver
     id: slab boundary
     region:
@@ -278,7 +267,6 @@ solvers:
       - !ablate::boundarySolver::physics::Sublimation
         latentHeatOfFusion: 1462876.0
         transportModel: *transportModel
-        pgs: *pgs
         eos: *eos
         massFractions: *fuelMassFrac
         radiationInterval: 10
