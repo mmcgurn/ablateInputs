@@ -211,7 +211,7 @@ solvers:
       - !ablate::finiteVolume::processes::Chemistry
         eos: *eos
     fluxCalculator: !ablate::finiteVolume::fluxCalculator::AusmpUp
-      mInf: .2
+      mInf: .3
     computePhysicsTimeStep: true  
   - !ablate::boundarySolver::BoundarySolver
     id: inlet
