@@ -107,6 +107,7 @@ timestepper:
             thresholdTemperature: 560
         conservedFieldOptions:
           petscfv_type: leastsquares
+          petsclimiter_type: none
         region:
           name: domain
       - !ablate::domain::FieldDescription

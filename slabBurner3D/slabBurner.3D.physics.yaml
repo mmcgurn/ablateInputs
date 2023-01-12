@@ -125,7 +125,11 @@ timestepper:
           insideValues: 1250.00
           outsideValues: 300
         pressure: 101325.0
-        velocity: "0.0, 0.0, 0.0"
+        velocity: !ablate::mathFunctions::geom::Box
+          lower: [ -1, 0.0, -0.0127]
+          upper: [ 0.015, 0.027686, 0.0127]
+          insideValues:  "min(3.985120454,t*3.985120454/.001 + 1.0),0.0,0.0"
+          outsideValues:  "0.0,0.0,0.0"
         massFractions: !ablate::finiteVolume::fieldFunctions::MassFractions
           &oxMassFrac
           eos: *eos
@@ -231,7 +235,7 @@ solvers:
       - !ablate::boundarySolver::lodi::Inlet
         eos: *eos
         pgs: *pgs
-        velocity: "min(14.96274499, t*14.96274499/.01) , 0.0, 0.0"
+        velocity: "min(3.985120454,t*3.985120454/.001 + 1.0),0.0,0.0"
   - !ablate::boundarySolver::BoundarySolver
     id: outlet
     region:
