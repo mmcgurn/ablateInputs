@@ -49,23 +49,30 @@ export TITLE=6G-280x40-minf-$SLURM_JOBID
 export FACES=280,40
 export VELOCITY="min(3.985120454,t*3.985120454/.001),0.0"
 export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner2D/slabBurner.2D.nopgs.yaml
+export LIM=none
 
-# export TITLE=6G-280x40-pgs-$SLURM_JOBID
-# export FACES=280,40
-# export VELOCITY="min(3.985120454,t*3.985120454/.001),0.0"
-# export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner2D/slabBurner.2D.yaml
+#export LIM=minmod
+#export LIM=vanleer
+#export LIM=superbee
+
+export TITLE=6G-280x40-pgs-$LIM-$SLURM_JOBID
+export FACES=280,40
+export VELOCITY="min(3.985120454,t*3.985120454/.001),0.0"
+export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner2D/slabBurner.2D.yaml
 
 # export TITLE=6G-280x40-adapt-$SLURM_JOBID
 # export FACES=280,40
 # export VELOCITY="min(3.985120454,t*3.985120454/.001),0.0"
 # export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner2D/slabBurner.2D.adapt.yaml
 
-
 # Run all tests
 srun -n $SLURM_NPROCS  /projects/academic/chrest/mtmcgurn/ablateOpt/ablate \
   --input $FILE \
    -yaml::environment::title $TITLE \
    -yaml::timestepper::domain::faces [$FACES] \
-   -yaml::solvers::[1]::processes::[0]::velocity \"$VELOCITY\" 
+   -yaml::solvers::[1]::processes::[0]::velocity \"$VELOCITY\" \
+   -yaml::timestepper::domain::fields::[0]::conservedFieldOptions::petsclimiter_type $LIM 
+
+   
 
  
