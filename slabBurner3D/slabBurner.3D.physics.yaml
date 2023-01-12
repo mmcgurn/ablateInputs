@@ -42,14 +42,7 @@ timestepper:
           name: slabBurnerRegion
         function: !ablate::mathFunctions::geom::Surface
           path: ../geom/slabBurner.v1.stp
-      # create a label for defining the glowPlug
-      - !ablate::domain::modifiers::CreateLabel
-        region:
-          name: glowPlugRegion
-        function: !ablate::mathFunctions::geom::Cylinder
-          start: [ 0.02615, 0.012186, 0.0 ]
-          end: [ 0.02615, 0.027686, 0.0 ]
-          radius: 0.00245
+
       - !ablate::domain::modifiers::SubtractLabel
         # cut the slabBurner and glow plug out of the flowRegion
         differenceRegion:
@@ -58,7 +51,6 @@ timestepper:
           name: interiorCells
         subtrahendRegions:
           - name: slabBurnerRegion
-          - name: glowPlugRegion
       - !ablate::domain::modifiers::SubtractLabel
         # cut the slabBurner and glow plug out of the boundaryWalls
         differenceRegion:
@@ -67,7 +59,6 @@ timestepper:
           name: allWallBoundaryRegion
         subtrahendRegions:
           - name: slabBurnerRegion
-          - name: glowPlugRegion
       - !ablate::domain::modifiers::TagLabelInterface
         # define the boundary between the slab burner and flow
         leftRegion:
@@ -78,16 +69,7 @@ timestepper:
           name: slabBurnerBoundaryFaces
         rightBoundaryCellRegion:
           name: slabBurnerBoundaryCells
-      - !ablate::domain::modifiers::TagLabelInterface
-        # define the boundary between the glow plug and flow
-        leftRegion:
-          name: flowRegion
-        rightRegion:
-          name: glowPlugRegion
-        boundaryFaceRegion:
-          name: glowPlugBoundaryFaces
-        rightBoundaryCellRegion:
-          name: glowPlugBoundaryCells
+
       - !ablate::domain::modifiers::SubtractLabel
         # remove the slabBurnerFace from the flowRegion
         differenceRegion:
@@ -129,7 +111,7 @@ timestepper:
         velocity: !ablate::mathFunctions::geom::Box
           lower: [ -1, 0.0, -0.0127]
           upper: [ 0.015, 0.027686, 0.0127]
-          insideValues:  "min(3.985120454,t*3.985120454/.001 + 1.0),0.0,0.0"
+          insideValues:  "1.0,0.0,0.0"
           outsideValues:  "0.0,0.0,0.0"
         massFractions: !ablate::finiteVolume::fieldFunctions::MassFractions
           &oxMassFrac
@@ -170,24 +152,7 @@ timestepper:
         name: slabBurnerBoundaryCells
       state: *fuelFieldState
 
-    - !ablate::finiteVolume::fieldFunctions::Euler
-      # glowPlug Burner
-      region:
-        name: glowPlugBoundaryCells
-      state: &fuelFieldState
-        eos: *eos
-        temperature: 1250.00
-        pressure: 101325.0
-        velocity: "0.0, 00, 0.0"
-        massFractions: !ablate::finiteVolume::fieldFunctions::MassFractions
-          eos: *eos
-          values:
-            - fieldName: O2
-              field: 1.0
-    - !ablate::finiteVolume::fieldFunctions::DensityMassFractions
-      region:
-        name: slabBurnerBoundaryCells
-      state: *fuelFieldState
+
 solvers:
   - !ablate::finiteVolume::CompressibleFlowSolver
     id: flowField
@@ -262,17 +227,7 @@ solvers:
       - !ablate::boundarySolver::lodi::IsothermalWall
         eos: *eos
         pgs: *pgs
-  - !ablate::boundarySolver::BoundarySolver
-    id: glowPlug
-    region:
-      name: glowPlugBoundaryCells
-    fieldBoundary:
-      name: glowPlugBoundaryFaces
-    mergeFaces: true
-    processes:
-      - !ablate::boundarySolver::lodi::IsothermalWall
-        eos: *eos
-        pgs: *pgs
+
   - !ablate::boundarySolver::BoundarySolver
     id: slab boundary
     region:

@@ -2,7 +2,7 @@
 #SBATCH --account=chrest
 #SBATCH --time=72:00:00
 #SBATCH --nodes=1
-#SBATCH --ntasks-per-node=40
+#SBATCH --ntasks-per-node=56
 #SBATCH --job-name="slbBurn"
 #SBATCH --mail-user=mtmcgurn@buffalo.edu
 #SBATCH --mail-type=ALL
@@ -50,10 +50,10 @@ export FACES=280,40
 export VELOCITY="min(3.985120454,t*3.985120454/.001+1),0.0"
 export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner2D/slabBurner.2D.minf.yaml
 
-export TITLE=6G-280x40-pgs-$LIM-$SLURM_JOBID
-export FACES=280,40
-export VELOCITY="min(3.985120454,t*3.985120454/.001+1),0.0"
-export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner2D/slabBurner.2D.yaml
+# export TITLE=6G-280x40-pgs-$SLURM_JOBID
+# export FACES=280,40
+# export VELOCITY="min(3.985120454,t*3.985120454/.001+1),0.0"
+# export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner2D/slabBurner.2D.yaml
 
 # export TITLE=6G-280x40-adapt-$SLURM_JOBID
 # export FACES=280,40
