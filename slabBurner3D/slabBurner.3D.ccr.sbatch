@@ -49,11 +49,9 @@ mkdir tmp_$SLURM_JOBID
 cd tmp_$SLURM_JOBID
 
 export TITLE=6G-448-physics-$SLURM_JOBID
-export VELOCITY="min(3.985120454,t*3.985120454/.001),0.0,0.0"
 export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner3D/slabBurner.3D.physics.yaml
 
 # export TITLE=6G-448-mfinf-$SLURM_JOBID
-# export VELOCITY="min(3.985120454,t*3.985120454/.001),0.0,0.0"
 # export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner3D/slabBurner.3D.minf.yaml
 
 ##### Launch parallel job using srun
@@ -62,5 +60,4 @@ srun -n 448 \
  	-yaml::timestepper::domain::faces [280,40,40] \
 	--input $FILE \
 	-yaml::environment::title $TITLE \
-    -yaml::solvers::[1]::processes::[0]::velocity \"$VELOCITY\" \
     -yaml::timestepper::io::interval 250
