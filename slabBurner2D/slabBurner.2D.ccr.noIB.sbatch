@@ -45,10 +45,10 @@ export TEST_MPI_COMMAND=srun
 mkdir tmp_$SLURM_JOBID
 cd tmp_$SLURM_JOBID
 
-export TITLE=6G-280x40-minf-$SLURM_JOBID
-export FACES=280,40
-export VELOCITY="min(3.985120454,t*3.985120454/.001+1),0.0"
-export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner2D/slabBurner.2D.minf.yaml
+# export TITLE=6G-280x40-minf-$SLURM_JOBID
+# export FACES=280,40
+# export VELOCITY="min(3.985120454,t*3.985120454/.001+1),0.0"
+# export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner2D/slabBurner.2D.minf.yaml
 
 # export TITLE=6G-280x40-pgs-$SLURM_JOBID
 # export FACES=280,40
@@ -59,6 +59,17 @@ export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner2D/slabB
 # export FACES=280,40
 # export VELOCITY="min(3.985120454,t*3.985120454/.001+1),0.0"
 # export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner2D/slabBurner.2D.adapt.yaml
+
+# export TITLE=6G-280x40-adapt-rad-loss-$SLURM_JOBID
+# export FACES=280,40
+# export VELOCITY="min(3.985120454,t*3.985120454/.001+1),0.0"
+# export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner2D/slabBurner.2D.adapt.radLoss.yaml
+
+export TITLE=6G-280x40-adapt-rad-$SLURM_JOBID
+export FACES=280,40
+export VELOCITY="min(3.985120454,t*3.985120454/.001+1),0.0"
+export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner2D/slabBurner.2D.adapt.rad.yaml
+
 
 # Run all tests
 srun -n $SLURM_NPROCS  /projects/academic/chrest/mtmcgurn/ablateOpt/ablate \
