@@ -54,8 +54,11 @@ cd tmp_$SLURM_JOBID
 # export TITLE=6G-448-mfinf-$SLURM_JOBID
 # export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner3D/slabBurner.3D.minf.yaml
 
-export TITLE=6G-448-adapt-$SLURM_JOBID
-export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner3D/slabBurner.3D.yaml
+# export TITLE=6G-448-adapt-$SLURM_JOBID
+# export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner3D/slabBurner.3D.yaml
+
+export TITLE=6G-448-adapt-radloss-$SLURM_JOBID
+export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner3D/slabBurner.3D.radLoss.yaml
 
 
 ##### Launch parallel job using srun
