@@ -1,15 +1,15 @@
-# increase in reflection factor
+# Example 1D diffusion flame with a coupled boundary condition.  The diffusion flame only uses
+# the transport processes of the Navier–Stokes equations.
 ---
 environment:
-  title: _1DDiffusionFlame
+  title: _1DSampleDiffusionFlame
   tagDirectory: false
-arguments:
-  outputAuxVector: true
+arguments: {}
 timestepper:
   arguments:
     ts_type: rk
     ts_max_time: 1
-    ts_max_steps: 10000000
+    ts_max_steps: 100
     ts_dt: 1.0e-10
     ts_adapt_safety: 0.75
   domain: !ablate::domain::BoxMeshBoundaryCells
@@ -26,13 +26,13 @@ timestepper:
         ghostCellDepth: 2
     postModifiers:
       - !ablate::domain::modifiers::TagLabelInterface
-        # tag the right boundary faces
+        # tag the left boundary faces needed to remove the boundary from the interiorFlowRegion
         leftRegion:
-          name: boundaryCellsRight
+          name: boundaryCellsLeft
         rightRegion:
           name: domain
         boundaryFaceRegion:
-          name: boundaryFaceRight
+          name: boundaryFaceLeft
       - !ablate::domain::modifiers::SubtractLabel
         # remove the slabBurnerFace from the flowRegion
         differenceRegion:
@@ -40,7 +40,7 @@ timestepper:
         minuendRegion:
           name: interiorCells
         subtrahendRegions:
-          - name: boundaryFaceRight
+          - name: boundaryFaceLeft
         incompleteLabel: true
       - !ablate::domain::modifiers::GhostBoundaryCells
           # the DmViewFromOptions should output once with full mesh/dm details
@@ -66,11 +66,7 @@ timestepper:
       state: &flowFieldState
         eos: *eos
         temperature:
-          !ablate::mathFunctions::geom::Sphere
-          center: [0.005]
-          radius: 0.001
-          insideValues: 1250.00
-          outsideValues: 300
+          "x < 0 ? 653.0  : (x > .01 ? 300.0 : (x < 0.007 ? (306714.2857*x + 653): (-833333.3333*x + 8633.33)  ))"
         pressure: 101325.0
         velocity: "0.0"
         other: !ablate::finiteVolume::fieldFunctions::MassFractions
@@ -78,19 +74,40 @@ timestepper:
           eos: *eos
           values:
             - fieldName: O2
-              field: "1.0 - (x/.01)*1.0"
+              field: !ablate::mathFunctions::Linear
+                startValues: [0.0]
+                endValues: [1.0]
+                end: .01
             - fieldName: H2
-              field: "(x/.01)*2.6605252679403324e-08"
+              field: !ablate::mathFunctions::Linear
+                startValues: [2.6605252679403324e-08]
+                endValues: [0.0]
+                end: .01
             - fieldName: CH4
-              field: "(x/.01)*0.03130099022620085"
+              field: !ablate::mathFunctions::Linear
+                startValues: [0.03130099022620085]
+                endValues: [0.0]
+                end: .01
             - fieldName: C2H2
-              field: "(x/.01)*0.019041133292868283"
+              field: !ablate::mathFunctions::Linear
+                startValues: [0.019041133292868283]
+                endValues: [0.0]
+                end: .01
             - fieldName: C2H4
-              field: "(x/.01)*0.9085604652430157"
+              field: !ablate::mathFunctions::Linear
+                startValues: [0.9085604652430157]
+                endValues: [0.0]
+                end: .01
             - fieldName: C2H6
-              field: "(x/.01)*0.012981434565768965"
+              field: !ablate::mathFunctions::Linear
+                startValues: [0.012981434565768965]
+                endValues: [0.0]
+                end: .01
             - fieldName: C3H8
-              field: "(x/.01)*0.02811595000348999"
+              field: !ablate::mathFunctions::Linear
+                startValues: [0.02811595000348999]
+                endValues: [0.0]
+                end: .01
     - !ablate::finiteVolume::fieldFunctions::DensityMassFractions
       state: *flowFieldState
 
@@ -99,16 +116,14 @@ solvers:
     id: flowField
     region:
       name: interiorFlowRegion
-    parameters:
-      cfl: 0.3
     eos: *eos
     transport: &transportModel !ablate::eos::transport::Sutherland
       eos: *eos
     monitors:
     - !ablate::monitors::TimeStepMonitor
-      interval: 100
+      interval: 10
     - !ablate::monitors::CurveMonitor
-        interval: 100
+        interval: 25
     additionalProcesses:
       - !ablate::finiteVolume::processes::Chemistry
         eos: *eos
@@ -118,7 +133,7 @@ solvers:
   - !ablate::boundarySolver::BoundarySolver
     id: walls
     region:
-      name: boundaryCellsLeft
+      name: boundaryCellsRight
     fieldBoundary:
       name: boundaryFaces
     mergeFaces: true
@@ -128,9 +143,9 @@ solvers:
   - !ablate::boundarySolver::BoundarySolver
     id: slab boundary
     region:
-      name: boundaryCellsRight
+      name: boundaryCellsLeft
     fieldBoundary:
-      name: boundaryFaceRight
+      name: boundaryFaceLeft
     processes:
       - !ablate::boundarySolver::physics::Sublimation
         latentHeatOfFusion: 1462876.0
