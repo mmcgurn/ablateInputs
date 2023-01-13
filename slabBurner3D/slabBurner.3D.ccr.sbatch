@@ -48,11 +48,15 @@ export TEST_MPI_COMMAND=srun
 mkdir tmp_$SLURM_JOBID
 cd tmp_$SLURM_JOBID
 
-export TITLE=6G-448-physics-$SLURM_JOBID
-export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner3D/slabBurner.3D.physics.yaml
+# export TITLE=6G-448-physics-$SLURM_JOBID
+# export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner3D/slabBurner.3D.physics.yaml
 
 # export TITLE=6G-448-mfinf-$SLURM_JOBID
 # export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner3D/slabBurner.3D.minf.yaml
+
+export TITLE=6G-448-adapt-$SLURM_JOBID
+export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner3D/slabBurner.3D.yaml
+
 
 ##### Launch parallel job using srun
 srun -n 448 \
