@@ -156,6 +156,9 @@ solvers:
       name: interiorFlowRegion
     parameters:
       cfl: 0.3
+      conductionStabilityFactor: 1.0
+      viscousStabilityFactor: 1.0
+      speciesStabilityFactor: 1.0
     eos: *eos
     transport: &transportModel !ablate::eos::transport::Sutherland
       eos: *eos
