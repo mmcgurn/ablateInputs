@@ -1,14 +1,17 @@
 ---
 environment:
-  title: _1DCombustion
+  title: _1DCombustion_physics
   tagDirectory: false
 arguments: {}
 timestepper:
   arguments:
     ts_type: rk
-    ts_max_time: 1
-    ts_max_steps: 5000
+    ts_max_time: 0.007
+    ts_max_steps: 500000
+#     ts_max_time: 2.0
+#     ts_max_steps: 5000
     ts_dt: 1.0e-10
+    ts_adapt_type: physics
     ts_adapt_safety: 0.75
   domain: !ablate::domain::BoxMeshBoundaryCells
     name: simpleBoxField
@@ -130,7 +133,9 @@ solvers:
     - !ablate::monitors::TimeStepMonitor
       interval: 1
     - !ablate::monitors::CurveMonitor
-        interval: 25
+      interval: !ablate::io::interval::SimulationTimeInterval
+        1E-5
+#         interval: 25
     - !ablate::monitors::PhysicsTimeStep
       interval: 10    
     additionalProcesses:
@@ -138,7 +143,7 @@ solvers:
         &pgs
         eos: *eos
         alphaInit: 5.0
-        maxAlphaAllowed: 100.0
+        maxAlphaAllowed: 5.0
         domainLength: 0.165354
         log: !ablate::monitors::logs::StdOut
       - !ablate::finiteVolume::processes::Chemistry
@@ -146,7 +151,8 @@ solvers:
     fluxCalculator: !ablate::finiteVolume::fluxCalculator::AusmpUp
       pgs: *pgs  
     transport: &transportModel !ablate::eos::transport::Sutherland
-      eos: *eos       
+      eos: *eos  
+    computePhysicsTimeStep: true       
   - !ablate::boundarySolver::BoundarySolver
     id: walls
     region:
@@ -157,7 +163,7 @@ solvers:
     processes:
       - !ablate::boundarySolver::lodi::OpenBoundary
         referencePressure: 101325.0
-        maxAcousticsLength: 0.165354
+        maxAcousticsLength: *domainSize 
         reflectFactor: 1.5
         pgs: *pgs
         eos: *eos
