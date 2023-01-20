@@ -1,6 +1,6 @@
 ---
 environment:
-  title: _1DCombustion_physics
+  title: _1DCombustion_physics_old
   tagDirectory: false
 arguments: {}
 timestepper:
@@ -11,7 +11,7 @@ timestepper:
 #     ts_max_time: 2.0
 #     ts_max_steps: 5000
     ts_dt: 1.0e-10
-    ts_adapt_type: physics
+    ts_adapt_type: none
     ts_adapt_safety: 1.0
   domain: !ablate::domain::BoxMeshBoundaryCells
     name: simpleBoxField
@@ -152,6 +152,7 @@ solvers:
       pgs: *pgs  
     transport: &transportModel !ablate::eos::transport::Sutherland
       eos: *eos  
+    computePhysicsTimeStep: true       
   - !ablate::boundarySolver::BoundarySolver
     id: walls
     region:

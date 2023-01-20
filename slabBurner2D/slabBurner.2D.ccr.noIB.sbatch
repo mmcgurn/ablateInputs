@@ -65,10 +65,15 @@ cd tmp_$SLURM_JOBID
 # export VELOCITY="min(3.985120454,t*3.985120454/.001+1),0.0"
 # export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner2D/slabBurner.2D.adapt.radLoss.yaml
 
-export TITLE=6G-280x40-adapt-rad-$SLURM_JOBID
+# export TITLE=6G-280x40-adapt-rad-$SLURM_JOBID
+# export FACES=280,40
+# export VELOCITY="min(3.985120454,t*3.985120454/.001+1),0.0"
+# export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner2D/slabBurner.2D.adapt.rad.yaml
+
+export TITLE=22G-280x40-adapt-rad-loss-$SLURM_JOBID
 export FACES=280,40
-export VELOCITY="min(3.985120454,t*3.985120454/.001+1),0.0"
-export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner2D/slabBurner.2D.adapt.rad.yaml
+export VELOCITY="min(14.96274499,t*14.96274499/.001+1),0.0"
+export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner2D/slabBurner.2D.adapt.radLoss.yaml
 
 
 # Run all tests
