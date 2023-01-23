@@ -7,10 +7,7 @@ timestepper:
   arguments:
     ts_type: rk
     ts_max_time: 0.007
-    ts_max_steps: 500000
-#     ts_max_time: 2.0
-#     ts_max_steps: 5000
-    ts_dt: 1.0e-10
+    ts_max_steps: 5000000
     ts_adapt_type: physics
     ts_adapt_safety: 1.0
   domain: !ablate::domain::BoxMeshBoundaryCells
@@ -126,9 +123,6 @@ solvers:
     eos: *eos
     parameters:
       cfl: 0.3
-      conductionStabilityFactor: 1.0
-      viscousStabilityFactor: 1.0
-      speciesStabilityFactor: 1.0  
     monitors:
     - !ablate::monitors::TimeStepMonitor
       interval: 1
@@ -142,8 +136,8 @@ solvers:
       - !ablate::finiteVolume::processes::PressureGradientScaling
         &pgs
         eos: *eos
-        alphaInit: 1.0
-        maxAlphaAllowed: 1.0
+        alphaInit: 5.0
+        maxAlphaAllowed: 10.0
         domainLength: 0.165354
         log: !ablate::monitors::logs::StdOut
       - !ablate::finiteVolume::processes::Chemistry
