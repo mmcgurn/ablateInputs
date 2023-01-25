@@ -1,21 +1,12 @@
-
-# from https://cantera.org/examples/jupyter/reactors/batch_reactor_ignition_delay_NTC.ipynb.html
-
+from sympy import *
 import cantera as ct
 print('Runnning Cantera version: ' + ct.__version__)
 
 # matplotlib notebook
 import matplotlib.pyplot as plt
 
-plt.rcParams['axes.labelsize'] = 18
-plt.rcParams['xtick.labelsize'] = 12
-plt.rcParams['ytick.labelsize'] = 12
-plt.rcParams['figure.autolayout'] = True
-
-plt.style.use('ggplot')
-plt.style.use('seaborn-pastel')
-
-# Load in the cti mech file
+# determine the density of gas at the inlet
+# # Load in the cti mech file
 gas = ct.Solution('../mechanisms/gri30.yaml')
 
 # Define inlet density
@@ -25,20 +16,35 @@ inletYi = {'O2': 1.0}
 gas.TPY = inletTemperature, inletPressure, inletYi
 inletDensity = gas.density
 
-# compute the mass coming in
-gAtFuel = 22.19 # kg/m2/s
+# define the geometry
+yo = 0.0;
+yh = 0.027686
+dia = (yh - yo)
+yc = (yo + yh) * 0.5
+depth = 0.027686
+inletMassFlowKgMin = 0.192 #kg/min
+inletMassFlow = inletMassFlowKgMin/60.0
 
-# set areas
-inletArea = 0.027686*(0.0127*2)
-fuelArea = 0.0114*(0.00381*2)
+# setup symbols
+y = Symbol('y')
+f = Symbol('f')
+m = Symbol('m')
 
-# fuel normal area
-fuelFlowArea = inletArea - fuelArea;
+# compute the mass flux function
+velocityProfile = f*((dia**2)/4 - (y-yc)**2)
+massFluxProfile = velocityProfile * inletDensity
 
-# compute G at inlet
-gAtInlet = gAtFuel*fuelFlowArea/inletArea
-inletVel = gAtInlet/inletDensity
+# Perform a simple 1D integration (assume that z dimension is one)
+massFlow = integrate(velocityProfile, (y, yo, yh))*depth
 
-print("O2Density", inletDensity)
-print("velocityAtFuel", gAtFuel/inletDensity)
-print("inletVel", inletVel)
+# Solver for f
+conserved = Eq(massFlow, m)
+fSolution = solve(conserved, f)[0]
+print("VelocityFactor: ", fSolution)
+print("VelocityFactor for ", inletMassFlow, " kg/s: ",  fSolution.subs(m, inletMassFlow))
+
+#
+# Plot the velocity
+fSolution = fSolution.subs(m,inletMassFlow)
+velocityProfile = velocityProfile.subs(f,fSolution)
+plot(velocityProfile, (y, yo, yh))
