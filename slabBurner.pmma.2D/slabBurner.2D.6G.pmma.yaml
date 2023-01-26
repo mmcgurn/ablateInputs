@@ -13,12 +13,12 @@ timestepper:
     ts_adapt_safety: 1.0
     ts_adapt_type: physicsConstrained
   io: !ablate::io::Hdf5MultiFileSerializer
-    interval: 100
+    interval: 0
   domain: !ablate::domain::BoxMeshBoundaryCells
     name: simpleBoxField
     faces: [280,40]
     lower: [ 0.0, 0.0]
-    upper: [ 0.15, 0.027686]
+    upper: [ 0.15, 0.0254]
     simplex: false
     options:
       dm_plex_hash_location: true
@@ -40,12 +40,17 @@ timestepper:
           name: slabBurnerRegion
         function: !ablate::mathFunctions::geom::ConvexPolygon
           points:
-            - [0.007, 0.0]
-            - [0.007, -.1]
-            - [0.083, -.1]
-            - [0.083, 0.00664]
-            - [0.01184, 0.00664]
-          maxDistance: 0.004065
+            - [0.007, -0.1]
+            - [0.007, 0]
+            - [0.0086, 0.0021]
+            - [0.0104, 0.0042]
+            - [0.0115, 0.0054]
+            - [0.0124, 0.006]
+            - [0.0141, 0.006]
+            - [0.0726, 0.0059]
+            - [0.0726, 0]
+            - [0.0726, -0.1]
+        maxDistance: 0.004065
         
       - !ablate::domain::modifiers::SubtractLabel
         # cut the slabBurner out of the flowRegion
@@ -107,7 +112,7 @@ timestepper:
       state: &flowFieldState
         eos: *eos
         temperature:  !ablate::mathFunctions::geom::Sphere
-          center: [ 0.007,  0.00665]
+          center: [ 0.009,  0.007]
           radius: 0.005
           insideValues: 1673.15
           outsideValues: 300
@@ -203,9 +208,9 @@ solvers:
             vel: !ablate::mathFunctions::Formula
               formula: velFac*((dia^2)/4 - (y-yc)^2)
               constants:
-                dia: 0.027686
+                dia: 0.0254
                 velFac: 32678.3688493601 #0.0032  kg/s or 0.192 kg/min
-                yc: 0.013843
+                yc: 0.0127
         
   - !ablate::boundarySolver::BoundarySolver
     id: outlet
