@@ -62,7 +62,7 @@ cd tmp_$SLURM_JOBID
 
 # export TITLE=22G-280x40-pmma-$SLURM_JOBID
 # export FACES=280,40
-# export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner.pmma.2D/slabBurner.2D.22G.pmma
+# export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner.pmma.2D/slabBurner.2D.22G.pmma.yaml
 
 
 # Run all tests
