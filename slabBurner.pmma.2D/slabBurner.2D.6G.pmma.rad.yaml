@@ -268,3 +268,4 @@ solvers:
         name: flowRegion
       rays: 5
       properties: !ablate::eos::radiationProperties::Zimmer
+        eos: *eos
