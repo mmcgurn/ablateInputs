@@ -18,10 +18,10 @@ inletDensity = gas.density
 
 # define the geometry
 yo = 0.0;
-yh = 0.027686
+yh = 0.0254
 dia = (yh - yo)
 yc = (yo + yh) * 0.5
-depth = 0.027686
+depth = 0.0254
 inletMassFlowKgMin = 0.192 #kg/min
 inletMassFlow = inletMassFlowKgMin/60.0
 
@@ -31,17 +31,22 @@ f = Symbol('f')
 m = Symbol('m')
 
 # compute the mass flux function
-velocityProfile = f*((dia**2)/4 - (y-yc)**2)
+# for laminar (https://www.kau.edu.sa/Files/0057863/Subjects/Chapter%208.pdf 8-17)
+# velocityProfile = f*(1-((y-yc)**2)/((dia**2)/4))
+# for turbulent
+velocityProfile = f*(1-sqrt((y-yc)**2)/(dia/2))**(1/7)
+
+# for turblent flow
 massFluxProfile = velocityProfile * inletDensity
 
 # Perform a simple 1D integration (assume that z dimension is one)
-massFlow = integrate(velocityProfile, (y, yo, yh))*depth
+massFlow = integrate(massFluxProfile, (y, yo, yh))*depth
 
 # Solver for f
 conserved = Eq(massFlow, m)
 fSolution = solve(conserved, f)[0]
 print("VelocityFactor: ", fSolution)
-print("VelocityFactor for ", inletMassFlow, " kg/s: ",  fSolution.subs(m, inletMassFlow))
+print("VelocityFactor for ", inletMassFlow, " kg/s is ",  fSolution.subs(m, inletMassFlow))
 
 #
 # Plot the velocity
