@@ -259,6 +259,7 @@ solvers:
           rays: 25
           properties: !ablate::eos::radiationProperties::Zimmer
             eos: *eos
-        emissivity: 0.9    
+        emissivity: 0.9   
+        solidDensity: 1190.0 #density of pmma used to output reg rate 
     monitors:
       - !ablate::monitors::BoundarySolverMonitor

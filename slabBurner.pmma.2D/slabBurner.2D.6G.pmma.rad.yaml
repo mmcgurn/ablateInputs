@@ -16,13 +16,21 @@ timestepper:
     interval: 250
   domain: !ablate::domain::BoxMeshBoundaryCells
     name: simpleBoxField
-    faces: [280,40]
+    faces: [186,40]
     lower: [ 0.0, 0.0]
-    upper: [ 0.15, 0.0254]
+    upper: [ 0.1, 0.0254]
     simplex: false
     options:
       dm_plex_hash_location: true
     preModifiers:
+      # cluster around the top of the slab
+      - !ablate::domain::modifiers::OnePointClusteringMapper
+        direction: 1
+        start: 0.0
+        end: 0.0254
+        beta: 2.5
+        location:  0.006
+    
       # distribute the mesh across the mpi rank with ghost cells
       - !ablate::domain::modifiers::DistributeWithGhostCells
         ghostCellDepth: 2
@@ -50,7 +58,7 @@ timestepper:
             - [0.0726, 0.0059]
             - [0.0726, 0]
             - [0.0726, -0.1]
-        maxDistance: 0.004065
+          maxDistance: 0.004065
         
       - !ablate::domain::modifiers::SubtractLabel
         # cut the slabBurner out of the flowRegion
@@ -185,7 +193,7 @@ solvers:
         eos: *eos 
     fluxCalculator: !ablate::finiteVolume::fluxCalculator::AusmpUp
       pgs: *pgs   
-    computePhysicsTimeStep: false        
+
   - !ablate::boundarySolver::BoundarySolver
     id: inlet
     region:
@@ -198,14 +206,20 @@ solvers:
         eos: *eos
         pgs: *pgs
         velocity: !ablate::mathFunctions::Formula
-          formula: "min(vel, t*vel/.001), 0.0"
+          formula: "max(0.0, min(vel, t*vel/.001)), 0.0"
           nested:
             vel: !ablate::mathFunctions::Formula
-              formula: velFac*((dia^2)/4 - (y-yc)^2)
+              formula: velFac*(1 - r/(dia/2.0))^(1/7)
               constants:
                 dia: 0.0254
-                velFac: 32678.3688493601 #0.0032  kg/s or 0.192 kg/min
-                yc: 0.0127
+                velFac: 5.94927204246603   #0.0032  kg/s or 0.192 kg/min
+              nested:
+                r: !ablate::mathFunctions::Formula
+                  formula: sqrt((x-xc)^2 + (y-yc)^2)
+                  constants:
+                    yc: 0.0127
+                    xc: 0.0
+
         
   - !ablate::boundarySolver::BoundarySolver
     id: outlet
@@ -254,7 +268,8 @@ solvers:
           rays: 25
           properties: !ablate::eos::radiationProperties::Zimmer
             eos: *eos
-        emissivity: 0.9    
+        emissivity: 0.9  
+        solidDensity: 1190.0 #density of pmma used to output reg rate 
     monitors:
       - !ablate::monitors::BoundarySolverMonitor
   - !ablate::radiation::VolumeRadiation

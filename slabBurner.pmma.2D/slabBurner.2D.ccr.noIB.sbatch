@@ -45,24 +45,25 @@ export TEST_MPI_COMMAND=srun
 mkdir tmp_$SLURM_JOBID
 cd tmp_$SLURM_JOBID
 
-# export TITLE=6G-280x40-pmma-rad-$SLURM_JOBID
-# export FACES=280,40
+export TITLE=6G-186x40-pmma-rad-$SLURM_JOBID
+export FACES=186,40
+export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner.pmma.2D/slabBurner.2D.6G.pmma.rad.yaml
+
+# export TITLE=22G-186x40-pmma-rad-$SLURM_JOBID
+# export FACES=186,40
+# export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner.pmma.2D/slabBurner.2D.22G.pmma.rad.yaml
+
+# export TITLE=6G-279x60-pmma-rad-$SLURM_JOBID
+# export FACES=279,60
 # export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner.pmma.2D/slabBurner.2D.6G.pmma.rad.yaml
 
-
-# export TITLE=6G-280x40-pmma-$SLURM_JOBID
-# export FACES=280,40
-# export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner.pmma.2D/slabBurner.2D.6G.pmma.yaml
-
-
-# export TITLE=22G-280x40-pmma-rad-$SLURM_JOBID
-# export FACES=280,40
+# export TITLE=22G-279x60-pmma-rad-$SLURM_JOBID
+# export FACES=279,60
 # export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner.pmma.2D/slabBurner.2D.22G.pmma.rad.yaml
 
 
-# export TITLE=22G-280x40-pmma-$SLURM_JOBID
-# export FACES=280,40
-# export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner.pmma.2D/slabBurner.2D.22G.pmma.yaml
+
+
 
 
 # Run all tests
