@@ -1,6 +1,6 @@
 ---
 environment:
-  title: _slabBurner.pmma.2D.22G
+  title: _slabBurner.pmma.2D.6G
   tagDirectory: false
 arguments:
   outputAuxVector: true
@@ -8,17 +8,17 @@ timestepper:
   arguments:
     ts_type: rk
     ts_max_time: 1
-    ts_max_steps: 10000000
+    ts_max_steps: 50
     ts_dt: 1.0e-10
     ts_adapt_safety: 1.0
     ts_adapt_type: physicsConstrained
   io: !ablate::io::Hdf5MultiFileSerializer
-    interval: 250
+    interval: 0
   domain: !ablate::domain::BoxMeshBoundaryCells
     name: simpleBoxField
-    faces: [186,40]
+    faces: [60,20]
     lower: [ 0.0, 0.0]
-    upper: [ 0.1, 0.0254]
+    upper: [ 0.15, 0.0254]
     simplex: false
     options:
       dm_plex_hash_location: true
@@ -42,15 +42,15 @@ timestepper:
           points:
             - [0.007, -0.1]
             - [0.007, 0]
-            - [0.0077, 0.0011]
-            - [0.0088, 0.0023]
-            - [0.0108, 0.0043]
-            - [0.0124, 0.0057]
-            - [0.0139, 0.0064]
-            - [0.0688, 0.0064]
-            - [0.0688, 0]
-            - [0.0688, -0.1]
-          maxDistance: 0.004  
+            - [0.0086, 0.0021]
+            - [0.0104, 0.0042]
+            - [0.0115, 0.0054]
+            - [0.0124, 0.006]
+            - [0.0141, 0.006]
+            - [0.0726, 0.0059]
+            - [0.0726, 0]
+            - [0.0726, -0.1]
+          maxDistance: 0.004065
         
       - !ablate::domain::modifiers::SubtractLabel
         # cut the slabBurner out of the flowRegion
@@ -87,8 +87,11 @@ timestepper:
         subtrahendRegions:
           - name: slabBurnerBoundaryFaces
         incompleteLabel: true
+      - !ablate::monitors::DmViewFromOptions
+        options: ":$OutputDirectory/mesh.tex:ascii_latex"      
       - !ablate::domain::modifiers::GhostBoundaryCells
           # the DmViewFromOptions should output once with full mesh/dm details
+
     fields:
       - !ablate::finiteVolume::CompressibleFlowFields
         eos: !ablate::eos::TChem  &eos
@@ -111,10 +114,10 @@ timestepper:
     - !ablate::finiteVolume::fieldFunctions::Euler
       state: &flowFieldState
         eos: *eos
-        temperature:  !ablate::mathFunctions::geom::Sphere
-          center: [ 0.009,  0.007]
-          radius: 0.005
-          insideValues: 1673.15
+        temperature:  !ablate::mathFunctions::geom::Box
+          lower: [0.0, 18.0E-3]
+          upper: [0.1, 22.0E-3]
+          insideValues: 3000
           outsideValues: 300
         pressure: 101325.0
         velocity: "0.0, 0.0"
@@ -190,7 +193,6 @@ solvers:
           eos: *eos   
     fluxCalculator: !ablate::finiteVolume::fluxCalculator::AusmpUp
       pgs: *pgs   
-    computePhysicsTimeStep: false        
   - !ablate::boundarySolver::BoundarySolver
     id: inlet
     region:
@@ -203,20 +205,14 @@ solvers:
         eos: *eos
         pgs: *pgs
         velocity: !ablate::mathFunctions::Formula
-          formula: "max(0.0, min(vel, t*vel/.001)), 0.0"
+          formula: "min(vel, t*vel/.001), 0.0"
           nested:
             vel: !ablate::mathFunctions::Formula
-              formula: velFac*(1 - r/(dia/2.0))^(1/7)
+              formula: velFac*((dia^2)/4 - (y-yc)^2)
               constants:
                 dia: 0.0254
-                velFac: 22.6196280781260   #0.73 kg/min
-              nested:
-                r: !ablate::mathFunctions::Formula
-                  formula: sqrt((x-xc)^2 + (y-yc)^2)
-                  constants:
-                    yc: 0.0127
-                    xc: 0.0
-
+                velFac: 32678.3688493601 #0.0032  kg/s or 0.192 kg/min
+                yc: 0.0127
         
   - !ablate::boundarySolver::BoundarySolver
     id: outlet
@@ -257,14 +253,17 @@ solvers:
         pgs: *pgs
         eos: *eos
         massFractions: *fuelMassFrac
-        radiationInterval: 10
+        radiationInterval: 0
         radiation: !ablate::radiation::SurfaceRadiation
           id: surfaceflux
           region:
             name: flowRegion
-          rays: 25
+          rays: 90
+#           properties: !ablate::eos::radiationProperties::Constant
+#             absorptivity: 1.0
           properties: !ablate::eos::radiationProperties::Zimmer
             eos: *eos
+        emissivity: 0.9  
         emissivity: 0.9   
         solidDensity: 1190.0 #density of pmma used to output reg rate 
     monitors:

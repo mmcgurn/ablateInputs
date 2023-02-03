@@ -23,6 +23,14 @@ timestepper:
     options:
       dm_plex_hash_location: true
     preModifiers:
+      # cluster around the top of the slab
+      - !ablate::domain::modifiers::OnePointClusteringMapper
+        direction: 1
+        start: 0.0
+        end: 0.0254
+        beta: 2.5
+        location:  0.006
+    
       # distribute the mesh across the mpi rank with ghost cells
       - !ablate::domain::modifiers::DistributeWithGhostCells
         ghostCellDepth: 2
@@ -183,11 +191,6 @@ solvers:
         log: !ablate::monitors::logs::StdOut
       - !ablate::finiteVolume::processes::Chemistry
         eos: *eos
-      - !ablate::finiteVolume::processes::RadiationLoss
-        eos: *eos
-        tInfinity: 300
-        properties: !ablate::eos::radiationProperties::Zimmer
-          eos: *eos   
     fluxCalculator: !ablate::finiteVolume::fluxCalculator::AusmpUp
       pgs: *pgs   
     computePhysicsTimeStep: false        
@@ -263,9 +266,21 @@ solvers:
           region:
             name: flowRegion
           rays: 25
-          properties: !ablate::eos::radiationProperties::Zimmer
-            eos: *eos
-        emissivity: 0.9   
+          properties: !ablate::eos::radiationProperties::Constant
+            absorptivity: 1.0
+        emissivity: 0.9  
         solidDensity: 1190.0 #density of pmma used to output reg rate 
     monitors:
       - !ablate::monitors::BoundarySolverMonitor
+  - !ablate::radiation::VolumeRadiation
+    id: radiationSolver
+    region:
+      name: flowRegion
+    interval: 10
+    radiation: !ablate::radiation::Radiation
+      id: volRad
+      region:
+        name: flowRegion
+      rays: 5
+      properties: !ablate::eos::radiationProperties::Zimmer
+        eos: *eos
