@@ -16,7 +16,7 @@ timestepper:
     interval: 0
   domain: !ablate::domain::BoxMeshBoundaryCells
     name: simpleBoxField
-    faces: [60,20]
+    faces: [20,20]
     lower: [ 0.0, 0.0]
     upper: [ 0.15, 0.0254]
     simplex: false
@@ -115,8 +115,8 @@ timestepper:
       state: &flowFieldState
         eos: *eos
         temperature:  !ablate::mathFunctions::geom::Box
-          lower: [0.0, 18.0E-3]
-          upper: [0.1, 22.0E-3]
+          lower: [0.0, 6.0E-3]
+          upper: [0.1, 7.0E-3]
           insideValues: 3000
           outsideValues: 300
         pressure: 101325.0
@@ -126,7 +126,30 @@ timestepper:
           eos: *eos
           values:
             - fieldName: O2
-              field: 1.0
+              field: !ablate::mathFunctions::geom::Box
+                lower: [0.0, 6.0E-3]
+                upper: [0.1, 7.0E-3]
+                insideValues: 0.408
+                outsideValues: 1.0
+            - fieldName: CO
+              field: !ablate::mathFunctions::geom::Box
+                lower: [0.0, 6.0E-3]
+                upper: [0.1, 7.0E-3]
+                insideValues: 0.152
+                outsideValues: 0.0
+            - fieldName: CO2
+              field: !ablate::mathFunctions::geom::Box
+                lower: [0.0, 6.0E-3]
+                upper: [0.1, 7.0E-3]
+                insideValues: .3
+                outsideValues: 0.0
+            - fieldName: H2O
+              field: !ablate::mathFunctions::geom::Box
+                lower: [0.0, 6.0E-3]
+                upper: [0.1, 7.0E-3]
+                insideValues: .14 
+                outsideValues: 0.0
+                                            
     - !ablate::finiteVolume::fieldFunctions::DensityMassFractions
       state: *flowFieldState
 
@@ -184,13 +207,13 @@ solvers:
         maxAlphaAllowed: 100.0
         domainLength: 0.165354
         log: !ablate::monitors::logs::StdOut
-      - !ablate::finiteVolume::processes::Chemistry
-        eos: *eos
-      - !ablate::finiteVolume::processes::RadiationLoss
-        eos: *eos
-        tInfinity: 300
-        properties: !ablate::eos::radiationProperties::Zimmer
-          eos: *eos   
+#       - !ablate::finiteVolume::processes::Chemistry
+#         eos: *eos
+#       - !ablate::finiteVolume::processes::RadiationLoss
+#         eos: *eos
+#         tInfinity: 300
+#         properties: !ablate::eos::radiationProperties::Zimmer
+#           eos: *eos   
     fluxCalculator: !ablate::finiteVolume::fluxCalculator::AusmpUp
       pgs: *pgs   
   - !ablate::boundarySolver::BoundarySolver
@@ -258,13 +281,12 @@ solvers:
           id: surfaceflux
           region:
             name: flowRegion
-          rays: 90
-#           properties: !ablate::eos::radiationProperties::Constant
-#             absorptivity: 1.0
-          properties: !ablate::eos::radiationProperties::Zimmer
-            eos: *eos
+          rays: 25
+          properties: !ablate::eos::radiationProperties::Constant
+            absorptivity: 50
+#           properties: !ablate::eos::radiationProperties::Zimmer
+#             eos: *eos
         emissivity: 0.9  
-        emissivity: 0.9   
         solidDensity: 1190.0 #density of pmma used to output reg rate 
     monitors:
       - !ablate::monitors::BoundarySolverMonitor

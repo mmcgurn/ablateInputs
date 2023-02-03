@@ -220,7 +220,6 @@ solvers:
                     yc: 0.0127
                     xc: 0.0
 
-        
   - !ablate::boundarySolver::BoundarySolver
     id: outlet
     region:
