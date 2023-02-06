@@ -31,14 +31,14 @@ cd tmp_$SLURM_JOBID
 
 export TITLE=6G-186x40x40-pmma-rad-$SLURM_JOBID
 export FACES=186,40,40
-export FILE=/p/lustre2/ubchrest/ablateInputs/ablateInputs/slabBurner.pmma.3D/slabBurner.3D.6G.pmma.rad.yaml
+export FILE=/p/lustre2/ubchrest/ablateInputs/slabBurner.pmma.3D/slabBurner.3D.6G.pmma.rad.yaml
 
 # export TITLE=6G-186x40x40-pmma-radLoss-$SLURM_JOBID
 # export FACES=186,40,40
-# export FILE=/p/lustre2/ubchrest/ablateInputs/ablateInputs/slabBurner.pmma.3D/slabBurner.3D.6G.pmma.radLoss.yaml
+# export FILE=/p/lustre2/ubchrest/ablateInputs/slabBurner.pmma.3D/slabBurner.3D.6G.pmma.radLoss.yaml
 
 ##### Launch parallel job using srun
-srun -n10800 /g/g15/mcgurn4/ablateOpt/ablate \
+srun -n10800 /p/lustre2/mcgurn4/ablateOpt \
    --input $FILE \
    -yaml::environment::title $TITLE \
    -yaml::timestepper::domain::faces [$FACES]
