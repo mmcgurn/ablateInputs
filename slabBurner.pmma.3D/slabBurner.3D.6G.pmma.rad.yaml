@@ -1,7 +1,7 @@
-# no rad, add back fake heatflux
+# 
 ---
 environment:
-  title: _3dSlabBurner
+  title: _slabBurner.pmma.3D.6G.rad
   tagDirectory: false
 arguments:
   outputAuxVector: true
@@ -9,16 +9,16 @@ timestepper:
   arguments:
     ts_type: rk
     ts_max_time: 1
-    ts_max_steps: 200000000
+    ts_max_steps: 3
     ts_dt: 1.0e-10
     ts_adapt_monitor: ""
     ts_adapt_safety: 0.9
     ts_adapt_type: physicsConstrained
   io: !ablate::io::Hdf5MultiFileSerializer
-    interval: 1000
+    interval: 0
   domain: !ablate::domain::BoxMeshBoundaryCells
     name: simpleBoxField
-    faces: [186,40,40] # this is ~.36mm
+    faces: [186,40,40] 
     lower: [ 0.0, 0.0, -0.0127]
     upper: [ 0.1, 0.0254, 0.0127]
     simplex: false
@@ -117,7 +117,7 @@ timestepper:
     fields:
       - !ablate::finiteVolume::CompressibleFlowFields
         eos: !ablate::eos::TChem  &eos
-          mechFile: ../mechanisms/gri30.yaml
+          mechFile: ../mechanisms/MMAReduced.yaml
           options:
             # set a minimum temperature for the chemical kinetics ode integration
             thresholdTemperature: 560
@@ -179,11 +179,7 @@ solvers:
       name: interiorFlowRegion
     parameters:
       cfl: 0.45
-    eos: *eos
-    transport: &transportModel !ablate::eos::transport::Sutherland
-      eos: *eos
-    fluxCalculator: !ablate::finiteVolume::fluxCalculator::AusmpUp
-      pgs: *pgs     
+    eos: *eos    
     monitors:
     - !ablate::monitors::TimeStepMonitor
       interval: 25
@@ -208,7 +204,10 @@ solvers:
         log: !ablate::monitors::logs::StdOut
       - !ablate::finiteVolume::processes::Chemistry
         eos: *eos
-   
+    transport: &transportModel !ablate::eos::transport::Sutherland
+      eos: *eos
+    fluxCalculator: !ablate::finiteVolume::fluxCalculator::AusmpUp
+      pgs: *pgs 
   - !ablate::boundarySolver::BoundarySolver
     id: inlet
     region:
