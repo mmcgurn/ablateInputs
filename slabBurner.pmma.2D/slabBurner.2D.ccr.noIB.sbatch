@@ -45,9 +45,15 @@ export TEST_MPI_COMMAND=srun
 mkdir tmp_$SLURM_JOBID
 cd tmp_$SLURM_JOBID
 
-export TITLE=6G-186x40-pmma-rad-$SLURM_JOBID
+export TITLE=6G-186x40-pmma-rad-soot-$SLURM_JOBID
 export FACES=186,40
-export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner.pmma.2D/slabBurner.2D.6G.pmma.rad.yaml
+export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner.pmma.2D/slabBurner.2D.6G.pmma.rad.soot.yaml
+
+# export TITLE=22G-186x40-pmma-rad-soot-$SLURM_JOBID
+# export FACES=186,40
+# export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner.pmma.2D/slabBurner.2D.22G.pmma.rad.soot.yaml
+
+
 
 # export TITLE=22G-186x40-pmma-rad-$SLURM_JOBID
 # export FACES=186,40
