@@ -5,7 +5,7 @@
 ##SBATCH --qos=supporters
 #SBATCH --account=chrest
 #SBATCH --time=72:00:00
-#SBATCH --nodes=4
+#SBATCH --nodes=1
 #SBATCH --ntasks-per-node=56
 #SBATCH --constraint=IB
 #SBATCH --job-name="slbBurn"
@@ -49,13 +49,34 @@ export TEST_MPI_COMMAND=srun
 mkdir tmp_$SLURM_JOBID
 cd tmp_$SLURM_JOBID
 
-export TITLE=6G-186x40-pmma-rad-$SLURM_JOBID
-export FACES=186,40
-export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner.pmma.2D/slabBurner.2D.6G.pmma.rad.yaml
-
-# export TITLE=6G-279x60-pmma-rad-$SLURM_JOBID
-# export FACES=279,60
+# export TITLE=6G-186x40-pmma-rad-$SLURM_JOBID
+# export FACES=186,40
 # export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner.pmma.2D/slabBurner.2D.6G.pmma.rad.yaml
+
+export TITLE=22G-186x40-pmma-rad-soot-$SLURM_JOBID
+export FACES=186,40
+export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner.pmma.2D/slabBurner.2D.22G.pmma.rad.soot.yaml
+
+# export TITLE=22G-279x60-pmma-rad-soot-$SLURM_JOBID
+# export FACES=279,60
+# export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner.pmma.2D/slabBurner.2D.22G.pmma.rad.soot.yaml
+
+# export TITLE=22G-372x80-pmma-rad-soot-$SLURM_JOBID
+# export FACES=372,80
+# export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner.pmma.2D/slabBurner.2D.22G.pmma.rad.soot.yaml
+
+# export TITLE=22G-558x120-pmma-rad-soot-$SLURM_JOBID
+# export FACES=558,120
+# export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner.pmma.2D/slabBurner.2D.22G.pmma.rad.soot.yaml
+
+# export TITLE=22G-837x180-pmma-rad-soot-$SLURM_JOBID
+# export FACES=837,180
+# export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner.pmma.2D/slabBurner.2D.22G.pmma.rad.soot.yaml
+
+# export TITLE=22G-1255x270-pmma-rad-soot-$SLURM_JOBID
+# export FACES=1255,270
+# export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner.pmma.2D/slabBurner.2D.22G.pmma.rad.soot.yaml
+
 
 # Run all tests
 srun -n $SLURM_NPROCS  /projects/academic/chrest/mtmcgurn/ablateOpt/ablate \
