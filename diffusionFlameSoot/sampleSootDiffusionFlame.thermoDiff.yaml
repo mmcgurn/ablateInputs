@@ -9,9 +9,10 @@ timestepper:
   arguments:
     ts_type: rk
     ts_max_time: 1
-    ts_max_steps: 10000
+    ts_max_steps: 50000
     ts_dt: 1.0e-10
-    ts_adapt_safety: 0.75
+    ts_adapt_safety: 0.95
+    ts_adapt_type: physicsConstrained
   domain: !ablate::domain::BoxMeshBoundaryCells
     name: simpleBoxField
     faces: [50]
@@ -112,7 +113,7 @@ solvers:
     - !ablate::monitors::TimeStepMonitor
       interval: 10
     - !ablate::monitors::CurveMonitor
-        interval: 25
+        interval: 1000
     additionalProcesses:
       - !ablate::finiteVolume::processes::Chemistry
         eos: *eos

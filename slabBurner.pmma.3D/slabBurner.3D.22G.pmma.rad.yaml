@@ -204,11 +204,6 @@ solvers:
         log: !ablate::monitors::logs::StdOut
       - !ablate::finiteVolume::processes::Chemistry
         eos: *eos
-      - !ablate::finiteVolume::processes::RadiationLoss
-        eos: *eos
-        tInfinity: 300
-        properties: !ablate::eos::radiationProperties::Zimmer
-          eos: *eos          
     transport: &transportModel !ablate::eos::transport::Sutherland
       eos: *eos
     fluxCalculator: !ablate::finiteVolume::fluxCalculator::AusmpUp
@@ -291,5 +286,16 @@ solvers:
     
     monitors:
       - !ablate::monitors::BoundarySolverMonitor
-
+  - !ablate::radiation::VolumeRadiation
+    id: radiationSolver
+    region:
+      name: flowRegion
+    interval: 10
+    radiation: !ablate::radiation::Radiation
+      id: volRad
+      region:
+        name: flowRegion
+      rays: 5
+      properties: !ablate::eos::radiationProperties::Zimmer
+        eos: *eos
       

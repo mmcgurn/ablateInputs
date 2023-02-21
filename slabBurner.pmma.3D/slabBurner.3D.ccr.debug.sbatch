@@ -1,11 +1,11 @@
 #!/bin/sh
-#SBATCH --partition=scavenger
-#SBATCH --qos=scavenger
+#SBATCH --partition=debug
+#SBATCH --qos=debug
 ##SBATCH --partition=general-compute
 ##SBATCH --qos=supporters
 #SBATCH --account=chrest
 #SBATCH --time=01:00:00
-#SBATCH --nodes=10
+#SBATCH --nodes=4
 #SBATCH --ntasks-per-node=56
 #SBATCH --constraint=IB
 #SBATCH --job-name="slbBurn3D"
@@ -51,10 +51,10 @@ cd tmp_$SLURM_JOBID
 
 export TITLE=6G-186x40x40-pmma-rad-$SLURM_JOBID
 export FACES=186,40,40
-export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner.pmma.3D/slabBurner.3D.6G.pmma.rad.yaml
+export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner.pmma.3D/slabBurner.3D.12G.pmma.rad.yaml
 
 # Run all tests
-srun -n $SLURM_NPROCS  /projects/academic/chrest/mtmcgurn/ablateOpt/ablate \
+srun -n 10800  --overcommit /projects/academic/chrest/mtmcgurn/ablateOpt/ablate \
   --input $FILE \
    -yaml::environment::title $TITLE \
    -yaml::timestepper::domain::faces [$FACES]
