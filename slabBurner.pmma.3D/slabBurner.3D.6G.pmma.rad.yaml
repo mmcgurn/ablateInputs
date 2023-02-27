@@ -18,20 +18,20 @@ timestepper:
     interval: 1000
   domain: !ablate::domain::BoxMeshBoundaryCells
     name: simpleBoxField
-    faces: [186,40,40] 
-    lower: [ 0.0, 0.0, -0.0127]
-    upper: [ 0.1, 0.0254, 0.0127]
+    faces: [ 186,40,40 ]
+    lower: [ 0.0, 0.0, -0.0127 ]
+    upper: [ 0.1, 0.0254, 0.0127 ]
     simplex: false
     options:
       dm_plex_hash_location: true
     preModifiers:
-        # cluster around the top of the slab
+      # cluster around the top of the slab
       - !ablate::domain::modifiers::OnePointClusteringMapper
         direction: 1
         start: 0.0
         end: 0.0254
         beta: 2.5
-        location:  0.006
+        location: 0.006
         
         # cluster around the sides of the slab
       - !ablate::domain::modifiers::TwoPointClusteringMapper
@@ -41,8 +41,8 @@ timestepper:
         location: 0.0
         offset: 0.003965
         beta: 2.5
-        location:  0.006
-    
+        location: 0.006
+
       # distribute the mesh across the mpi rank with ghost cells
       - !ablate::domain::modifiers::DistributeWithGhostCells
         ghostCellDepth: 3
@@ -62,20 +62,20 @@ timestepper:
           name: slabBurnerRegion
         function: !ablate::mathFunctions::geom::ConvexPolygon
           points:
-            - [0.0132,-.1]
-            - [0.0132,0]
-            - [0.0173,0.0045]
-            - [0.0214,0.0069]
-            - [0.0258,0.0082]
-            - [0.0385,0.009]
-            - [0.0592,0.009]
-            - [0.0702,0.0087]
-            - [0.0722,0.0079]
-            - [0.0727,0.007]
-            - [0.0728,0]
-            - [0.0728,-.1]
+            - [ 0.0132,-.1 ]
+            - [ 0.0132,0 ]
+            - [ 0.0173,0.0045 ]
+            - [ 0.0214,0.0069 ]
+            - [ 0.0258,0.0082 ]
+            - [ 0.0385,0.009 ]
+            - [ 0.0592,0.009 ]
+            - [ 0.0702,0.0087 ]
+            - [ 0.0722,0.0079 ]
+            - [ 0.0727,0.007 ]
+            - [ 0.0728,0 ]
+            - [ 0.0728,-.1 ]
           maxDistance: 0.003965
-          
+
       # create a label for defining the glowPlug
       - !ablate::domain::modifiers::SubtractLabel
         # cut the slabBurner and glow plug out of the flowRegion
@@ -110,7 +110,7 @@ timestepper:
           name: slabBurnerBoundaryFaces
         rightBoundaryCellRegion:
           name: slabBurnerBoundaryCells
-          
+
       - !ablate::domain::modifiers::SubtractLabel
         # remove the slabBurnerFace from the flowRegion
         differenceRegion:
@@ -168,10 +168,10 @@ timestepper:
     - !ablate::finiteVolume::fieldFunctions::Euler
       state: &flowFieldState
         eos: *eos
-        temperature:  !ablate::mathFunctions::geom::Sphere
-          center: [ 0.015,  0.007, 0.0]
-          radius:  0.005
-          insideValues:  1673.15
+        temperature: !ablate::mathFunctions::geom::Sphere
+          center: [ 0.015,  0.007, 0.0 ]
+          radius: 0.005
+          insideValues: 1673.15
           outsideValues: 300
         pressure: 101325.0
         velocity: "0.0, 0.0, 0.0"
@@ -190,7 +190,7 @@ timestepper:
         name: slabBurnerBoundaryCells
       state: &fuelFieldState
         eos: *eos
-        temperature:  653.0 #fuel temperature
+        temperature: 653.0 #fuel temperature
         pressure: 101325.0
         velocity: "0.0, 00, 0.0"
         other: !ablate::finiteVolume::fieldFunctions::MassFractions
@@ -211,32 +211,32 @@ solvers:
       name: interiorFlowRegion
     parameters:
       cfl: 0.45
-    eos: *eos    
+    eos: *eos
     monitors:
-    - !ablate::monitors::TimeStepMonitor
-      interval: 25
-    - !ablate::monitors::MixtureFractionMonitor
-      mixtureFractionCalculator: !ablate::monitors::MixtureFractionCalculator
-        eos: *eos
-        massFractionsFuel: *fuelMassFrac
-        massFractionsOxidizer: *oxMassFrac
-    - !ablate::monitors::TurbFlowStats
-      fields: [velocity, temperature]  
-      eos: *eos
-      interval: !ablate::io::interval::DelayInterval
+      - !ablate::monitors::TimeStepMonitor
         interval: 25
-        minimumSimulationTime: .02 #about 2 flow throughs
-    - !ablate::monitors::RadiationFlux
-      id: slabFluxMonitor
-      region:
-        name: heatFluxMonitorFaces
-      radiation:
-        - !ablate::radiation::SurfaceRadiation
-          id: slabMonitorTracer
-          region:
-            name: heatFluxMonitorRegion
-          rays: 25
-          properties: !ablate::eos::radiationProperties::Zimmer
+      - !ablate::monitors::MixtureFractionMonitor
+        mixtureFractionCalculator: !ablate::monitors::MixtureFractionCalculator
+          eos: *eos
+          massFractionsFuel: *fuelMassFrac
+          massFractionsOxidizer: *oxMassFrac
+      - !ablate::monitors::TurbFlowStats
+        fields: [ velocity, temperature ]
+        eos: *eos
+        interval: !ablate::io::interval::DelayInterval
+          interval: 25
+          minimumSimulationTime: .02 #about 2 flow throughs
+      - !ablate::monitors::RadiationFlux
+        id: slabFluxMonitor
+        region:
+          name: heatFluxMonitorFaces
+        radiation:
+          - !ablate::radiation::SurfaceRadiation
+            id: slabMonitorTracer
+            region:
+              name: heatFluxMonitorRegion
+            rays: 25
+            properties: !ablate::eos::radiationProperties::Zimmer
               eos: *eos
     additionalProcesses:
       - !ablate::finiteVolume::processes::PressureGradientScaling
@@ -251,7 +251,7 @@ solvers:
     transport: &transportModel !ablate::eos::transport::Sutherland
       eos: *eos
     fluxCalculator: !ablate::finiteVolume::fluxCalculator::AusmpUp
-      pgs: *pgs 
+      pgs: *pgs
   - !ablate::boundarySolver::BoundarySolver
     id: inlet
     region:
@@ -277,8 +277,7 @@ solvers:
                   constants:
                     yc: 0.0127
                     xc: 0.0
-                    
-                    
+
   - !ablate::boundarySolver::BoundarySolver
     id: outlet
     region:
@@ -325,7 +324,7 @@ solvers:
             name: flowRegion
           rays: 25
           properties: !ablate::eos::radiationProperties::Zimmer
-              eos: *eos
+            eos: *eos
         emissivity: 0.91
     monitors:
       - !ablate::monitors::BoundarySolverMonitor
@@ -340,6 +339,4 @@ solvers:
         name: flowRegion
       rays: 5
       properties: !ablate::eos::radiationProperties::Zimmer
-          eos: *eos
-
-      
+        eos: *eos
