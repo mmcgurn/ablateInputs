@@ -263,7 +263,8 @@ solvers:
     processes:
       - !ablate::boundarySolver::physics::Sublimation
         latentHeatOfFusion: 840890
-        transportModel: *transportModel
+        transportModel:  !ablate::eos::transport::Sutherland  
+            eos: *eos
         pgs: *pgs
         eos: *eos
         massFractions: *fuelMassFrac
