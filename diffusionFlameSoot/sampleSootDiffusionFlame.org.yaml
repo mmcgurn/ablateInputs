@@ -2,14 +2,14 @@
 # the transport processes of the Navier–Stokes equations.
 ---
 environment:
-  title: _1DSampleSootDiffusionFlame
-  tagDirectory: false
+  title: _default_tchem_noSoot_griMech
+  tagDirectory: true
 arguments: {}
 timestepper:
   arguments:
     ts_type: rk
     ts_max_time: 1
-    ts_max_steps: 50000
+    ts_max_steps: 1000
     ts_dt: 1.0e-10
     ts_adapt_safety: 0.95
     ts_adapt_type: physicsConstrained
@@ -87,8 +87,10 @@ timestepper:
             - fieldName: C2H4
               field: !ablate::mathFunctions::Linear
                 startValues: [1.0]
-                endValues: [0.0]
+                endValues: [.0]
                 end: .01
+            - fieldName: C_solid  
+              field: 0.0 
     - !ablate::finiteVolume::fieldFunctions::DensityMassFractions
       state: *flowFieldState
 

@@ -169,8 +169,12 @@ solvers:
     parameters:
       cfl: 0.45
     eos: *eos
-    transport: &transportModel !ablate::eos::transport::Sutherland
-      eos: *eos
+    transport: !ablate::eos::tChemSoot::SootSpeciesTransportModel
+      transport:  !ablate::eos::transport::Sutherland
+        eos: *eos
+    evTransport: !ablate::eos::tChemSoot::SootProgressTransportModel
+      transport:  !ablate::eos::transport::Sutherland
+        eos: *eos 
     monitors:
     - !ablate::monitors::TimeStepMonitor
       interval: 25
@@ -192,6 +196,9 @@ solvers:
         log: !ablate::monitors::logs::StdOut
       - !ablate::finiteVolume::processes::Chemistry
         eos: *eos 
+      - !ablate::finiteVolume::processes::ThermophoreticDiffusion
+        transport:  !ablate::eos::transport::Sutherland
+          eos: *eos   
     fluxCalculator: !ablate::finiteVolume::fluxCalculator::AusmpUp
       pgs: *pgs   
 
@@ -266,11 +273,8 @@ solvers:
           region:
             name: flowRegion
           rays: 25
-          properties: !ablate::eos::radiationProperties::Sum
-            - !ablate::eos::radiationProperties::Zimmer
-              eos: *eos
-            - !ablate::eos::radiationProperties::SootMeanAbsorption
-              eos: *eos
+          properties: !ablate::eos::radiationProperties::Zimmer
+            eos: *eos
         emissivity: 0.9  
         solidDensity: 1190.0 #density of pmma used to output reg rate 
     monitors:
@@ -285,8 +289,5 @@ solvers:
       region:
         name: flowRegion
       rays: 5
-      properties: !ablate::eos::radiationProperties::Sum
-        - !ablate::eos::radiationProperties::Zimmer
-          eos: *eos
-        - !ablate::eos::radiationProperties::SootMeanAbsorption
-          eos: *eos
+      properties: !ablate::eos::radiationProperties::Zimmer
+        eos: *eos

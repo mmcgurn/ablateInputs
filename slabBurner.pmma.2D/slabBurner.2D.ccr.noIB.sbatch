@@ -49,35 +49,31 @@ export TITLE=6G-186x40-pmma-rad-soot-$SLURM_JOBID
 export FACES=186,40
 export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner.pmma.2D/slabBurner.2D.6G.pmma.rad.soot.yaml
 
-# export TITLE=22G-186x40-pmma-rad-soot-$SLURM_JOBID
-# export FACES=186,40
-# export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner.pmma.2D/slabBurner.2D.22G.pmma.rad.soot.yaml
-
-
-
-# export TITLE=22G-186x40-pmma-rad-$SLURM_JOBID
-# export FACES=186,40
-# export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner.pmma.2D/slabBurner.2D.22G.pmma.rad.yaml
-
-# export TITLE=6G-279x60-pmma-rad-$SLURM_JOBID
-# export FACES=279,60
-# export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner.pmma.2D/slabBurner.2D.6G.pmma.rad.yaml
-
-# export TITLE=22G-279x60-pmma-rad-$SLURM_JOBID
-# export FACES=279,60
-# export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner.pmma.2D/slabBurner.2D.22G.pmma.rad.yaml
-
-# export TITLE=6G-186x40-pmma-rad-const.abs-$SLURM_JOBID
-# export FACES=186,40
-# export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner.pmma.2D/slabBurner.2D.22G.pmma.rad.const.abs.yaml
-
-
 # Run all tests
 srun -n $SLURM_NPROCS  /projects/academic/chrest/mtmcgurn/ablateOpt/ablate \
   --input $FILE \
    -yaml::environment::title $TITLE \
    -yaml::timestepper::domain::faces [$FACES]
 
+# export TITLE=6G-186x40-pmma-rad-ref-$SLURM_JOBID
+# export FACES=186,40
+# export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner.pmma.2D/slabBurner.2D.6G.pmma.rad.yaml
+# 
+# # Run all tests
+# srun -n $SLURM_NPROCS  /projects/academic/chrest/mtmcgurn/ablateOpt/ablate \
+#   --input $FILE \
+#    -yaml::environment::title $TITLE \
+#    -yaml::timestepper::domain::faces [$FACES]
+#    
+# export TITLE=6G-186x40-pmma-rad-numJac-$SLURM_JOBID
+# export FACES=186,40
+# export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner.pmma.2D/slabBurner.2D.6G.pmma.rad.yaml
+# 
+# # Run all tests
+# srun -n $SLURM_NPROCS  /projects/academic/chrest/mtmcgurn/ablateOptNumJac/ablate \
+#   --input $FILE \
+#    -yaml::environment::title $TITLE \
+#    -yaml::timestepper::domain::faces [$FACES]   
    
 
  

@@ -54,7 +54,7 @@ export FACES=186,40,40
 export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner.pmma.3D/slabBurner.3D.12G.pmma.rad.yaml
 
 # Run all tests
-srun  --overcommit -n 10800  /projects/academic/chrest/mtmcgurn/ablateOpt/ablate \
+srun  --overcommit -n 5400  /projects/academic/chrest/mtmcgurn/ablateOpt/ablate \
   --input $FILE \
    -yaml::environment::title $TITLE \
    -yaml::timestepper::domain::faces [$FACES]
