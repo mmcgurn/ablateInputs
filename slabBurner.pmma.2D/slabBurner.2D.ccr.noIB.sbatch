@@ -1,7 +1,7 @@
 #!/bin/sh
 #SBATCH --account=chrest
 #SBATCH --time=72:00:00
-#SBATCH --nodes=1
+#SBATCH --nodes=2
 #SBATCH --ntasks-per-node=56
 #SBATCH --job-name="slbBurn"
 #SBATCH --mail-user=mtmcgurn@buffalo.edu
@@ -49,31 +49,18 @@ export TITLE=6G-186x40-pmma-rad-soot-$SLURM_JOBID
 export FACES=186,40
 export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner.pmma.2D/slabBurner.2D.6G.pmma.rad.soot.yaml
 
+# export TITLE=6G-280x60-pmma-rad-soot-$SLURM_JOBID
+# export FACES=280,60
+# export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner.pmma.2D/slabBurner.2D.6G.pmma.rad.soot.yaml
+
+# export TITLE=6G-372x80-pmma-rad-soot-$SLURM_JOBID
+# export FACES=372,80
+# export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner.pmma.2D/slabBurner.2D.6G.pmma.rad.soot.yaml
+
 # Run all tests
 srun -n $SLURM_NPROCS  /projects/academic/chrest/mtmcgurn/ablateOpt/ablate \
   --input $FILE \
    -yaml::environment::title $TITLE \
    -yaml::timestepper::domain::faces [$FACES]
-
-# export TITLE=6G-186x40-pmma-rad-ref-$SLURM_JOBID
-# export FACES=186,40
-# export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner.pmma.2D/slabBurner.2D.6G.pmma.rad.yaml
-# 
-# # Run all tests
-# srun -n $SLURM_NPROCS  /projects/academic/chrest/mtmcgurn/ablateOpt/ablate \
-#   --input $FILE \
-#    -yaml::environment::title $TITLE \
-#    -yaml::timestepper::domain::faces [$FACES]
-#    
-# export TITLE=6G-186x40-pmma-rad-numJac-$SLURM_JOBID
-# export FACES=186,40
-# export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/slabBurner.pmma.2D/slabBurner.2D.6G.pmma.rad.yaml
-# 
-# # Run all tests
-# srun -n $SLURM_NPROCS  /projects/academic/chrest/mtmcgurn/ablateOptNumJac/ablate \
-#   --input $FILE \
-#    -yaml::environment::title $TITLE \
-#    -yaml::timestepper::domain::faces [$FACES]   
-   
 
  

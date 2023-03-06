@@ -1,3 +1,6 @@
+# This input is setup to replicate the Feb26 .153m3_min 1in Sample 6G results found:
+# https://ubuffalo.sharepoint.com/:f:/r/teams/MAECHREST/Shared%20Documents/General/DesJardin/slab_burner/2023/PMMA/02-26-23/Feb26%20.153m3_min%201in%20Sample?csf=1&web=1&e=dqJ2M8
+# The experiential results are full width (2D)
 ---
 environment:
   title: _slabBurner.pmma.2D.6G.rad.soot
@@ -29,7 +32,7 @@ timestepper:
         start: 0.0
         end: 0.0254
         beta: 2.5
-        location:  0.006
+        location:  0.00786216530849826
     
       # distribute the mesh across the mpi rank with ghost cells
       - !ablate::domain::modifiers::DistributeWithGhostCells
@@ -48,19 +51,12 @@ timestepper:
           name: slabBurnerRegion
         function: !ablate::mathFunctions::geom::ConvexPolygon
           points:
-            - [0.0132,-.1]
-            - [0.0132,0]
-            - [0.0173,0.0045]
-            - [0.0214,0.0069]
-            - [0.0258,0.0082]
-            - [0.0385,0.009]
-            - [0.0592,0.009]
-            - [0.0702,0.0087]
-            - [0.0722,0.0079]
-            - [0.0727,0.007]
-            - [0.0728,0]
-            - [0.0728,-.1]
-          maxDistance: 0.004065
+            - [0.0182024,-1]
+            - [0.0182024,0]
+            - [0.0257604,0.00786216530849826]
+            - [0.0867624,0.00694959254947614]
+            - [0.0867626,0]
+            - [0.0867626,-1]
         
       - !ablate::domain::modifiers::SubtractLabel
         # cut the slabBurner out of the flowRegion
@@ -103,7 +99,7 @@ timestepper:
         region:
           name: heatFluxMonitorRegion
         function: !ablate::mathFunctions::geom::Box
-          lower: [ 0 , 0.0064 ]
+          lower: [ 0 , 0.00786216530849826]
           upper: [ 0.1, 0.0254 ]
 
       - !ablate::domain::modifiers::SubtractLabel
@@ -149,7 +145,7 @@ timestepper:
       state: &flowFieldState
         eos: *eos
         temperature:  !ablate::mathFunctions::geom::Sphere
-          center: [ 0.015,  0.007]
+          center: [ 0.0182024,  0.007]
           radius: 0.005
           insideValues: 1673.15
           outsideValues: 300
@@ -205,14 +201,12 @@ solvers:
     monitors:
     - !ablate::monitors::TimeStepMonitor
       interval: 25
-    - !ablate::monitors::PhysicsTimeStep
-      interval: 25
     - !ablate::monitors::TurbFlowStats
       fields: [velocity, temperature]  
       eos: *eos
       interval: !ablate::io::interval::DelayInterval
         interval: 25
-        minimumSimulationTime: .02 #about 2 flow throughs
+        minimumSimulationTime: .01 #about 1 flow throughs
     - !ablate::monitors::RadiationFlux
       id: slabFluxMonitor
       region:
@@ -262,7 +256,7 @@ solvers:
               formula: velFac*(1 - r/(dia/2.0))^(1/7)
               constants:
                 dia: 0.0254
-                velFac: 5.94927204246603   #0.0032  kg/s or 0.192 kg/min
+                velFac: 6.16223189034601  # .153 m3/min
               nested:
                 r: !ablate::mathFunctions::Formula
                   formula: sqrt((x-xc)^2 + (y-yc)^2)
