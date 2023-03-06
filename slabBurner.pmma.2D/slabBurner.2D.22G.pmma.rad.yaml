@@ -95,6 +95,33 @@ timestepper:
         subtrahendRegions:
           - name: slabBurnerBoundaryFaces
         incompleteLabel: true
+
+      # Create a region for the flat plate heat flux monitor to operate on
+      - !ablate::domain::modifiers::CreateLabel
+        region:
+          name: heatFluxMonitorRegion
+        function: !ablate::mathFunctions::geom::Box
+          lower: [ 0 , 0.0064 ]
+          upper: [ 0.1, 0.0254 ]
+
+      - !ablate::domain::modifiers::SubtractLabel
+        # separates the regions above and below the slab
+        differenceRegion:
+          name: lowerSlabRegion
+        minuendRegion:
+          name: interiorCells
+        subtrahendRegions:
+          - name: heatFluxMonitorRegion
+
+      - !ablate::domain::modifiers::TagLabelInterface
+        # define the boundary between the upper and lower regions
+        leftRegion:
+          name: heatFluxMonitorRegion
+        rightRegion:
+          name: lowerSlabRegion
+        boundaryFaceRegion:
+          name: heatFluxMonitorFaces
+
       - !ablate::domain::modifiers::GhostBoundaryCells
           # the DmViewFromOptions should output once with full mesh/dm details
     fields:
