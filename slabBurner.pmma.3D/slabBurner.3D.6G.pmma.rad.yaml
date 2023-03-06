@@ -120,6 +120,8 @@ timestepper:
         subtrahendRegions:
           - name: slabBurnerBoundaryFaces
         incompleteLabel: true
+
+        # Create a region for the flat plate heat flux monitor to operate on
       - !ablate::domain::modifiers::CreateLabel
         region:
           name: heatFluxMonitorRegion
@@ -128,7 +130,7 @@ timestepper:
           upper: [ 0.1, 0.0254, 0.0127 ]
 
       - !ablate::domain::modifiers::SubtractLabel
-        # cut the slabBurner out of the flowRegion
+        # separates the regions above and below the slab
         differenceRegion:
           name: lowerSlabRegion
         minuendRegion:
@@ -137,7 +139,7 @@ timestepper:
           - name: heatFluxMonitorRegion
 
       - !ablate::domain::modifiers::TagLabelInterface
-        # define the boundary between the slab burner and flow
+        # define the boundary between the upper and lower regions
         leftRegion:
           name: heatFluxMonitorRegion
         rightRegion:
