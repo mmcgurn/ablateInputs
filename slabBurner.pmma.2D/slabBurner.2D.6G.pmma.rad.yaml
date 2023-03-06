@@ -210,6 +210,18 @@ solvers:
       interval: !ablate::io::interval::DelayInterval
         interval: 25
         minimumSimulationTime: .02 #about 2 flow throughs
+    - !ablate::monitors::RadiationFlux
+      id: slabFluxMonitor
+      region:
+        name: heatFluxMonitorFaces
+      radiation:
+        - !ablate::radiation::SurfaceRadiation
+          id: slabMonitorTracer
+          region:
+            name: heatFluxMonitorRegion
+          rays: 25
+          properties: !ablate::eos::radiationProperties::Zimmer
+            eos: *eos
     additionalProcesses:
       - !ablate::finiteVolume::processes::PressureGradientScaling
         &pgs
