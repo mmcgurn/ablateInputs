@@ -222,6 +222,12 @@ solvers:
               eos: *eos
             - !ablate::eos::radiationProperties::SootMeanAbsorption
               eos: *eos
+              
+    - !ablate::monitors::MixtureFractionMonitor
+      mixtureFractionCalculator: !ablate::monitors::MixtureFractionCalculator
+        eos: *eos
+        massFractionsFuel: *fuelMassFrac
+        massFractionsOxidizer: *oxMassFrac              
     additionalProcesses:
       - !ablate::finiteVolume::processes::PressureGradientScaling
         &pgs

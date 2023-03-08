@@ -172,7 +172,7 @@ timestepper:
       state: &flowFieldState
         eos: *eos
         temperature: !ablate::mathFunctions::geom::Sphere
-          center: [ 0.0132,  0.005, 0.0 ]
+          center: [ 0.0173,  0.005, 0.0 ]
           radius: 0.005
           insideValues: 1673.15
           outsideValues: 300
