@@ -33,6 +33,7 @@ timestepper:
     path: slabBurnerMesh.msh
     options:
       dm_plex_check_all: true
+      dm_plex_hash_location: true
       dm_distribute: false # turn off default dm_distribute so that we can extrude label first
     # specify any modifications to be performed to the mesh/domain
     modifiers:
