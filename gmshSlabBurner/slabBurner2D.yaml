@@ -77,14 +77,6 @@ timestepper:
           - name: slab
         incompleteLabel: true
 
-      # it may be helpful to print the dm and labels to debug
-      - !ablate::monitors::DmViewFromOptions
-        options: ":$OutputDirectory/slabBurner.tex:ascii_latex"
-      - !ablate::monitors::DmViewFromOptions
-        options: ascii::ascii_info_detail
-
-
-
     fields:
       # all fields must be defined before solvers.  The ablate::finiteVolume::CompressibleFlowFields is a helper
       # class that creates the required fields for the compressible flow solver (rho, rhoE, rhoU, ...)
