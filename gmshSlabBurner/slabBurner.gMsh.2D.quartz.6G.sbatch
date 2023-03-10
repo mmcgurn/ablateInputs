@@ -34,7 +34,7 @@ export TITLE=6G-gMsh-dm$DM_REFINE-pmma-rad-soot-$SLURM_JOBID
 export FILE=/p/lustre2/ubchrest/ablateInputs/gmshSlabBurner/slabBurner2D.yaml
 
 ##### Launch parallel job using srun
-srun -n1344 /p/lustre2/mcgurn4/ablateOpt/ablate \
+srun -n864 /p/lustre2/mcgurn4/ablateOpt/ablate \
    --input $FILE \
    -yaml::environment::title $TITLE \
    -yaml::timestepper::domain::options::dm_refine $DM_REFINE
