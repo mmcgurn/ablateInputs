@@ -23,7 +23,7 @@ timestepper:
     interval: 250 # results are saved at every 5 steps.  In real simulations this should be much larger.
   # load in the gmsh produced mesh file
   domain: !ablate::domain::MeshFile
-    path: slabBurner2DMesh.highG.3_8_23.msh
+    path: slabBurner2DMesh.lowG.3_8_23.msh
     options:
       dm_plex_check_all: true
       dm_plex_hash_location: true
