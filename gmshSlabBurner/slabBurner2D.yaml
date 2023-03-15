@@ -26,7 +26,7 @@ timestepper:
     ts_adapt_safety: 0.9
     ts_adapt_type: physicsConstrained
   # io controls how often the results are saved to a file for visualization and restart
-  io:
+  io: !ablate::io::Hdf5MultiFileSerializer 
     interval: 100 # results are saved at every 5 steps.  In real simulations this should be much larger.
   # load in the gmsh produced mesh file
   domain: !ablate::domain::MeshFile
