@@ -23,7 +23,7 @@ yo = 0.0;
 yh = 0.0254
 dia = (yh - yo)
 yc = (yo + yh) * 0.5
-inletMassFlowKgMin = 0.157 * inletDensity  # kg/min
+inletMassFlowKgMin = 0.553 * inletDensity  # kg/min
 inletMassFlow = inletMassFlowKgMin / 60.0
 
 # setup symbols
