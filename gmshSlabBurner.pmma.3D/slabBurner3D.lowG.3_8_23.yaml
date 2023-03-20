@@ -16,7 +16,7 @@ timestepper:
     ts_max_time: 100000
     ts_max_steps: 3000000
     ts_dt: 1.0E-10
-    ts_adapt_safety: 0.9
+    ts_adapt_safety: 1.0
     ts_adapt_type: physicsConstrained
   # io controls how often the results are saved to a file for visualization and restart
   io: !ablate::io::Hdf5MultiFileSerializer
@@ -25,7 +25,7 @@ timestepper:
   domain: !ablate::domain::MeshFile
     path: slabBurner3DMesh.lowG.3_8_23.msh
     options:
-      dm_plex_check_all: true # check to make sure the mesh if valid from gMsh
+      dm_plex_check_all: false # check to make sure the mesh if valid from gMsh
       dm_distribute: false # turn off default dm_distribute so that we can extrude label first
       dm_plex_hash_location: true # enable the fast look up particle locations
     # specify any modifications to be performed to the mesh/domain
@@ -81,6 +81,9 @@ timestepper:
           options:
             # set a minimum temperature for the chemical kinetics ode integration
             thresholdTemperature: 560
+            relToleranceTime: 1.00E-02
+            absToleranceTime: 1.00E-04
+                        
         # use a higher order field for the conserved field transport options
         conservedFieldOptions:
           petscfv_type: leastsquares
@@ -158,7 +161,7 @@ solvers:
       name: interiorFlowRegion
     # set the cfl constraint to be used by the physicsConstrained time stepper
     parameters:
-      cfl: 0.45
+      cfl: 0.5
 
     # the flow solver requires access to the eos
     eos: *eos

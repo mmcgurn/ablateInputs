@@ -5,7 +5,7 @@
 ##SBATCH --qos=supporters
 #SBATCH --account=chrest
 #SBATCH --time=72:00:00
-#SBATCH --nodes=3
+#SBATCH --nodes=4
 #SBATCH --ntasks-per-node=56
 #SBATCH --constraint=IB
 #SBATCH --job-name="slbBurn"
@@ -49,13 +49,22 @@ export TEST_MPI_COMMAND=srun
 mkdir tmp_$SLURM_JOBID
 cd tmp_$SLURM_JOBID
 
-export DM_REFINE=0
-export TITLE=lowG-gMsh-dm$DM_REFINE-pmma-$SLURM_JOBID
+export DM_REFINE=1
+export TITLE=lowG-gMsh-4n-dm$DM_REFINE-pmma-$SLURM_JOBID
 export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/gmshSlabBurner.pmma.2D/slabBurner2D.lowG.3_8_23.yaml
 
-# export DM_REFINE=0
-# export TITLE=highG-gMsh-dm$DM_REFINE-pmma-$SLURM_JOBID
+# export DM_REFINE=2
+# export TITLE=highG-gMsh-4n-dm$DM_REFINE-pmma-$SLURM_JOBID
 # export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/gmshSlabBurner.pmma.2D/slabBurner2D.highG.3_8_23.yaml
+
+# export DM_REFINE=2
+# export TITLE=lowG-gMsh-4n-dm$DM_REFINE-pmma-$SLURM_JOBID
+# export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/gmshSlabBurner.pmma.2D/slabBurner2D.lowG.3_8_23.yaml
+
+# export DM_REFINE=1
+# export TITLE=highG-gMsh-4n-dm$DM_REFINE-pmma-$SLURM_JOBID
+# export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/gmshSlabBurner.pmma.2D/slabBurner2D.highG.3_8_23.yaml
+
 
 # Run all tests
 srun -n $SLURM_NPROCS  /projects/academic/chrest/mtmcgurn/ablateOpt/ablate \
