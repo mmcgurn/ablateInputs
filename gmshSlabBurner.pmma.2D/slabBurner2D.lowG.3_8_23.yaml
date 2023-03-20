@@ -14,13 +14,13 @@ timestepper:
   arguments:
     ts_type: rk
     ts_max_time: 100000
-    ts_max_steps: 300
+    ts_max_steps: 3000000
     ts_dt: 1.0E-10
     ts_adapt_safety: 1.0
     ts_adapt_type: physicsConstrained
   # io controls how often the results are saved to a file for visualization and restart
   io: !ablate::io::Hdf5MultiFileSerializer 
-    interval: 100 # results are saved at every 5 steps.  In real simulations this should be much larger.
+    interval: 250 # results are saved at every 5 steps.  In real simulations this should be much larger.
   # load in the gmsh produced mesh file
   domain: !ablate::domain::MeshFile
     path: slabBurner2DMesh.lowG.3_8_23.msh
@@ -247,32 +247,32 @@ solvers:
         eos: *eos
         massFractions: *fuelMassFrac
         radiationInterval: 10
-       #  radiation: !ablate::radiation::SurfaceRadiation
-#           id: surfaceflux
-#           region:
-#             name: flowRegion
-#           rays: 25
-#           properties: !ablate::eos::radiationProperties::Sum
-#             - !ablate::eos::radiationProperties::Zimmer
-#               eos: *eos
-#             - !ablate::eos::radiationProperties::SootMeanAbsorption
-#               eos: *eos
+        radiation: !ablate::radiation::SurfaceRadiation
+          id: surfaceflux
+          region:
+            name: flowRegion
+          rays: 25
+          properties: !ablate::eos::radiationProperties::Sum
+            - !ablate::eos::radiationProperties::Zimmer
+              eos: *eos
+            - !ablate::eos::radiationProperties::SootMeanAbsorption
+              eos: *eos
         emissivity: 0.9
         solidDensity: 1190.0 #density of pmma used to output reg rate
     monitors:
       - !ablate::monitors::BoundarySolverMonitor
-#   - !ablate::radiation::VolumeRadiation
-#     id: radiationSolver
-#     region:
-#       name: flowRegion
-#     interval: 10
-#     radiation: !ablate::radiation::Radiation
-#       id: volRad
-#       region:
-#         name: flowRegion
-#       rays: 5
-#       properties: !ablate::eos::radiationProperties::Sum
-#         - !ablate::eos::radiationProperties::Zimmer
-#           eos: *eos
-#         - !ablate::eos::radiationProperties::SootMeanAbsorption
-#           eos: *eos
+  - !ablate::radiation::VolumeRadiation
+    id: radiationSolver
+    region:
+      name: flowRegion
+    interval: 10
+    radiation: !ablate::radiation::Radiation
+      id: volRad
+      region:
+        name: flowRegion
+      rays: 5
+      properties: !ablate::eos::radiationProperties::Sum
+        - !ablate::eos::radiationProperties::Zimmer
+          eos: *eos
+        - !ablate::eos::radiationProperties::SootMeanAbsorption
+          eos: *eos
