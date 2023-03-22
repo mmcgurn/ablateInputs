@@ -76,13 +76,11 @@ timestepper:
       # class that creates the required fields for the compressible flow solver (rho, rhoE, rhoU, ...)
       - !ablate::finiteVolume::CompressibleFlowFields
         # The soot equation of state is an extension of the tChem eos with support for a simple soot model
-        eos: !ablate::eos::TChemSoot  &eos
+        eos: !ablate::eos::TChem  &eos
           mechFile: MMAReduced.yml
           options:
             # set a minimum temperature for the chemical kinetics ode integration
             thresholdTemperature: 560
-            relToleranceTime: 1.00E-02
-            absToleranceTime: 1.00E-04
                         
         # use a higher order field for the conserved field transport options
         conservedFieldOptions:
@@ -121,10 +119,6 @@ timestepper:
     # using the same CompressibleFlowState set the initial conserved mass fractions
     - !ablate::finiteVolume::fieldFunctions::DensityMassFractions
       state: *flowFieldState
-
-    # Set the soot number density to zero
-    - fieldName: densityProgress
-      field: "0.0"
 
     # Set the boundary cells for the slab to a different initial condition
     - !ablate::finiteVolume::fieldFunctions::Euler
@@ -165,15 +159,11 @@ solvers:
 
     # the flow solver requires access to the eos
     eos: *eos
-    # the primary transport model applies to everything but the extra variables.
-    transport: !ablate::eos::tChemSoot::SootSpeciesTransportModel
-      # the SootSpeciesTransportModel adjusts the diffusion coefficient to carbon appropriately
-      transport: !ablate::eos::transport::Sutherland
-        eos: *eos
-    # if specified, the evTransport is used for the ndd transport
-    evTransport: !ablate::eos::tChemSoot::SootProgressTransportModel
-      transport: !ablate::eos::transport::Sutherland
-        eos: *eos
+
+    # the SootSpeciesTransportModel adjusts the diffusion coefficient to carbon appropriately
+    transport: !ablate::eos::transport::Sutherland
+      eos: *eos
+
     # additional monitors can be added to the flow solver.
     monitors:
       # The time step monitor outputs the current timestep and dt every 10 steps
@@ -205,10 +195,6 @@ solvers:
       # the chemistry process is used to compute the species and energy source terms from the reactions
       - !ablate::finiteVolume::processes::Chemistry
         eos: *eos
-      # ThermophoreticDiffusion diffusion controls the diffusion of solid carbon and ndd
-      - !ablate::finiteVolume::processes::ThermophoreticDiffusion
-        transport: !ablate::eos::transport::Sutherland
-          eos: *eos
     # a flux calculator must be specified to so solver for advection
     fluxCalculator: !ablate::finiteVolume::fluxCalculator::AusmpUp
       pgs: *pgs
@@ -306,8 +292,6 @@ solvers:
           properties: !ablate::eos::radiationProperties::Sum
             - !ablate::eos::radiationProperties::Zimmer
               eos: *eos
-            - !ablate::eos::radiationProperties::SootMeanAbsorption
-              eos: *eos
         emissivity: 0.9
         #density of pmma used to output reg rate
         solidDensity: 1190.0
@@ -331,6 +315,4 @@ solvers:
       rays: 5
       properties: !ablate::eos::radiationProperties::Sum
         - !ablate::eos::radiationProperties::Zimmer
-          eos: *eos
-        - !ablate::eos::radiationProperties::SootMeanAbsorption
           eos: *eos
