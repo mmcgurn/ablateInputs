@@ -110,9 +110,6 @@ timestepper:
     - !ablate::finiteVolume::fieldFunctions::DensityMassFractions
       state: *flowFieldState
 
-    # Set the number density to zero
-    - fieldName: densityProgress
-      field: "0.0"
 
     - !ablate::finiteVolume::fieldFunctions::Euler
       # slab Burner
