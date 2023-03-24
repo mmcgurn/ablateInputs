@@ -46,7 +46,7 @@ export FILE=/p/lustre2/ubchrest/ablateInputs/gmshSlabBurner.pmma.noSoot.3D/slabB
 # export FILE=/p/lustre2/ubchrest/ablateInputs/gmshSlabBurner.pmma.noSoot.3D/slabBurner3D.noSoot.highG.3_8_23.yaml
 
 ##### Launch parallel job using srun
-spindle --location=/var/tmp/srun/mcgurn4 srun -n288 /usr/workspace/mcgurn4/ablateOpt/ablate \
+spindle --location=/var/tmp/mcgurn4 srun -n288 /usr/workspace/mcgurn4/ablateOpt/ablate \
    --input $FILE \
    -yaml::environment::title $TITLE \
    -yaml::timestepper::domain::options::dm_refine $DM_REFINE

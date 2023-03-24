@@ -34,7 +34,7 @@ export FACES=186,40,40
 export FILE=/p/lustre2/ubchrest/ablateInputs/slabBurner.pmma.3D/slabBurner.3D.6G.pmma.rad.yaml
 
 ##### Launch parallel job using srun
-spindle --location=/var/tmp/srun/mcgurn4 srun -n4608 /usr/workspace/mcgurn4/ablateOpt/ablate \
+spindle --location=/var/tmp/mcgurn4 srun -n4608 /usr/workspace/mcgurn4/ablateOpt/ablate \
    --input $FILE \
    -yaml::environment::title $TITLE \
    -yaml::timestepper::domain::faces [$FACES]
