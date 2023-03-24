@@ -53,6 +53,22 @@ export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/gmshSlabBurner.pmm
 # export TITLE=highG-gMsh-1n-dm$DM_REFINE-pmma-$SLURM_JOBID
 # export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/gmshSlabBurner.pmma.noSoot.2D/slabBurner2D.noSoot.highG.3_8_23.yaml
 
+# export DM_REFINE=1
+# export TITLE=lowG-gMsh-1n-dm$DM_REFINE-pmma-$SLURM_JOBID
+# export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/gmshSlabBurner.pmma.noSoot.2D/slabBurner2D.noSoot.lowG.3_8_23.yaml
+
+# export DM_REFINE=1
+# export TITLE=highG-gMsh-1n-dm$DM_REFINE-pmma-$SLURM_JOBID
+# export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/gmshSlabBurner.pmma.noSoot.2D/slabBurner2D.noSoot.highG.3_8_23.yaml
+
+# export DM_REFINE=2
+# export TITLE=lowG-gMsh-1n-dm$DM_REFINE-pmma-$SLURM_JOBID
+# export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/gmshSlabBurner.pmma.noSoot.2D/slabBurner2D.noSoot.lowG.3_8_23.yaml
+
+# export DM_REFINE=2
+# export TITLE=highG-gMsh-1n-dm$DM_REFINE-pmma-$SLURM_JOBID
+# export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/gmshSlabBurner.pmma.noSoot.2D/slabBurner2D.noSoot.highG.3_8_23.yaml
+
 
 # Run all tests
 srun -n $SLURM_NPROCS  /projects/academic/chrest/mtmcgurn/ablateOpt/ablate \

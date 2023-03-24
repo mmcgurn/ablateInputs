@@ -279,7 +279,7 @@ solvers:
         # the specified mass fractions are assumed off-gassed by the fuel
         massFractions: *fuelMassFrac
         # the radiviative heat flux to the surface is updated every 10 flow time steps
-        radiationInterval: 10
+        radiationInterval: 25
 
         # a surface radiation solver is used to compute heat flux to the surface
         radiation: !ablate::radiation::SurfaceRadiation
@@ -289,9 +289,8 @@ solvers:
             name: flowRegion
           rays: 25
           # the properties are a function of both gas and soot
-          properties: !ablate::eos::radiationProperties::Sum
-            - !ablate::eos::radiationProperties::Zimmer
-              eos: *eos
+          properties: !ablate::eos::radiationProperties::Zimmer
+            eos: *eos
         emissivity: 0.9
         #density of pmma used to output reg rate
         solidDensity: 1190.0
@@ -306,13 +305,12 @@ solvers:
     region:
       name: flowRegion
     # update the entire radiation solver every 10 flow steps
-    interval: 10
+    interval: 25
     # The radiation solver and the associated region
     radiation: !ablate::radiation::Radiation
       id: volRad
       region:
         name: flowRegion
       rays: 5
-      properties: !ablate::eos::radiationProperties::Sum
-        - !ablate::eos::radiationProperties::Zimmer
-          eos: *eos
+      properties: !ablate::eos::radiationProperties::Zimmer
+        eos: *eos

@@ -1,4 +1,4 @@
-# this input file is setup to replicate the full width high G burn on 3/8/23
+# this input file is setup to replicate the full width low G burn on 3/8/23
 ---
 # metadata for the simulation
 environment:
@@ -14,7 +14,7 @@ timestepper:
   arguments:
     ts_type: rk
     ts_max_time: 100000
-    ts_max_steps: 5000
+    ts_max_steps: 10000000
     ts_dt: 1.0E-10
     ts_adapt_safety: 1.0
     ts_adapt_type: physicsConstrained
@@ -28,6 +28,7 @@ timestepper:
       dm_plex_check_all: false
       dm_plex_hash_location: true
       dm_distribute: false # turn off default dm_distribute so that we can extrude label first
+      dm_refine: 0
     # specify any modifications to be performed to the mesh/domain
     modifiers:
       - # GMsh/dm_plex_gmsh_use_regions creates individual labels with their separate values. By collapsing the labels to the default values
@@ -69,6 +70,8 @@ timestepper:
         subtrahendRegions:
           - name: slab
         incompleteLabel: true
+      
+      - !ablate::domain::modifiers::PrintDomainSummary  
 
     fields:
       # all fields must be defined before solvers.  The ablate::finiteVolume::CompressibleFlowFields is a helper
@@ -238,7 +241,7 @@ solvers:
         pgs: *pgs
         eos: *eos
         massFractions: *fuelMassFrac
-        radiationInterval: 10
+        radiationInterval: 25
         radiation: !ablate::radiation::SurfaceRadiation
           id: surfaceflux
           region:
@@ -254,7 +257,7 @@ solvers:
     id: radiationSolver
     region:
       name: flowRegion
-    interval: 10
+    interval: 25
     radiation: !ablate::radiation::Radiation
       id: volRad
       region:

@@ -2,7 +2,7 @@
 #### See https://hpc.llnl.gov/training/tutorials/slurm-and-moab#LC
 
 ##### These lines are for Slurm
-#SBATCH -N 168
+#SBATCH -N 128
 #SBATCH -J gMshNoSoot
 #SBATCH -t 24:00:00
 #SBATCH -p pbatch
@@ -29,25 +29,25 @@ export PATH="${PETSC_DIR}/${PETSC_ARCH}/bin:$PATH"
 mkdir tmp_$SLURM_JOBID
 cd tmp_$SLURM_JOBID
 
-export DM_REFINE=1
-export TITLE=lowG-gMsh-168n-dm$DM_REFINE-pmma-$SLURM_JOBID
-export FILE=/p/lustre2/ubchrest/ablateInputs/gmshSlabBurner.pmma.noSoot.3DD/slabBurner3D.noSoot.lowG.3_8_23.yaml
+export DM_REFINE=0
+export TITLE=lowG-gMsh-128n-dm$DM_REFINE-pmma-$SLURM_JOBID
+export FILE=/p/lustre2/ubchrest/ablateInputs/gmshSlabBurner.pmma.noSoot.3D/slabBurner3D.noSoot.lowG.3_8_23.yaml
 
-# export DM_REFINE=1
-# export TITLE=highG-gMsh-168n-dm$DM_REFINE-pmma-$SLURM_JOBID
+# export DM_REFINE=0
+# export TITLE=highG-gMsh-128n-dm$DM_REFINE-pmma-$SLURM_JOBID
 # export FILE=/p/lustre2/ubchrest/ablateInputs/gmshSlabBurner.pmma.noSoot.3D/slabBurner3D.noSoot.highG.3_8_23.yaml
 
-# export DM_REFINE=2
-# export TITLE=lowG-gMsh-168n-dm$DM_REFINE-pmma-$SLURM_JOBID
+# export DM_REFINE=1
+# export TITLE=lowG-gMsh-128n-dm$DM_REFINE-pmma-$SLURM_JOBID
 # export FILE=/p/lustre2/ubchrest/ablateInputs/gmshSlabBurner.pmma.noSoot.3D/slabBurner3D.noSoot.lowG.3_8_23.yaml
 
-# export DM_REFINE=2
-# export TITLE=highG-gMsh-168n-dm$DM_REFINE-pmma-$SLURM_JOBID
+# export DM_REFINE=1
+# export TITLE=highG-gMsh-128n-dm$DM_REFINE-pmma-$SLURM_JOBID
 # export FILE=/p/lustre2/ubchrest/ablateInputs/gmshSlabBurner.pmma.noSoot.3D/slabBurner3D.noSoot.highG.3_8_23.yaml
 
 
 ##### Launch parallel job using srun
-srun -n6048 /p/lustre2/mcgurn4/ablateOpt/ablate \
+srun -n4608 /p/lustre2/mcgurn4/ablateOpt/ablate \
    --input $FILE \
    -yaml::environment::title $TITLE \
    -yaml::timestepper::domain::options::dm_refine $DM_REFINE

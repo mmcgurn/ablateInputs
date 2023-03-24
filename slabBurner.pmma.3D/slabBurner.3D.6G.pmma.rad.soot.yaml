@@ -33,16 +33,6 @@ timestepper:
         end: 0.0254
         beta: 2.5
         location: 0.009
-        
-        # cluster around the sides of the slab
-      - !ablate::domain::modifiers::TwoPointClusteringMapper
-        direction: 2
-        start: -0.0127
-        end: 0.0127
-        location: 0.0
-        offset: 0.004
-        beta: 2.5
-        location: 0.006
 
       # distribute the mesh across the mpi rank with ghost cells
       - !ablate::domain::modifiers::DistributeWithGhostCells

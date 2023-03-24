@@ -2,7 +2,7 @@
 #### See https://hpc.llnl.gov/training/tutorials/slurm-and-moab#LC
 
 ##### These lines are for Slurm
-#SBATCH -N 56
+#SBATCH -N 128
 #SBATCH -J 6G
 #SBATCH -t 24:00:00
 #SBATCH -p pbatch
@@ -29,28 +29,12 @@ export PATH="${PETSC_DIR}/${PETSC_ARCH}/bin:$PATH"
 mkdir tmp_$SLURM_JOBID
 cd tmp_$SLURM_JOBID
 
-export TITLE=6G-186x40x40-pmma-rad-soot-$SLURM_JOBID
+export TITLE=6G-186x40x40-pmma-rad-noSoot-$SLURM_JOBID
 export FACES=186,40,40
-export FILE=/p/lustre2/ubchrest/ablateInputs/slabBurner.pmma.3D/slabBurner.3D.6G.pmma.rad.soot.yaml
-
-# 300 nodes
-# export TITLE=6G-280x60x60-pmma-rad-soot-$SLURM_JOBID
-# export FACES=280,60,60
-# export FILE=/p/lustre2/ubchrest/ablateInputs/slabBurner.pmma.3D/slabBurner.3D.6G.pmma.rad.soot.yaml
-
-# 300
-# export TITLE=6G-280x60x60-pmma-rad-soot-$SLURM_JOBID
-# export FACES=280,60,60
-# export FILE=/p/lustre2/ubchrest/ablateInputs/slabBurner.pmma.3D/slabBurner.3D.6G.pmma.rad.soot.yaml
-
-# 600
-# export TITLE=6G-372x80x80-pmma-rad-soot-$SLURM_JOBID
-# export FACES=372,80,80
-# export FILE=/p/lustre2/ubchrest/ablateInputs/slabBurner.pmma.3D/slabBurner.3D.6G.pmma.rad.soot.yaml
-
+export FILE=/p/lustre2/ubchrest/ablateInputs/slabBurner.pmma.3D/slabBurner.3D.6G.pmma.rad.yaml
 
 ##### Launch parallel job using srun
-srun -n2016 /p/lustre2/mcgurn4/ablateOpt/ablate \
+srun -n4608 /p/lustre2/mcgurn4/ablateOpt/ablate \
    --input $FILE \
    -yaml::environment::title $TITLE \
    -yaml::timestepper::domain::faces [$FACES]
