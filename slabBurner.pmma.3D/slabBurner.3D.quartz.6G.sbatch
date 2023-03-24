@@ -18,7 +18,7 @@ module load gcc/10.2.1
 module load cmake/3.21.1 
 
 # Load PETSC ENV
-export PETSC_DIR="/p/lustre2/mcgurn4/petsc"
+export PETSC_DIR="/usr/workspace/mcgurn4/petsc"
 export PETSC_ARCH="arch-ablate-opt-gcc" # arch-ablate-debug or arch-ablate-opt
 export PKG_CONFIG_PATH="${PETSC_DIR}/${PETSC_ARCH}/lib/pkgconfig:$PKG_CONFIG_PATH"
 export HDF5_ROOT="${PETSC_DIR}/${PETSC_ARCH}"  
@@ -34,7 +34,7 @@ export FACES=186,40,40
 export FILE=/p/lustre2/ubchrest/ablateInputs/slabBurner.pmma.3D/slabBurner.3D.6G.pmma.rad.yaml
 
 ##### Launch parallel job using srun
-srun -n4608 /p/lustre2/mcgurn4/ablateOpt/ablate \
+spindle --location=/var/tmp/srun/mcgurn4 srun -n4608 /usr/workspace/mcgurn4/ablateOpt/ablate \
    --input $FILE \
    -yaml::environment::title $TITLE \
    -yaml::timestepper::domain::faces [$FACES]

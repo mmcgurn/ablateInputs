@@ -297,7 +297,7 @@ solvers:
         pgs: *pgs
         eos: *eos
         massFractions: *fuelMassFrac
-        radiationInterval: 10
+        radiationInterval: 24
         radiation: !ablate::radiation::SurfaceRadiation
           id: surfaceflux
           region:
@@ -313,7 +313,7 @@ solvers:
     id: radiationSolver
     region:
       name: flowRegion
-    interval: 10
+    interval: 25
     radiation: !ablate::radiation::Radiation
       id: volRad
       region:
