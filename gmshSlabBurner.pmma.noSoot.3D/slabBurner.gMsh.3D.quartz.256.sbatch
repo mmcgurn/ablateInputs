@@ -31,7 +31,7 @@ cd tmp_$SLURM_JOBID
 
 export DM_REFINE=1
 export TITLE=lowG-gMsh-256n-dm$DM_REFINE-pmma-$SLURM_JOBID
-export FILE=/p/lustre2/ubchrest/ablateInputs/gmshSlabBurner.pmma.noSoot.3DD/slabBurner3D.noSoot.lowG.3_8_23.yaml
+export FILE=/p/lustre2/ubchrest/ablateInputs/gmshSlabBurner.pmma.noSoot.3D/slabBurner3D.noSoot.lowG.3_8_23.yaml
 
 # export DM_REFINE=1
 # export TITLE=highG-gMsh-256n-dm$DM_REFINE-pmma-$SLURM_JOBID
