@@ -135,7 +135,7 @@ timestepper:
     fields:
       - !ablate::finiteVolume::CompressibleFlowFields
         eos: !ablate::eos::TChem  &eos
-          mechFile: ../mechanisms/MMAReduced.yaml
+          mechFile: ../mechanisms/gri30.yaml
         conservedFieldOptions:
           petscfv_type: leastsquares
           petsclimiter_type: vanleer
@@ -180,7 +180,7 @@ timestepper:
           &fuelMassFrac
           eos: *eos
           values:
-            - fieldName: MMETHAC_C5H8O2 # The fuel boundary condition
+            - fieldName: CH4 # The fuel boundary condition
               field: 1.0
     - !ablate::finiteVolume::fieldFunctions::DensityMassFractions
       region:
