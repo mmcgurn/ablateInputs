@@ -36,28 +36,28 @@ spindle --location=/var/tmp/mcgurn4 srun -n72 /usr/workspace/mcgurn4/ablateOpt/a
    --input $FILE \
    -yaml::environment::title dm0-$SLURM_JOBID \
    -yaml::timestepper::domain::faces [140,30,30] \
-   -log_view :/p/lustre2/ubchrest/ablateInputs/slabBurner.pmma.3D.scaling/ConvEst_Refinement_${SLURM_JOBID}_Level_0.csv:ascii_csv
+   -log_view :/p/lustre2/ubchrest/ablateInputs/slabBurner.pmma.3D.scaling/ConvEst_Refinement_${SLURM_JOBID}_Level_0.csv:ascii_csv  -build_twosided redscatter
 
 # 16 nodes
 # spindle --location=/var/tmp/mcgurn4 srun -n576 /usr/workspace/mcgurn4/ablateOpt/ablate \
 #    --input $FILE \
 #    -yaml::environment::title dm1-$SLURM_JOBID \
 #    -yaml::timestepper::domain::faces [280,60,60] \
-#    -log_view :/p/lustre2/ubchrest/ablateInputs/slabBurner.pmma.3D.scaling/ConvEst_Refinement_${SLURM_JOBID}_Level_1.csv:ascii_csv
+#    -log_view :/p/lustre2/ubchrest/ablateInputs/slabBurner.pmma.3D.scaling/ConvEst_Refinement_${SLURM_JOBID}_Level_1.csv:ascii_csv  -build_twosided redscatter
 
 # 128 nodes
 # spindle --location=/var/tmp/mcgurn4 srun -n4608 /usr/workspace/mcgurn4/ablateOpt/ablate \
 #    --input $FILE \
 #    -yaml::environment::title dm2-$SLURM_JOBID \
 #    -yaml::timestepper::domain::faces [560,120,120] \
-#    -log_view :/p/lustre2/ubchrest/ablateInputs/slabBurner.pmma.3D.scaling/ConvEst_Refinement_${SLURM_JOBID}_Level_2.csv:ascii_csv
+#    -log_view :/p/lustre2/ubchrest/ablateInputs/slabBurner.pmma.3D.scaling/ConvEst_Refinement_${SLURM_JOBID}_Level_2.csv:ascii_csv  -build_twosided redscatter
 
 # 1024 nodes
 # spindle --location=/var/tmp/mcgurn4 srun -n36864 /usr/workspace/mcgurn4/ablateOpt/ablate \
 #    --input $FILE \
 #    -yaml::environment::title dm3-$SLURM_JOBID \
 #    -yaml::timestepper::domain::faces [1120,240,240] \
-#    -log_view :/p/lustre2/ubchrest/ablateInputs/slabBurner.pmma.3D.scaling/ConvEst_Refinement_${SLURM_JOBID}_Level_3.csv:ascii_csv
+#    -log_view :/p/lustre2/ubchrest/ablateInputs/slabBurner.pmma.3D.scaling/ConvEst_Refinement_${SLURM_JOBID}_Level_3.csv:ascii_csv  -build_twosided redscatter
 
 
 echo 'Done'
