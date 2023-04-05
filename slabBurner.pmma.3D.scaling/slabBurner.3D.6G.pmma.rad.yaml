@@ -11,12 +11,12 @@ timestepper:
   arguments:
     ts_type: rk
     ts_max_time: 1
-    ts_max_steps: 5000
+    ts_max_steps: 250
     ts_dt: 1.0e-10
     ts_adapt_safety: 0.95
     ts_adapt_type: physicsConstrained
   io: !ablate::io::Hdf5MultiFileSerializer
-    interval: 1000
+    interval: 100
   domain: !ablate::domain::BoxMeshBoundaryCells
     name: simpleBoxField
     faces: [ 186,40,40 ]

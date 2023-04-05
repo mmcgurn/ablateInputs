@@ -2,7 +2,7 @@
 #### See https://hpc.llnl.gov/training/tutorials/slurm-and-moab#LC
 
 ##### These lines are for Slurm
-#SBATCH -N 2
+#SBATCH -N 64
 #SBATCH -J scale
 #SBATCH -t 24:00:00
 #SBATCH -p pbatch
@@ -31,33 +31,39 @@ cd tmp_$SLURM_JOBID
 
 export FILE=/p/lustre2/ubchrest/ablateInputs/slabBurner.pmma.3D.scaling/slabBurner.3D.6G.pmma.rad.yaml
 
-# 2 nodes
-spindle --location=/var/tmp/mcgurn4 srun -n72 /usr/workspace/mcgurn4/ablateOpt/ablate \
+export nodes=2304
+
+
+spindle --location=/var/tmp/mcgurn4 srun -n${nodes} /usr/workspace/mcgurn4/ablateOpt/ablate \
    --input $FILE \
-   -yaml::environment::title dm0-$SLURM_JOBID \
-   -yaml::timestepper::domain::faces [140,30,30] \
-   -log_view :/p/lustre2/ubchrest/ablateInputs/slabBurner.pmma.3D.scaling/ConvEst_Refinement_${SLURM_JOBID}_Level_0.csv:ascii_csv  -build_twosided redscatter
+   -yaml::environment::title dm0-${nodes}-$SLURM_JOBID \
+   -yaml::timestepper::domain::faces [80,20,20] \
+   -log_view :/p/lustre2/ubchrest/ablateInputs/slabBurner.pmma.3D.scaling/ConvEst_Refinement_Level_0_${nodes}.csv:ascii_csv  -build_twosided redscatter
 
-# 16 nodes
-# spindle --location=/var/tmp/mcgurn4 srun -n576 /usr/workspace/mcgurn4/ablateOpt/ablate \
-#    --input $FILE \
-#    -yaml::environment::title dm1-$SLURM_JOBID \
-#    -yaml::timestepper::domain::faces [280,60,60] \
-#    -log_view :/p/lustre2/ubchrest/ablateInputs/slabBurner.pmma.3D.scaling/ConvEst_Refinement_${SLURM_JOBID}_Level_1.csv:ascii_csv  -build_twosided redscatter
 
-# 128 nodes
-# spindle --location=/var/tmp/mcgurn4 srun -n4608 /usr/workspace/mcgurn4/ablateOpt/ablate \
-#    --input $FILE \
-#    -yaml::environment::title dm2-$SLURM_JOBID \
-#    -yaml::timestepper::domain::faces [560,120,120] \
-#    -log_view :/p/lustre2/ubchrest/ablateInputs/slabBurner.pmma.3D.scaling/ConvEst_Refinement_${SLURM_JOBID}_Level_2.csv:ascii_csv  -build_twosided redscatter
+spindle --location=/var/tmp/mcgurn4 srun -n${nodes} /usr/workspace/mcgurn4/ablateOpt/ablate \
+   --input $FILE \
+   -yaml::environment::title dm1-${nodes}-$SLURM_JOBID \
+   -yaml::timestepper::domain::faces [80,20,20] \
+   -log_view :/p/lustre2/ubchrest/ablateInputs/slabBurner.pmma.3D.scaling/ConvEst_Refinement_Level_1_${nodes}.csv:ascii_csv  -build_twosided redscatter
 
-# 1024 nodes
-# spindle --location=/var/tmp/mcgurn4 srun -n36864 /usr/workspace/mcgurn4/ablateOpt/ablate \
-#    --input $FILE \
-#    -yaml::environment::title dm3-$SLURM_JOBID \
-#    -yaml::timestepper::domain::faces [1120,240,240] \
-#    -log_view :/p/lustre2/ubchrest/ablateInputs/slabBurner.pmma.3D.scaling/ConvEst_Refinement_${SLURM_JOBID}_Level_3.csv:ascii_csv  -build_twosided redscatter
+spindle --location=/var/tmp/mcgurn4 srun -n${nodes} /usr/workspace/mcgurn4/ablateOpt/ablate \
+   --input $FILE \
+   -yaml::environment::title dm2-${nodes}-$SLURM_JOBID \
+   -yaml::timestepper::domain::faces [160,40,40] \
+   -log_view :/p/lustre2/ubchrest/ablateInputs/slabBurner.pmma.3D.scaling/ConvEst_Refinement_Level_2_${nodes}.csv:ascii_csv  -build_twosided redscatter
+
+spindle --location=/var/tmp/mcgurn4 srun -n${nodes} /usr/workspace/mcgurn4/ablateOpt/ablate \
+   --input $FILE \
+   -yaml::environment::title dm3-${nodes}-$SLURM_JOBID \
+   -yaml::timestepper::domain::faces [320,80,80] \
+   -log_view :/p/lustre2/ubchrest/ablateInputs/slabBurner.pmma.3D.scaling/ConvEst_Refinement_Level_3_${nodes}.csv:ascii_csv  -build_twosided redscatter
+
+spindle --location=/var/tmp/mcgurn4 srun -n${nodes} /usr/workspace/mcgurn4/ablateOpt/ablate \
+   --input $FILE \
+   -yaml::environment::title dm4-${nodes}-$SLURM_JOBID \
+   -yaml::timestepper::domain::faces [640,160,160] \
+   -log_view :/p/lustre2/ubchrest/ablateInputs/slabBurner.pmma.3D.scaling/ConvEst_Refinement_Level_4_${nodes}.csv:ascii_csv  -build_twosided redscatter
 
 
 echo 'Done'
