@@ -75,17 +75,20 @@ timestepper:
       # all fields must be defined before solvers.  The ablate::finiteVolume::CompressibleFlowFields is a helper
       # class that creates the required fields for the compressible flow solver (rho, rhoE, rhoU, ...)
       - !ablate::finiteVolume::CompressibleFlowFields
-        eos: !ablate::eos::TChemSoot  &eos
-          mechFile: MMAReduced.yml
+        eos: !ablate::eos::TChem  &eos
+          mechFile: MMAReduced.soot.yml
           options:
             # set a minimum temperature for the chemical kinetics ode integration
             thresholdTemperature: 560
-            relToleranceTime: 1.00E-02
-            absToleranceTime: 1.00E-04  
-                        
         conservedFieldOptions:
           petscfv_type: leastsquares
           petsclimiter_type: vanleer
+          
+      # create a conserved field to track ndd
+      - !ablate::finiteVolume::ConservedField
+        name: "Progress"
+        components: [ "NDD" ]
+                  
       # by adding a pressure field the code will compute and output pressure
       - !ablate::domain::FieldDescription
         name: pressure
@@ -178,6 +181,9 @@ solvers:
       - !ablate::finiteVolume::processes::ThermophoreticDiffusion
         transport: !ablate::eos::transport::Sutherland
           eos: *eos
+      # use ablate::finiteVolume::processes::Soot to compute ndd and carbon source terms
+      - !ablate::finiteVolume::processes::Soot
+        eos: *eos          
     fluxCalculator: !ablate::finiteVolume::fluxCalculator::AusmpUp
       pgs: *pgs
 
