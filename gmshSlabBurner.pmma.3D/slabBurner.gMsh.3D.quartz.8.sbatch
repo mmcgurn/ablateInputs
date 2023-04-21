@@ -12,14 +12,12 @@
 
 ##### Load Required modules
 # gcc
-module load mkl/2019.0
-module load valgrind/3.16.1
-module load gcc/10.2.1
-module load cmake/3.21.1 
+module load gcc/10.3.1-magic 
+module load cmake/3.25.2
 
 # Load PETSC ENV
 export PETSC_DIR="/p/lustre2/mcgurn4/petsc"
-export PETSC_ARCH="arch-ablate-opt-gcc" # arch-ablate-debug or arch-ablate-opt
+export PETSC_ARCH="arch-ablate-opt" # arch-ablate-debug or arch-ablate-opt
 export PKG_CONFIG_PATH="${PETSC_DIR}/${PETSC_ARCH}/lib/pkgconfig:$PKG_CONFIG_PATH"
 export HDF5_ROOT="${PETSC_DIR}/${PETSC_ARCH}"  
 # Include the bin directory to access mpi commands
