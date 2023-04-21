@@ -34,7 +34,7 @@ export TITLE=lowG-gMsh-256n-dm$DM_REFINE-pmma-$SLURM_JOBID
 export FILE=/p/lustre2/ubchrest/ablateInputs/gmshSlabBurner.pmma.3D/slabBurner3D.lowG.3_8_23.yaml
 
 # export DM_REFINE=1
-# export TITLE=highG-gMsh-256n-dm$DM_REFINE-pmma-$SLURM_JOBID
+# export TITLE=highG-gMsh-256n-dm$DM_REFINE-pmma-$SLURM_JOBID387
 # export FILE=/p/lustre2/ubchrest/ablateInputs/gmshSlabBurner.pmma.3D/slabBurner3D.highG.3_8_23.yaml
 
 
@@ -42,6 +42,6 @@ export FILE=/p/lustre2/ubchrest/ablateInputs/gmshSlabBurner.pmma.3D/slabBurner3D
 srun -n9216 /usr/workspace/mcgurn4/ablateOpt/ablate \
    --input $FILE \
    -yaml::environment::title $TITLE \
-   -yaml::timestepper::domain::options::dm_refine $DM_REFINE
+   -yaml::timestepper::domain::options::dm_refine $DM_REFINE -build_twosided redscatter
 
 echo 'Done'

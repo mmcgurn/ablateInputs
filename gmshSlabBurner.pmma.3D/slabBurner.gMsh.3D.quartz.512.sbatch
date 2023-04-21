@@ -42,6 +42,6 @@ export FILE=/p/lustre2/ubchrest/ablateInputs/gmshSlabBurner.pmma.3D/slabBurner3D
 srun -n18432 /usr/workspace/mcgurn4/ablateOpt/ablate \
    --input $FILE \
    -yaml::environment::title $TITLE \
-   -yaml::timestepper::domain::options::dm_refine $DM_REFINE
+   -yaml::timestepper::domain::options::dm_refine $DM_REFINE -build_twosided redscatter
 
 echo 'Done'
