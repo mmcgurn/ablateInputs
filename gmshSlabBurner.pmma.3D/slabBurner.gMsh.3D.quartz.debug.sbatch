@@ -2,7 +2,7 @@
 #### See https://hpc.llnl.gov/training/tutorials/slurm-and-moab#LC
 
 ##### These lines are for Slurm
-#SBATCH -N 8
+#SBATCH -N 16
 #SBATCH -J gMsh
 #SBATCH -t 24:00:00
 #SBATCH -p pbatch
@@ -12,8 +12,8 @@
 
 ##### Load Required modules
 # gcc
-module load gcc/10.3.1-magic 
 module load cmake/3.25.2
+module load intel/2022.1.0-magic
 
 # Load PETSC ENV
 export PETSC_DIR="/p/lustre2/mcgurn4/petsc"
@@ -44,7 +44,7 @@ export FILE=/p/lustre2/ubchrest/ablateInputs/gmshSlabBurner.pmma.3D/slabBurner3D
 # export FILE=/p/lustre2/ubchrest/ablateInputs/gmshSlabBurner.pmma.3D/slabBurner3D.highG.3_8_23.yaml
 
 ##### Launch parallel job using srun
-srun -n288 /usr/workspace/mcgurn4/ablateOpt/ablate \
+srun -n576 /usr/workspace/mcgurn4/ablateOpt/ablate \
    --input $FILE \
    -yaml::environment::title $TITLE \
    -yaml::timestepper::domain::options::dm_refine $DM_REFINE  -build_twosided redscatter
