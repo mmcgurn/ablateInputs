@@ -71,6 +71,14 @@ timestepper:
           - name: slab
         incompleteLabel: true # allow the faces to be removed the flowRegion
 
+      - !ablate::domain::modifiers::TagLabelInterface
+        leftRegion:
+          name: interiorCells
+        rightRegion:
+          name: boundaryCellsFront
+        boundaryFaceRegion:
+          name: boundaryFacesFront
+
       # this can be enabled to print a domain summary
       # - !ablate::domain::modifiers::PrintDomainSummary
     fields:
@@ -204,6 +212,18 @@ solvers:
           eos: *eos
           massFractionsFuel: *fuelMassFrac
           massFractionsOxidizer: *oxMassFrac
+      - !ablate::monitors::RadiationFlux
+        region:
+          name: boundaryFacesFront
+        radiation:
+          - !ablate::radiation::OrthogonalRadiation
+            id: tcp
+            region:
+              name: interiorCells
+            properties: !ablate::eos::radiationProperties::SootSpectrumProperties
+              eos: *eos
+              wavelengths: [ 650.0E-9, 532.0E-9, 470.0E-9 ] # Red wavelength, Green wavelength, Blue wavelength
+              bandwidths: [ 10E-9, 10E-9 , 10E-9 ] # Red bandwidth, Green bandwidth, Blue bandwidth
     # additional processes can be added to the flow solver
     additionalProcesses:
       # in addition to the default process PressureGradientScaling can be used to speed up the simulation.
@@ -322,7 +342,7 @@ solvers:
           properties: !ablate::eos::radiationProperties::Sum
             - !ablate::eos::radiationProperties::Zimmer
               eos: *eos
-            - !ablate::eos::radiationProperties::SootMeanAbsorption
+            - !ablate::eos::radiationProperties::SootMeanProperties
               eos: *eos
         emissivity: 0.9
         #density of pmma used to output reg rate
@@ -348,5 +368,5 @@ solvers:
       properties: !ablate::eos::radiationProperties::Sum
         - !ablate::eos::radiationProperties::Zimmer
           eos: *eos
-        - !ablate::eos::radiationProperties::SootMeanAbsorption
+        - !ablate::eos::radiationProperties::SootMeanProperties
           eos: *eos
