@@ -95,13 +95,18 @@ timestepper:
         boundaryFaceRegion:
           name: heatFluxMonitorFaces
 
-      # Create a region representing the front boundary cells only
+      - !ablate::domain::modifiers::CreateLabel
+        region:
+          name: boundaryCellsTop
+        function: !ablate::mathFunctions::geom::Box
+          lower: [ 0 , 0.0254, -0.0127 ]
+          upper: [ 0.1, 0.03, 0.0127 ]
       - !ablate::domain::modifiers::CreateLabel
         region:
           name: boundaryCellsFront
         function: !ablate::mathFunctions::geom::Box
-          lower: [ 0 , 0, 0.0127 ]
-          upper: [ 0.1, 0.0254, 1 ]
+          lower: [ 0 , 0.0254, -0.0127 ]
+          upper: [ 0.1, 0.03, 0.0127 ]
       - !ablate::domain::modifiers::TagLabelInterface
         leftRegion:
           name: interiorFlowRegion

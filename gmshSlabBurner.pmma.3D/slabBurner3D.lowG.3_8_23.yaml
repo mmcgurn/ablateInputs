@@ -98,10 +98,16 @@ timestepper:
       # Create a region representing the front boundary cells only
       - !ablate::domain::modifiers::CreateLabel
         region:
+          name: boundaryCellsTop
+        function: !ablate::mathFunctions::geom::Box
+          lower: [ 0 , 0.0254, -0.0127 ]
+          upper: [ 0.1, 0.03, 0.0127 ]
+      - !ablate::domain::modifiers::CreateLabel
+        region:
           name: boundaryCellsFront
         function: !ablate::mathFunctions::geom::Box
           lower: [ 0 , 0, 0.0127 ]
-          upper: [ 0.1, 0.0254, 1 ]
+          upper: [ 0.1, 0.0254, 0.0227 ]
       - !ablate::domain::modifiers::TagLabelInterface
         leftRegion:
           name: interiorFlowRegion
@@ -406,7 +412,7 @@ solvers:
           properties: !ablate::eos::radiationProperties::Sum
             - !ablate::eos::radiationProperties::Zimmer
               eos: *eos
-            - !ablate::eos::radiationProperties::SootMeanAbsorption
+            - !ablate::eos::radiationProperties::SootMeanProperties
               eos: *eos
         emissivity: 0.9
         #density of pmma used to output reg rate
@@ -432,5 +438,5 @@ solvers:
       properties: !ablate::eos::radiationProperties::Sum
         - !ablate::eos::radiationProperties::Zimmer
           eos: *eos
-        - !ablate::eos::radiationProperties::SootMeanAbsorption
+        - !ablate::eos::radiationProperties::SootMeanProperties
           eos: *eos
