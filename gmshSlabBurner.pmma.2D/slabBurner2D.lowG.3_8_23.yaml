@@ -73,6 +73,30 @@ timestepper:
           - name: slab
         incompleteLabel: true
 
+      # Create a region for the flat plate heat flux monitor to operate on
+      - !ablate::domain::modifiers::CreateLabel
+        region:
+          name: heatFluxMonitorRegion
+        function: !ablate::mathFunctions::geom::Box
+          lower: [ 0 , 0.0086 ]
+          upper: [ 0.1, 0.0254 ]
+      - !ablate::domain::modifiers::SubtractLabel
+        # separates the regions above and below the slab
+        differenceRegion:
+          name: lowerSlabRegion
+        minuendRegion:
+          name: interiorFlowRegion
+        subtrahendRegions:
+          - name: heatFluxMonitorRegion
+      - !ablate::domain::modifiers::TagLabelInterface
+        # define the boundary between the upper and lower regions
+        leftRegion:
+          name: heatFluxMonitorRegion
+        rightRegion:
+          name: lowerSlabRegion
+        boundaryFaceRegion:
+          name: heatFluxMonitorFaces
+
     fields:
       # all fields must be defined before solvers.  The ablate::finiteVolume::CompressibleFlowFields is a helper
       # class that creates the required fields for the compressible flow solver (rho, rhoE, rhoU, ...)
@@ -84,14 +108,14 @@ timestepper:
             thresholdTemperature: 560
         conservedFieldOptions:
           petscfv_type: leastsquares
-          
+
       # create a conserved field to track ndd
       - !ablate::finiteVolume::ExtraVariable
         name: "Progress"
-        components: [ "NDD" ]        
+        components: [ "NDD" ]
         conservedFieldOptions:
           petscfv_type: leastsquares
-                          
+
       # by adding a pressure field the code will compute and output pressure
       - !ablate::domain::FieldDescription
         name: pressure
@@ -143,7 +167,7 @@ timestepper:
       state: *fuelFieldState
 # solvers can be combined
 solvers:
-  # The compressible flow solver will solve the compressible flow equations over the interiorCells
+  # The compressible flow solver will solve the compressible flow equations over the interiorFlowRegion
   - !ablate::finiteVolume::CompressibleFlowSolver
     id: flowField
     region:
@@ -161,14 +185,28 @@ solvers:
       - !ablate::monitors::TimeStepMonitor
         interval: 25
       - !ablate::monitors::PhysicsTimeStep
-        interval: 25    
-        
+        interval: 25
+
       - !ablate::monitors::MixtureFractionMonitor
         mixtureFractionCalculator: !ablate::monitors::MixtureFractionCalculator
           eos: *eos
           massFractionsFuel: *fuelMassFrac
           massFractionsOxidizer: *oxMassFrac
-
+      - !ablate::monitors::RadiationFlux
+        id: slabFluxMonitor
+        region:
+          name: heatFluxMonitorFaces
+        radiation:
+          - !ablate::radiation::SurfaceRadiation
+            id: slabMonitorTracer
+            region:
+              name: heatFluxMonitorRegion
+            rays: 25
+            properties: !ablate::eos::radiationProperties::Sum
+              - !ablate::eos::radiationProperties::Zimmer
+                eos: *eos
+              - !ablate::eos::radiationProperties::SootMeanProperties
+                eos: *eos
     additionalProcesses:
       - !ablate::finiteVolume::processes::PressureGradientScaling
         &pgs
@@ -263,7 +301,7 @@ solvers:
           properties: !ablate::eos::radiationProperties::Sum
             - !ablate::eos::radiationProperties::Zimmer
               eos: *eos
-            - !ablate::eos::radiationProperties::SootMeanAbsorption
+            - !ablate::eos::radiationProperties::SootMeanProperties
               eos: *eos
         emissivity: 0.9
         solidDensity: 1190.0 #density of pmma used to output reg rate
@@ -282,5 +320,5 @@ solvers:
       properties: !ablate::eos::radiationProperties::Sum
         - !ablate::eos::radiationProperties::Zimmer
           eos: *eos
-        - !ablate::eos::radiationProperties::SootMeanAbsorption
+        - !ablate::eos::radiationProperties::SootMeanProperties
           eos: *eos

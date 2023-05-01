@@ -71,13 +71,51 @@ timestepper:
           - name: slab
         incompleteLabel: true # allow the faces to be removed the flowRegion
 
+      # Create a region for the flat plate heat flux monitor to operate on
+      - !ablate::domain::modifiers::CreateLabel
+        region:
+          name: heatFluxMonitorRegion
+        function: !ablate::mathFunctions::geom::Box
+          lower: [ 0 , 0.0086, -0.0127 ]
+          upper: [ 0.1, 0.0254, 0.0127 ]
+      - !ablate::domain::modifiers::SubtractLabel
+        # separates the regions above and below the slab
+        differenceRegion:
+          name: lowerSlabRegion
+        minuendRegion:
+          name: interiorFlowRegion
+        subtrahendRegions:
+          - name: heatFluxMonitorRegion
+      - !ablate::domain::modifiers::TagLabelInterface
+        # define the boundary between the upper and lower regions
+        leftRegion:
+          name: heatFluxMonitorRegion
+        rightRegion:
+          name: lowerSlabRegion
+        boundaryFaceRegion:
+          name: heatFluxMonitorFaces
+
+      # Create a region representing the front boundary cells only
+      - !ablate::domain::modifiers::CreateLabel
+        region:
+          name: boundaryCellsFront
+        function: !ablate::mathFunctions::geom::Box
+          lower: [ 0 , 0, 0.0127 ]
+          upper: [ 0.1, 0.0254, 1 ]
       - !ablate::domain::modifiers::TagLabelInterface
         leftRegion:
-          name: interiorCells
+          name: interiorFlowRegion
         rightRegion:
           name: boundaryCellsFront
         boundaryFaceRegion:
           name: boundaryFacesFront
+      - !ablate::domain::modifiers::TagLabelInterface
+        leftRegion:
+          name: interiorFlowRegion
+        rightRegion:
+          name: boundaryCellsTop
+        boundaryFaceRegion:
+          name: boundaryFacesTop
 
       # this can be enabled to print a domain summary
       # - !ablate::domain::modifiers::PrintDomainSummary
@@ -121,7 +159,7 @@ timestepper:
         eos: *eos
         # use a sphere geometry to set up an ignition kernel
         temperature: !ablate::mathFunctions::geom::Sphere
-          center: [ 0.0182024,  0.007 , 0.0]
+          center: [ 0.0182024,  0.007 , 0.0 ]
           radius: 0.005
           insideValues: 1673.15
           outsideValues: 300
@@ -171,7 +209,7 @@ timestepper:
 
 # list the solvers that apply over the main mesh and the boundary cells
 solvers:
-  # The compressible flow solver will solve the compressible flow equations over the interiorCells
+  # The compressible flow solver will solve the compressible flow equations over the interiorFlowRegion
   - !ablate::finiteVolume::CompressibleFlowSolver
     id: flowField
     # the flow solver should only operate over the interiorFlowRegion.  This does not include boundary cells or slab boundary faces
@@ -213,18 +251,49 @@ solvers:
           massFractionsFuel: *fuelMassFrac
           massFractionsOxidizer: *oxMassFrac
       - !ablate::monitors::RadiationFlux
+        id: slabFluxMonitor
+        region:
+          name: heatFluxMonitorFaces
+        radiation:
+          - !ablate::radiation::SurfaceRadiation
+            id: slabMonitorTracer
+            region:
+              name: heatFluxMonitorRegion
+            rays: 25
+            properties: !ablate::eos::radiationProperties::Sum
+              - !ablate::eos::radiationProperties::Zimmer
+                eos: *eos
+              - !ablate::eos::radiationProperties::SootMeanProperties
+                eos: *eos
+      - !ablate::monitors::RadiationFlux
+        id: vTCPMonitor_front
         region:
           name: boundaryFacesFront
         radiation:
           - !ablate::radiation::OrthogonalRadiation
-            id: tcp
+            id: tcpTracer_front
             region:
-              name: interiorCells
+              name: interiorFlowRegion
             properties: !ablate::eos::radiationProperties::SootSpectrumProperties
               eos: *eos
-              wavelengths: [ 650.0E-9, 532.0E-9, 470.0E-9 ] # Red wavelength, Green wavelength, Blue wavelength
-              bandwidths: [ 10E-9, 10E-9 , 10E-9 ] # Red bandwidth, Green bandwidth, Blue bandwidth
-    # additional processes can be added to the flow solver
+              wavelengths: [ 650.0E-9, 532.0E-9, 470.0E-9 ] # Red wavelength, # Green wavelength, # Blue wavelength
+              bandwidths: [ 10E-9, 10E-9 , 10E-9 ]
+            log: !ablate::monitors::logs::StdOut
+      - !ablate::monitors::RadiationFlux
+        id: vTCPMonitor_top
+        region:
+          name: boundaryFacesTop
+        radiation:
+          - !ablate::radiation::OrthogonalRadiation
+            id: tcpTracer_top
+            region:
+              name: interiorFlowRegion
+            properties: !ablate::eos::radiationProperties::SootSpectrumProperties
+              eos: *eos
+              wavelengths: [ 650.0E-9, 532.0E-9, 470.0E-9 ] # Red wavelength, # Green wavelength, # Blue wavelength
+              bandwidths: [ 10E-9, 10E-9 , 10E-9 ]
+            log: !ablate::monitors::logs::StdOut
+            # additional processes can be added to the flow solver
     additionalProcesses:
       # in addition to the default process PressureGradientScaling can be used to speed up the simulation.
       # the pgs must be supplied to other components to keep consistent calculations
@@ -351,7 +420,7 @@ solvers:
       # the boundary solver monitor is used to record regression rate and heat flux to the surface
       - !ablate::monitors::BoundarySolverMonitor
 
-  # the volume radiation solver compute the gas/gas energy transfer within the gas phase
+      # the volume radiation solver compute the gas/gas energy transfer within the gas phase
   - !ablate::radiation::VolumeRadiation
     id: radiationSolver
     # this is the region for which the solver operates (no boundary cells)
