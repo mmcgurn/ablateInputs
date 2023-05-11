@@ -16,7 +16,7 @@ timestepper:
     ts_max_time: 100000
     ts_max_steps: 3000000
     ts_dt: 1.0E-10
-    ts_adapt_safety: 1.0
+    ts_adapt_safety: 0.9
     ts_adapt_type: physicsConstrained
   # io controls how often the results are saved to a file for visualization and restart
   io: !ablate::io::Hdf5MultiFileSerializer
