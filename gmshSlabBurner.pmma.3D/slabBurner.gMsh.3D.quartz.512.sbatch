@@ -28,11 +28,11 @@ mkdir tmp_$SLURM_JOBID
 cd tmp_$SLURM_JOBID
 
 export DM_REFINE=1
-export TITLE=lowG-gMsh-256n-dm$DM_REFINE-pmma-cfl-$SLURM_JOBID
+export TITLE=lowG-gMsh-512n-dm$DM_REFINE-pmma-cfl-$SLURM_JOBID
 export FILE=/p/lustre2/ubchrest/ablateInputs/gmshSlabBurner.pmma.3D/slabBurner3D.lowG.3_8_23.yaml
 
 # export DM_REFINE=1
-# export TITLE=highG-gMsh-256n-dm$DM_REFINE-pmma-cfl-$SLURM_JOBID387
+# export TITLE=highG-gMsh-512n-dm$DM_REFINE-pmma-cfl-$SLURM_JOBID387
 # export FILE=/p/lustre2/ubchrest/ablateInputs/gmshSlabBurner.pmma.3D/slabBurner3D.highG.3_8_23.yaml
 
 
