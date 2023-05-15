@@ -85,11 +85,10 @@ timestepper:
           petsclimiter_type: vanleer
           
       # create a conserved field to track ndd
-      - !ablate::finiteVolume::ConservedField
+      - !ablate::finiteVolume::ExtraVariable
         name: "Progress"
         components: [ "NDD" ]
-        bound: true
-                  
+                
       # by adding a pressure field the code will compute and output pressure
       - !ablate::domain::FieldDescription
         name: pressure
