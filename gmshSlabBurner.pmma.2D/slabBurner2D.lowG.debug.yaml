@@ -89,7 +89,6 @@ timestepper:
         name: "Progress"
         components: [ "NDD" ]
         bound: true
-
                   
       # by adding a pressure field the code will compute and output pressure
       - !ablate::domain::FieldDescription
@@ -150,15 +149,17 @@ solvers:
     parameters:
       cfl: 0.475
     eos: *eos
-    transport: !ablate::eos::transport::Sutherland
-      eos: *eos
-
+    transport: !ablate::eos::tChemSoot::SootSpeciesTransportModel
+      transport: !ablate::eos::transport::Sutherland
+        eos: *eos
+    evTransport: !ablate::eos::tChemSoot::SootProgressTransportModel
+      transport: !ablate::eos::transport::Sutherland
+        eos: *eos
     monitors:
       - !ablate::monitors::TimeStepMonitor
         interval: 25
       - !ablate::monitors::PhysicsTimeStep
         interval: 25    
-
     additionalProcesses:
       - !ablate::finiteVolume::processes::PressureGradientScaling
         &pgs
@@ -169,6 +170,9 @@ solvers:
         log: !ablate::monitors::logs::StdOut
       - !ablate::finiteVolume::processes::Chemistry
         eos: *eos
+      - !ablate::finiteVolume::processes::ThermophoreticDiffusion
+        transport: !ablate::eos::transport::Sutherland
+          eos: *eos
       # use ablate::finiteVolume::processes::Soot to compute ndd and carbon source terms
       - !ablate::finiteVolume::processes::Soot
         eos: *eos          
@@ -242,32 +246,8 @@ solvers:
         eos: *eos
         massFractions: *fuelMassFrac
         radiationInterval: 25
-        radiation: !ablate::radiation::SurfaceRadiation
-          id: surfaceflux
-          region:
-            name: flowRegion
-          rays: 25
-          properties: !ablate::eos::radiationProperties::Sum
-            - !ablate::eos::radiationProperties::Zimmer
-              eos: *eos
-            - !ablate::eos::radiationProperties::SootMeanAbsorption
-              eos: *eos
+    
         emissivity: 0.9
         solidDensity: 1190.0 #density of pmma used to output reg rate
     monitors:
       - !ablate::monitors::BoundarySolverMonitor
-  - !ablate::radiation::VolumeRadiation
-    id: radiationSolver
-    region:
-      name: flowRegion
-    interval: 25
-    radiation: !ablate::radiation::Radiation
-      id: volRad
-      region:
-        name: flowRegion
-      rays: 5
-      properties: !ablate::eos::radiationProperties::Sum
-        - !ablate::eos::radiationProperties::Zimmer
-          eos: *eos
-        - !ablate::eos::radiationProperties::SootMeanAbsorption
-          eos: *eos

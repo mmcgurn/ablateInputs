@@ -89,7 +89,8 @@ timestepper:
       # create a conserved field to track ndd
       - !ablate::finiteVolume::ConservedField
         name: "Progress"
-        components: [ "NDD" ]          
+        components: [ "NDD" ]      
+        bound: true
           
       # by adding a pressure field the code will compute and output pressure
       - !ablate::domain::FieldDescription
