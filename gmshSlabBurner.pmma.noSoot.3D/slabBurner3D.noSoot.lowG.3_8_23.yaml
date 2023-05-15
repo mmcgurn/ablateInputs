@@ -81,8 +81,7 @@ timestepper:
           mechFile: MMAReduced.yml
           options:
             # set a minimum temperature for the chemical kinetics ode integration
-            thresholdTemperature: 560
-                        
+            thresholdTemperature: 560         
         # use a higher order field for the conserved field transport options
         conservedFieldOptions:
           petscfv_type: leastsquares
@@ -156,7 +155,7 @@ solvers:
       name: interiorFlowRegion
     # set the cfl constraint to be used by the physicsConstrained time stepper
     parameters:
-      cfl: 0.475
+      cfl: 0.4
 
     # the flow solver requires access to the eos
     eos: *eos
@@ -169,14 +168,16 @@ solvers:
     monitors:
       # The time step monitor outputs the current timestep and dt every 10 steps
       - !ablate::monitors::TimeStepMonitor
-        interval: 10
-      # The TurbFlowStats monitor starts to take statistics after 0.01 seconds every 25 time steps
-      - !ablate::monitors::TurbFlowStats
-        fields: [ velocity, temperature ]
-        eos: *eos
-        interval: !ablate::io::interval::DelayInterval
-          interval: 25
-          minimumSimulationTime: .01 #about 1 flow
+        interval: 25
+      - !ablate::monitors::PhysicsTimeStep
+        interval: 25        
+#       # The TurbFlowStats monitor starts to take statistics after 0.01 seconds every 25 time steps
+#       - !ablate::monitors::TurbFlowStats
+#         fields: [ velocity, temperature ]
+#         eos: *eos
+#         interval: !ablate::io::interval::DelayInterval
+#           interval: 25
+#           minimumSimulationTime: .01 #about 1 flow
       # The mixture fraction calculator outputs zMix and Yi everytime the serializer saves
       - !ablate::monitors::MixtureFractionMonitor
         mixtureFractionCalculator: !ablate::monitors::MixtureFractionCalculator
@@ -193,6 +194,7 @@ solvers:
         alphaInit: 5.0
         maxAlphaAllowed: 100.0
         domainLength: 0.165354
+        log: !ablate::monitors::logs::StdOut
       # the chemistry process is used to compute the species and energy source terms from the reactions
       - !ablate::finiteVolume::processes::Chemistry
         eos: *eos
@@ -280,7 +282,7 @@ solvers:
         # the specified mass fractions are assumed off-gassed by the fuel
         massFractions: *fuelMassFrac
         # the radiviative heat flux to the surface is updated every 10 flow time steps
-        radiationInterval: 25
+        radiationInterval: 10
 
         # a surface radiation solver is used to compute heat flux to the surface
         radiation: !ablate::radiation::SurfaceRadiation
@@ -306,7 +308,7 @@ solvers:
     region:
       name: flowRegion
     # update the entire radiation solver every 10 flow steps
-    interval: 25
+    interval: 10
     # The radiation solver and the associated region
     radiation: !ablate::radiation::Radiation
       id: volRad
