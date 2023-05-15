@@ -157,17 +157,8 @@ solvers:
     monitors:
       - !ablate::monitors::TimeStepMonitor
         interval: 25
-      - !ablate::monitors::TurbFlowStats
-        fields: [ velocity, temperature ]
-        eos: *eos
-        interval: !ablate::io::interval::DelayInterval
-          interval: 25
-          minimumSimulationTime: .01 #about 1 flow
-      - !ablate::monitors::MixtureFractionMonitor
-        mixtureFractionCalculator: !ablate::monitors::MixtureFractionCalculator
-          eos: *eos
-          massFractionsFuel: *fuelMassFrac
-          massFractionsOxidizer: *oxMassFrac
+      - !ablate::monitors::PhysicsTimeStep
+        interval: 25    
     additionalProcesses:
       - !ablate::finiteVolume::processes::PressureGradientScaling
         &pgs
