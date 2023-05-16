@@ -19,6 +19,15 @@ timestepper:
     ts_adapt_safety: 0.9
     ts_adapt_monitor: true
     ts_adapt_type: physicsConstrained
+    
+  absoluteTolerances:
+    - fieldName: euler
+      field: 0.0001, 0.1, 0.0001, 0.0001
+       
+  relativeTolerances:
+    - fieldName: euler
+      field: 0.0001, 0.1, 0.0001, 0.0001
+              
   # io controls how often the results are saved to a file for visualization and restart
   io: !ablate::io::Hdf5MultiFileSerializer 
     interval: 250 # results are saved at every 5 steps.  In real simulations this should be much larger.
@@ -140,8 +149,8 @@ solvers:
     parameters:
       cfl: 0.475
     eos: *eos
-#     transport: !ablate::eos::transport::Sutherland
-#       eos: *eos
+    transport: !ablate::eos::transport::Sutherland
+      eos: *eos
 
     monitors:
       - !ablate::monitors::TimeStepMonitor
@@ -223,8 +232,8 @@ solvers:
     processes:
       - !ablate::boundarySolver::physics::Sublimation
         latentHeatOfFusion: 840890
-#         transportModel: !ablate::eos::transport::Sutherland
-#           eos: *eos
+        transportModel: !ablate::eos::transport::Sutherland
+          eos: *eos
         pgs: *pgs
         eos: *eos
         massFractions: *fuelMassFrac
