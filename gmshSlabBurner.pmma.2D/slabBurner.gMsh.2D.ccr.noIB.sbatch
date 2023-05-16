@@ -45,21 +45,27 @@ export TEST_MPI_COMMAND=srun
 mkdir tmp_$SLURM_JOBID
 cd tmp_$SLURM_JOBID
 
-export DM_REFINE=0
-export TITLE=lowG-gMsh-1n-dm$DM_REFINE-pmma-$SLURM_JOBID
-export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/gmshSlabBurner.pmma.2D/slabBurner2D.lowG.3_8_23.yaml
+# export DM_REFINE=0
+# export TITLE=lowG-gMsh-1n-dm$DM_REFINE-pmma-$SLURM_JOBID
+# export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/gmshSlabBurner.pmma.2D/slabBurner2D.lowG.3_8_23.yaml
+# 
+# export DM_REFINE=1
+# export TITLE=lowG-gMsh-4n-dm$DM_REFINE-baseline-$SLURM_JOBID
+# export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/gmshSlabBurner.pmma.2D/slabBurner2D.lowG.3_8_23.yaml
+# 
+# export DM_REFINE=1
+# export TITLE=lowG-gMsh-4n-dm$DM_REFINE-noSoot-$SLURM_JOBID
+# export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/gmshSlabBurner.pmma.2D/slabBurner2D.lowG.3_8_23.noSoot.yaml
+# 
+# export DM_REFINE=1
+# export TITLE=lowG-gMsh-4n-dm$DM_REFINE-noSootTransport-$SLURM_JOBID
+# export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/gmshSlabBurner.pmma.2D/slabBurner2D.lowG.3_8_23.noSootTransport.yaml
+# 
 
 export DM_REFINE=1
-export TITLE=lowG-gMsh-4n-dm$DM_REFINE-baseline-$SLURM_JOBID
-export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/gmshSlabBurner.pmma.2D/slabBurner2D.lowG.3_8_23.yaml
+export TITLE=lowG-gMsh-4n-dm$DM_REFINE-noSootNoRad-$SLURM_JOBID
+export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/gmshSlabBurner.pmma.2D/slabBurner2D.lowG.3_8_23.noSoot.noRad.yaml
 
-export DM_REFINE=1
-export TITLE=lowG-gMsh-4n-dm$DM_REFINE-noSoot-$SLURM_JOBID
-export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/gmshSlabBurner.pmma.2D/slabBurner2D.lowG.3_8_23.noSoot.yaml
-
-export DM_REFINE=1
-export TITLE=lowG-gMsh-4n-dm$DM_REFINE-noSootTransport-$SLURM_JOBID
-export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/gmshSlabBurner.pmma.2D/slabBurner2D.lowG.3_8_23.noSootTransport.yaml
 
 
 # Run all tests
