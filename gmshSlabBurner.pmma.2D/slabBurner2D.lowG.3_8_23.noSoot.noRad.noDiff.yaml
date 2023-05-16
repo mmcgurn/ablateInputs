@@ -140,8 +140,8 @@ solvers:
     parameters:
       cfl: 0.475
     eos: *eos
-    transport: !ablate::eos::transport::Sutherland
-      eos: *eos
+#     transport: !ablate::eos::transport::Sutherland
+#       eos: *eos
 
     monitors:
       - !ablate::monitors::TimeStepMonitor
@@ -223,8 +223,8 @@ solvers:
     processes:
       - !ablate::boundarySolver::physics::Sublimation
         latentHeatOfFusion: 840890
-        transportModel: !ablate::eos::transport::Sutherland
-          eos: *eos
+#         transportModel: !ablate::eos::transport::Sutherland
+#           eos: *eos
         pgs: *pgs
         eos: *eos
         massFractions: *fuelMassFrac
