@@ -19,15 +19,15 @@ timestepper:
     ts_adapt_safety: 0.9
     ts_adapt_monitor: true
     ts_adapt_type: physicsConstrained
-    
-  absoluteTolerances:
-    - fieldName: euler
-      field: 0.0001, 0.1, 0.0001, 0.0001
-       
-  relativeTolerances:
-    - fieldName: euler
-      field: 0.0001, 0.1, 0.0001, 0.0001
-              
+#     
+#   absoluteTolerances:
+#     - fieldName: euler
+#       field: 0.0001, 0.1, 0.0001, 0.0001
+#        
+#   relativeTolerances:
+#     - fieldName: euler
+#       field: 0.0001, 0.1, 0.0001, 0.0001
+#               
   # io controls how often the results are saved to a file for visualization and restart
   io: !ablate::io::Hdf5MultiFileSerializer 
     interval: 250 # results are saved at every 5 steps.  In real simulations this should be much larger.
