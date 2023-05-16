@@ -16,9 +16,11 @@ timestepper:
     ts_max_time: 100000
     ts_max_steps: 3000000
     ts_dt: 1.0E-10
-    ts_adapt_safety: 2.0
+    ts_adapt_safety: 1.0
     ts_adapt_monitor: true
     ts_adapt_type: physicsConstrained
+    ts_rtol: 0.01
+    ts_atol: 0.01
   # io controls how often the results are saved to a file for visualization and restart
   io: !ablate::io::Hdf5MultiFileSerializer 
     interval: 250 # results are saved at every 5 steps.  In real simulations this should be much larger.

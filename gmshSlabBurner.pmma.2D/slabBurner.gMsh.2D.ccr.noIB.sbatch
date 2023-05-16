@@ -66,9 +66,12 @@ cd tmp_$SLURM_JOBID
 # export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/gmshSlabBurner.pmma.2D/slabBurner2D.lowG.3_8_23.noSoot.noRad.yaml
 # 
 export DM_REFINE=1
-export TITLE=lowG-gMsh-4n-dm$DM_REFINE-largeSaf-$SLURM_JOBID
-export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/gmshSlabBurner.pmma.2D/slabBurner2D.lowG.3_8_23.noSoot.largeSafteyFactor.yaml
+export TITLE=lowG-gMsh-4n-dm$DM_REFINE-0.001-$SLURM_JOBID
+export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/gmshSlabBurner.pmma.2D/slabBurner2D.lowG.3_8_23.noSoot.0.001.yaml
 
+# export DM_REFINE=1
+# export TITLE=lowG-gMsh-4n-dm$DM_REFINE-0.01-$SLURM_JOBID
+# export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/gmshSlabBurner.pmma.2D/slabBurner2D.lowG.3_8_23.noSoot.0.01.yaml
 
 
 # Run all tests
