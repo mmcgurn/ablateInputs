@@ -58,5 +58,7 @@ export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/gmshSlabBurner.pmm
 srun -n $SLURM_NPROCS  /projects/academic/chrest/mtmcgurn/ablateOpt/ablate \
   --input $FILE \
    -yaml::environment::title $TITLE \
-   -yaml::timestepper::domain::faces [$FACES]
+   -yaml::timestepper::domain::faces [$FACES] \
+   -yaml::timestepper::domain::options::dm_refine $DM_REFINE
+
  
