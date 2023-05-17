@@ -16,8 +16,10 @@ timestepper:
     ts_max_time: 100000
     ts_max_steps: 3000000
     ts_dt: 1.0E-10
-    ts_adapt_safety: 0.9
+    ts_adapt_safety: 1.0
     ts_adapt_type: physicsConstrained
+    ts_rtol: 0.001
+    ts_atol: 0.001    
   # io controls how often the results are saved to a file for visualization and restart
   io: !ablate::io::Hdf5MultiFileSerializer
     interval: 1000 # results are saved at every 5 steps.  In real simulations this should be much larger.
@@ -164,7 +166,7 @@ solvers:
       name: interiorFlowRegion
     # set the cfl constraint to be used by the physicsConstrained time stepper
     parameters:
-      cfl: 0.4
+      cfl: 0.45
 
     # the flow solver requires access to the eos
     eos: *eos
@@ -331,7 +333,7 @@ solvers:
     region:
       name: flowRegion
     # update the entire radiation solver every 10 flow steps
-    interval: 10
+    interval: 20
     # The radiation solver and the associated region
     radiation: !ablate::radiation::Radiation
       id: volRad
