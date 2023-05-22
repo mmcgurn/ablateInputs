@@ -92,7 +92,11 @@ timestepper:
       - !ablate::finiteVolume::ExtraVariable
         name: "Progress"
         components: [ "NDD" ]
-                  
+                 
+        conservedFieldOptions:
+          petscfv_type: leastsquares
+          petsclimiter_type: vanleer     
+                       
       # by adding a pressure field the code will compute and output pressure
       - !ablate::domain::FieldDescription
         name: pressure

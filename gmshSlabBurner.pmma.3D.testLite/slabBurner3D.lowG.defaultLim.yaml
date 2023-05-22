@@ -95,11 +95,6 @@ timestepper:
           petscfv_type: leastsquares
                           
                   
-        # use a higher order field for the conserved field transport options
-        conservedFieldOptions:
-          petscfv_type: leastsquares
-          petsclimiter_type: vanleer
-                            
       # by adding a pressure field the code will compute and output pressure
       - !ablate::domain::FieldDescription
         name: pressure
