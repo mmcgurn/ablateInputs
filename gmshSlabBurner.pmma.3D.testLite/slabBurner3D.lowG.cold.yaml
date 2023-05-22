@@ -114,30 +114,7 @@ timestepper:
     - !ablate::finiteVolume::fieldFunctions::DensityMassFractions
       state: *flowFieldState
 
-    # Set the boundary cells for the slab to a different initial condition
-    - !ablate::finiteVolume::fieldFunctions::Euler
-      # slab Burner
-      region:
-        name: slab
-      state: &fuelFieldState
-        eos: *eos
-        # the fuel is assumed to be at 653.0K
-        temperature: 653.0 #fuel temperature
-        pressure: 101325.0
-        velocity: "0.0, 0.0, 0.0"
-        # set the mass fractions in the fuel boundary cells to 100% mma
-        other: !ablate::finiteVolume::fieldFunctions::MassFractions
-          &fuelMassFrac
-          eos: *eos
-          values:
-            - fieldName: MMETHAC_C5H8O2 # The fuel boundary condition
-              field: 1.0
 
-    # using the fuelFieldState set the initial conserved mass fractions in the boundary slab region
-    - !ablate::finiteVolume::fieldFunctions::DensityMassFractions
-      region:
-        name: slab
-      state: *fuelFieldState
 
 # list the solvers that apply over the main mesh and the boundary cells
 solvers:
