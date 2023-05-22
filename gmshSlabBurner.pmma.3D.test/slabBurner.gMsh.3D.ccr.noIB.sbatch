@@ -47,11 +47,16 @@ cd tmp_$SLURM_JOBID
 
 export DM_REFINE=0
 export TITLE=lowG-gMsh-dm$DM_REFINE-baseline-$SLURM_JOBID
-export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/gmshSlabBurner.pmma.3D.test/slabBurner3D.lowG.3_8_23.yaml
-
-export DM_REFINE=0
-export TITLE=lowG-gMsh-dm$DM_REFINE-cold-$SLURM_JOBID
-export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/gmshSlabBurner.pmma.3D.test/slabBurner3D.lowG.cold.yaml
+export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/gmshSlabBurner.pmma.3D.test/slabBurner3D.lowG.defaultLim.yaml
+# 
+# export DM_REFINE=0
+# export TITLE=lowG-gMsh-dm$DM_REFINE-defaultLimt-$SLURM_JOBID
+# export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/gmshSlabBurner.pmma.3D.test/slabBurner3D.lowG.cold.yaml
+# 
+# 
+# export DM_REFINE=0
+# export TITLE=lowG-gMsh-dm$DM_REFINE-cold-$SLURM_JOBID
+# export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/gmshSlabBurner.pmma.3D.test/slabBurner3D.lowG.cold.yaml
 
 # Run all tests
 srun -n $SLURM_NPROCS  /projects/academic/chrest/mtmcgurn/ablateOpt/ablate \
