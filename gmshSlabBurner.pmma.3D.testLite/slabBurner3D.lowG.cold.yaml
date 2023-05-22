@@ -194,11 +194,6 @@ solvers:
         domainLength: 0.165354
         log: !ablate::monitors::logs::StdOut
 
-      # ThermophoreticDiffusion diffusion controls the diffusion of solid carbon and ndd
-      - !ablate::finiteVolume::processes::ThermophoreticDiffusion
-        transport: !ablate::eos::transport::Sutherland
-          eos: *eos
-        
     # a flux calculator must be specified to so solver for advection
     fluxCalculator: !ablate::finiteVolume::fluxCalculator::AusmpUp
       pgs: *pgs
