@@ -14,7 +14,7 @@ timestepper:
   arguments:
     ts_type: rk
     ts_max_time: 100000
-    ts_max_steps: 1000
+    ts_max_steps: 100
     ts_dt: 1.0E-10
     ts_adapt_safety: 0.9
     ts_adapt_monitor: true
@@ -22,7 +22,7 @@ timestepper:
     
   # io controls how often the results are saved to a file for visualization and restart
   io: !ablate::io::Hdf5MultiFileSerializer 
-    interval: 250 # results are saved at every 5 steps.  In real simulations this should be much larger.
+    interval: 10 # results are saved at every 5 steps.  In real simulations this should be much larger.
   # load in the gmsh produced mesh file
   domain: !ablate::domain::MeshFile
     path: slabBurner2DMesh.lowG.3_8_23.msh
