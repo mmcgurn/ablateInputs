@@ -154,11 +154,7 @@ solvers:
 #           interval: 25
 #           minimumSimulationTime: .01 #about 1 flow
       # The mixture fraction calculator outputs zMix and Yi everytime the serializer saves
-      - !ablate::monitors::MixtureFractionMonitor
-        mixtureFractionCalculator: !ablate::monitors::MixtureFractionCalculator
-          eos: *eos
-          massFractionsFuel: *fuelMassFrac
-          massFractionsOxidizer: *oxMassFrac
+
     # additional processes can be added to the flow solver
     additionalProcesses:
       # in addition to the default process PressureGradientScaling can be used to speed up the simulation.
@@ -253,7 +249,7 @@ solvers:
         pgs: *pgs
         eos: *eos
         # the specified mass fractions are assumed off-gassed by the fuel
-        massFractions: *fuelMassFrac
+        massFractions: *oxMassFrac
         # the radiviative heat flux to the surface is updated every 10 flow time steps
         radiationInterval: 10
 
