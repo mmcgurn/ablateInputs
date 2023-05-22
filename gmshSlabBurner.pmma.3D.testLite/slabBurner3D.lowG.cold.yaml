@@ -86,7 +86,6 @@ timestepper:
         # use a higher order field for the conserved field transport options
         conservedFieldOptions:
           petscfv_type: leastsquares
-          petsclimiter_type: vanleer
           
 
   # set the initial conditions of the flow field
@@ -126,7 +125,7 @@ solvers:
       name: interiorFlowRegion
     # set the cfl constraint to be used by the physicsConstrained time stepper
     parameters:
-      cfl: 0.4
+      cfl: 0.2
 
     # the flow solver requires access to the eos
     eos: *eos
