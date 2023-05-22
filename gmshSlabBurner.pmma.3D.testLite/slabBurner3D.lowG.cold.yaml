@@ -126,7 +126,7 @@ solvers:
       name: interiorFlowRegion
     # set the cfl constraint to be used by the physicsConstrained time stepper
     parameters:
-      cfl: 0.45
+      cfl: 0.4
 
     # the flow solver requires access to the eos
     eos: *eos
