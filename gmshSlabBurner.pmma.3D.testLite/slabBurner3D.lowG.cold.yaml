@@ -76,6 +76,7 @@ timestepper:
       - !ablate::domain::modifiers::DMPlexCheck
 #       - !ablate::domain::modifiers::GhostBoundaryCells
 #       - !ablate::domain::modifiers::FvmCheck
+
     fields:
       # all fields must be defined before solvers.  The ablate::finiteVolume::CompressibleFlowFields is a helper
       # class that creates the required fields for the compressible flow solver (rho, rhoE, rhoU, ...)
@@ -90,6 +91,13 @@ timestepper:
         conservedFieldOptions:
           petscfv_type: leastsquares
           
+
+      # by adding a pressure field the code will compute and output pressure
+      - !ablate::domain::FieldDescription
+        name: pressure
+        type: FV
+        location: aux
+
 
   # set the initial conditions of the flow field
   initialization:
@@ -216,7 +224,7 @@ solvers:
       - !ablate::boundarySolver::lodi::OpenBoundary
         referencePressure: 101325.0
         maxAcousticsLength: 0.165354
-        reflectFactor: 15.0
+        reflectFactor: 1.5
         pgs: *pgs
         eos: *eos
 
