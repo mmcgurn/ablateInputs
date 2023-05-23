@@ -125,7 +125,7 @@ solvers:
       name: interiorFlowRegion
     # set the cfl constraint to be used by the physicsConstrained time stepper
     parameters:
-      cfl: 0.2
+      cfl: 0.5
 
     # the flow solver requires access to the eos
     eos: *eos
@@ -185,20 +185,21 @@ solvers:
         eos: *eos
         pgs: *pgs
         # The velocity is specified with a nested, nested formula to simplify specifying a radius based function
-        velocity: !ablate::mathFunctions::Formula
-          formula: "max(0.0, min(vel, t*vel/.001)), 0.0, 0.0"
-          nested:
-            vel: !ablate::mathFunctions::Formula
-              formula: velFac*(1 - r/(dia/2.0))^(1/7)
-              constants:
-                dia: 0.0254
-                velFac: 6.28305996662731 # 0.156 m3/min
-              nested:
-                r: !ablate::mathFunctions::Formula
-                  formula: sqrt((x-xc)^2 + (y-yc)^2)
-                  constants:
-                    yc: 0.0127
-                    xc: 0.0
+        velocity: "0.0, 0.0, 0.0"
+#        velocity: !ablate::mathFunctions::Formula
+#           formula: "max(0.0, min(vel, t*vel/.001)), 0.0, 0.0"
+#           nested:
+#             vel: !ablate::mathFunctions::Formula
+#               formula: velFac*(1 - r/(dia/2.0))^(1/7)
+#               constants:
+#                 dia: 0.0254
+#                 velFac: 6.28305996662731 # 0.156 m3/min
+#               nested:
+#                 r: !ablate::mathFunctions::Formula
+#                   formula: sqrt((x-xc)^2 + (y-yc)^2)
+#                   constants:
+#                     yc: 0.0127
+#                     xc: 0.0
 
   # the outlet boundary uses a reference pressure and maxAcousticsLength
   - !ablate::boundarySolver::BoundarySolver
