@@ -61,15 +61,15 @@ timestepper:
       - !ablate::domain::modifiers::DistributeWithGhostCells
         ghostCellDepth: 3
 
-      # remove the slabBurnerFace from the flowRegion so that the ablate::boundarySolver::physics::Sublimation can handle the boundary condition
-      - !ablate::domain::modifiers::SubtractLabel
-        differenceRegion:
-          name: interiorFlowRegion
-        minuendRegion:
-          name: flowRegion
-        subtrahendRegions:
-          - name: slab
-        incompleteLabel: true # allow the faces to be removed the flowRegion
+#       # remove the slabBurnerFace from the flowRegion so that the ablate::boundarySolver::physics::Sublimation can handle the boundary condition
+#       - !ablate::domain::modifiers::SubtractLabel
+#         differenceRegion:
+#           name: interiorFlowRegion
+#         minuendRegion:
+#           name: flowRegion
+#         subtrahendRegions:
+#           - name: slab
+#         incompleteLabel: true # allow the faces to be removed the flowRegion
 
       # this can be enabled to print a domain summary
       # - !ablate::domain::modifiers::PrintDomainSummary
@@ -125,7 +125,7 @@ solvers:
     id: flowField
     # the flow solver should only operate over the interiorFlowRegion.  This does not include boundary cells or slab boundary faces
     region:
-      name: interiorFlowRegion
+      name: flowRegion
     # set the cfl constraint to be used by the physicsConstrained time stepper
     parameters:
       cfl: 0.5
@@ -233,35 +233,48 @@ solvers:
         eos: *eos
         pgs: *pgs
 
-  # The slab boundary id used to couple the flow and heat/mass transfer from the fuel
+  # The no slip/isothermal walls are applied everywhere except the slab
   - !ablate::boundarySolver::BoundarySolver
-    id: slab boundary
+    id: slab
     region:
       name: slab
     fieldBoundary:
       name: boundaryFaces
+    mergeFaces: true
     processes:
-      # the sublimation boundary solver is responsible for predicting mass release and flow source terms
-      - !ablate::boundarySolver::physics::Sublimation
-        # the latent heat of fusion of PMMA is used to predict the mass release from heating
-        latentHeatOfFusion: 1E30
-        # the transport model is enforce to update the zero slip wall condition
-        transportModel: !ablate::eos::transport::Sutherland
-          eos: *eos
-        # the eos/pgs is used tor pressure boundary condition
-        pgs: *pgs
+      - !ablate::boundarySolver::lodi::IsothermalWall
         eos: *eos
-        # the specified mass fractions are assumed off-gassed by the fuel
-        massFractions: *oxMassFrac
-        # the radiviative heat flux to the surface is updated every 10 flow time steps
-        radiationInterval: 10
+        pgs: *pgs
 
-        emissivity: 0.9
-        #density of pmma used to output reg rate
-        solidDensity: 1190.0
-    monitors:
-      # the boundary solver monitor is used to record regression rate and heat flux to the surface
-      - !ablate::monitors::BoundarySolverMonitor
+#   # The slab boundary id used to couple the flow and heat/mass transfer from the fuel
+#   - !ablate::boundarySolver::BoundarySolver
+#     id: slab boundary
+#     region:
+#       name: slab
+#     fieldBoundary:
+#       name: boundaryFaces
+#     processes:
+#       # the sublimation boundary solver is responsible for predicting mass release and flow source terms
+#       - !ablate::boundarySolver::physics::Sublimation
+#         # the latent heat of fusion of PMMA is used to predict the mass release from heating
+#         latentHeatOfFusion: 1E30
+#         # the transport model is enforce to update the zero slip wall condition
+#         transportModel: !ablate::eos::transport::Sutherland
+#           eos: *eos
+#         # the eos/pgs is used tor pressure boundary condition
+#         pgs: *pgs
+#         eos: *eos
+#         # the specified mass fractions are assumed off-gassed by the fuel
+#         massFractions: *oxMassFrac
+#         # the radiviative heat flux to the surface is updated every 10 flow time steps
+#         radiationInterval: 10
+# 
+#         emissivity: 0.9
+#         #density of pmma used to output reg rate
+#         solidDensity: 1190.0
+#     monitors:
+#       # the boundary solver monitor is used to record regression rate and heat flux to the surface
+#       - !ablate::monitors::BoundarySolverMonitor
 
   # the volume radiation solver compute the gas/gas energy transfer within the gas phase
 
