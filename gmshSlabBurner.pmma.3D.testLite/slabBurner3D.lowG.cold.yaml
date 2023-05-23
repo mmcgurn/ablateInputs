@@ -74,8 +74,8 @@ timestepper:
       # this can be enabled to print a domain summary
       # - !ablate::domain::modifiers::PrintDomainSummary
       - !ablate::domain::modifiers::DMPlexCheck
-      - !ablate::domain::modifiers::GhostBoundaryCells
-      - !ablate::domain::modifiers::FvmCheck
+#       - !ablate::domain::modifiers::GhostBoundaryCells
+#       - !ablate::domain::modifiers::FvmCheck
     fields:
       # all fields must be defined before solvers.  The ablate::finiteVolume::CompressibleFlowFields is a helper
       # class that creates the required fields for the compressible flow solver (rho, rhoE, rhoU, ...)
