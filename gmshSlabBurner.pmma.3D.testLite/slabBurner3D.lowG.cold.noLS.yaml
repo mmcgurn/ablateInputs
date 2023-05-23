@@ -87,10 +87,6 @@ timestepper:
             # set a minimum temperature for the chemical kinetics ode integration
             thresholdTemperature: 560         
         # use a higher order field for the conserved field transport options
-        conservedFieldOptions:
-          petscfv_type: leastsquares
-          
-
   # set the initial conditions of the flow field
   initialization:
     # initialize the flow the entire domain with the default values using the flow state.  The flow state can be used to compute
