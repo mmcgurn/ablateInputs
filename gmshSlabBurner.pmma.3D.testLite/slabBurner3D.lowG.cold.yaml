@@ -188,7 +188,7 @@ solvers:
         eos: *eos
         pgs: *pgs
         # The velocity is specified with a nested, nested formula to simplify specifying a radius based function
-        velocity: "min(6, t*6/.001)), 0.0, 0.0"
+        velocity: "min(6, t*6/.001), 0.0, 0.0"
 #        velocity: !ablate::mathFunctions::Formula
 #           formula: "max(0.0, min(vel, t*vel/.001)), 0.0, 0.0"
 #           nested:
