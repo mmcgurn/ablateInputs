@@ -304,7 +304,7 @@ solvers:
         radiationInterval: 10
 
         additionalHeatFlux: !ablate::mathFunctions::geom::Sphere
-          enter: [ 0.0182024,  0.007 , 0.0]
+          cnter: [ 0.0182024,  0.007 , 0.0]
           radius: 0.005
           insideValues: 50000
           outsideValues: 0.0
