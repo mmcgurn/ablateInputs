@@ -84,13 +84,14 @@ timestepper:
             thresholdTemperature: 560
         conservedFieldOptions:
           petscfv_type: leastsquares
-          petsclimiter_type: vanleer
           
       # create a conserved field to track ndd
       - !ablate::finiteVolume::ExtraVariable
         name: "Progress"
-        components: [ "NDD" ]
-                
+        components: [ "NDD" ]        
+        conservedFieldOptions:
+          petscfv_type: leastsquares
+                          
       # by adding a pressure field the code will compute and output pressure
       - !ablate::domain::FieldDescription
         name: pressure
@@ -161,6 +162,13 @@ solvers:
         interval: 25
       - !ablate::monitors::PhysicsTimeStep
         interval: 25    
+        
+      - !ablate::monitors::MixtureFractionMonitor
+        mixtureFractionCalculator: !ablate::monitors::MixtureFractionCalculator
+          eos: *eos
+          massFractionsFuel: *fuelMassFrac
+          massFractionsOxidizer: *oxMassFrac
+
     additionalProcesses:
       - !ablate::finiteVolume::processes::PressureGradientScaling
         &pgs

@@ -47,7 +47,7 @@ cd tmp_$SLURM_JOBID
 
 
 export DM_REFINE=1
-export TITLE=lowG-gMsh-4n-dm$DM_REFINE-noSootNoRad-$SLURM_JOBID
+export TITLE=lowG-gMsh-1n-dm$DM_REFINE-baseline-$SLURM_JOBID
 export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/gmshSlabBurner.pmma.2D/slabBurner2D.lowG.3_8_23.yaml
 
 # export DM_REFINE=1
