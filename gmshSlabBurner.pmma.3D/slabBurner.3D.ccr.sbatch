@@ -26,7 +26,7 @@ module load valgrind/3.14.0
 module load gdb/7.8
 
 # setup petsc
-export PETSC_DIR=/projects/academic/chrest/mtmcgurn/petsc  
+export PETSC_DIR=/projects/academic/chrest/owenmylo/petsc  
 export PETSC_ARCH=arch-ablate-opt
 export PKG_CONFIG_PATH="${PETSC_DIR}/${PETSC_ARCH}/lib/pkgconfig:$PKG_CONFIG_PATH"
 
@@ -44,16 +44,16 @@ export TEST_MPI_COMMAND=srun
 mkdir tmp_$SLURM_JOBID
 cd tmp_$SLURM_JOBID
 
-export DM_REFINE=0
+export DM_REFINE=1
 export TITLE=lowG-gMsh-dm$DM_REFINE-pmma-$SLURM_JOBID
-export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/gmshSlabBurner.pmma.3D/slabBurner3D.lowG.3_8_23.yaml
+export FILE=/panasas/scratch/grp-chrest/owenmylo/ablateInputs/gmshSlabBurner.pmma.3D/slabBurner3D.lowG.3_8_23.yaml
 
 # export DM_REFINE=0
 # export TITLE=highG-gMsh-dm$DM_REFINE-pmma-$SLURM_JOBID
 # export FILE=/panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/gmshSlabBurner.pmma.3D/slabBurner3D.highG.3_8_23.yaml
 
 # Run all tests
-srun -n $SLURM_NPROCS  /projects/academic/chrest/mtmcgurn/ablateOpt/ablate \
+srun -n $SLURM_NPROCS  /projects/academic/chrest/owenmylo/ablateOpt/ablate \
   --input $FILE \
    -yaml::environment::title $TITLE \
    -yaml::timestepper::domain::faces [$FACES]
