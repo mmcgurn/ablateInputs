@@ -1,15 +1,10 @@
 #!/bin/sh
-#SBATCH --partition=scavenger
-#SBATCH --qos=scavenger
-##SBATCH --partition=general-compute
-##SBATCH --qos=supporters
 #SBATCH --account=chrest
 #SBATCH --time=72:00:00
-#SBATCH --nodes=8
-#SBATCH --ntasks-per-node=56
-#SBATCH --constraint=IB
-#SBATCH --job-name="slbBurn"
-#SBATCH --mail-user=mtmcgurn@buffalo.edu
+#SBATCH --nodes=200
+#SBATCH --ntasks-per-node=40
+#SBATCH --job-name="sbLite"
+#SBATCH --mail-user=owenmylo@buffalo.edu
 #SBATCH --mail-type=ALL
 #SBATCH --exclusive
 #SBATCH --requeue
