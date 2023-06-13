@@ -105,8 +105,8 @@ timestepper:
         region:
           name: boundaryCellsFront
         function: !ablate::mathFunctions::geom::Box
-          lower: [ 0 , 0.0254, -0.0127 ]
-          upper: [ 0.1, 0.03, 0.0127 ]
+          lower: [ 0 , 0.0254, 0.0127 ]
+          upper: [ 0.1, 0.0, 0.02 ]
       - !ablate::domain::modifiers::TagLabelInterface
         leftRegion:
           name: interiorFlowRegion
@@ -142,12 +142,7 @@ timestepper:
       # create a conserved field to track ndd
       - !ablate::finiteVolume::ExtraVariable
         name: "Progress"
-        components: [ "NDD" ]   
-
-        # use a higher order field for the conserved field transport options
-        conservedFieldOptions:
-          petscfv_type: leastsquares
-          petsclimiter_type: vanleer
+        components: [ "NDD" ]
           
       # by adding a pressure field the code will compute and output pressure
       - !ablate::domain::FieldDescription
@@ -348,10 +343,10 @@ solvers:
                 velFac: 22.2726420611853 #  0.553  m3/min
               nested:
                 r: !ablate::mathFunctions::Formula
-                  formula: sqrt((x-xc)^2 + (y-yc)^2)
+                  formula: sqrt((y-yc)^2 + (z-zc)^2)
                   constants:
                     yc: 0.0127
-                    xc: 0.0
+                    zc: 0.0
 
   # the outlet boundary uses a reference pressure and maxAcousticsLength
   - !ablate::boundarySolver::BoundarySolver
@@ -434,11 +429,11 @@ solvers:
     # update the entire radiation solver every 10 flow steps
     interval: 20
     # The radiation solver and the associated region
-    radiation: !ablate::radiation::Radiation
+    radiation: !ablate::radiation::RaySharingRadiation
       id: volRad
       region:
         name: flowRegion
-      rays: 5
+      rays: 10
       properties: !ablate::eos::radiationProperties::Sum
         - !ablate::eos::radiationProperties::Zimmer
           eos: *eos
