@@ -124,6 +124,31 @@ solvers:
     monitors:
     - !ablate::monitors::TimeStepMonitor
       interval: 10
+      
+    - !ablate::monitors::MixtureFractionMonitor
+       mixtureFractionCalculator: !<!ablate::monitors::MixtureFractionCalculator>
+         eos: *eos
+         massFractionsFuel: !ablate::finiteVolume::fieldFunctions::MassFractions
+           eos: *eos
+           values:
+             - fieldName: H2
+               field:  2.66E-08
+             - fieldName: CH4
+               field: 0.03130099
+             - fieldName: C2H2
+               field: 0.019041133
+             - fieldName: C2H4
+               field: 0.908560465
+             - fieldName: C2H6
+               field: 0.012981435
+             - fieldName: C3H8
+               field: 0.028115959
+         massFractionsOxidizer: !ablate::finiteVolume::fieldFunctions::MassFractions
+           eos: *eos
+           values:
+             - fieldName: O2
+               field: 1.0
+
     additionalProcesses:
       - !ablate::finiteVolume::processes::Chemistry
         eos: *eos
