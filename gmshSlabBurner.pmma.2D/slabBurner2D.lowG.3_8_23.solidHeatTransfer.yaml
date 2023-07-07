@@ -305,6 +305,21 @@ solvers:
               eos: *eos
         emissivity: 0.9
         solidDensity: 1190.0 #density of pmma used to output reg rate
+        solidHeatTransferFactory: !ablate::boundarySolver::subModels::SolidHeatTransferFactory
+            properties:
+                specificHeat: 1270
+                conductivity: 0.25 
+                density:  1190.0 
+                maximumSurfaceTemperature: 653
+                farFieldTemperature: 300.0
+            initialization:  !ablate::mathFunctions::Linear
+                start: 0.0
+                end: 0.005 
+                startValues: [600]
+                endValues: [300]
+            options:
+                dm_plex_box_faces: 50
+                dm_plex_box_upper: 0.005 
 
     monitors:
       - !ablate::monitors::BoundarySolverMonitor

@@ -4,10 +4,12 @@ environment:
   tagDirectory: false
 arguments: {}
 timestepper:
+  io:
+    interval: 0
   arguments:
     ts_type: rk
     ts_max_time: 0.007
-    ts_max_steps: 5000000
+    ts_max_steps: 5000
     ts_adapt_type: physicsConstrained
     ts_adapt_safety: 1.0
   domain: !ablate::domain::BoxMeshBoundaryCells
@@ -126,10 +128,6 @@ solvers:
     monitors:
     - !ablate::monitors::TimeStepMonitor
       interval: 1
-    - !ablate::monitors::CurveMonitor
-      interval: !ablate::io::interval::SimulationTimeInterval
-        1E-5
-#         interval: 25
     - !ablate::monitors::PhysicsTimeStep
       interval: 10    
     additionalProcesses:
@@ -180,4 +178,24 @@ solvers:
           rays: 25
           properties: !ablate::eos::radiationProperties::Zimmer
             eos: *eos
-        emissivity: 0.91  
+        emissivity: 0.91
+        solidHeatTransferFactory: !ablate::boundarySolver::subModels::SolidHeatTransferFactory
+            properties:
+                specificHeat: 1270
+                conductivity: 0.25 
+                density:  1190.0 
+                maximumSurfaceTemperature: 653
+                farFieldTemperature: 300.0
+            initialization:  !ablate::mathFunctions::Linear
+                start: 0.0
+                end: 0.005 
+                startValues: [600]
+                endValues: [300]
+            options:
+                dm_plex_box_faces: 50
+                dm_plex_box_upper: 0.005 
+                dm_view: "hdf5:/Users/mcgurn/scratch/results/testOutput/sol.h5"
+                ts_monitor_solution: "hdf5:/Users/mcgurn/scratch/results/testOutput/sol.h5::append"
+#     monitors:
+#       # the boundary solver monitor is used to record regression rate and heat flux to the surface
+#       - !ablate::monitors::BoundarySolverMonitor        
