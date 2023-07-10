@@ -14,7 +14,7 @@ timestepper:
   arguments:
     ts_type: rk
     ts_max_time: 100000
-    ts_max_steps: 3000000
+    ts_max_steps: 2
     ts_dt: 1.0E-10
     ts_adapt_safety: 1.0
     ts_adapt_monitor: true
@@ -286,7 +286,6 @@ solvers:
       name: boundaryFaces
     processes:
       - !ablate::boundarySolver::physics::Sublimation
-        latentHeatOfFusion: 840890
         transportModel: !ablate::eos::transport::Sutherland
           eos: *eos
         pgs: *pgs
@@ -304,14 +303,13 @@ solvers:
             - !ablate::eos::radiationProperties::SootMeanProperties
               eos: *eos
         emissivity: 0.9
-        solidDensity: 1190.0 #density of pmma used to output reg rate
-        solidHeatTransferFactory: !ablate::boundarySolver::subModels::SolidHeatTransferFactory
+        sublimationModel: !ablate::boundarySolver::physics::subModels::TemperatureSublimation
             properties:
                 specificHeat: 1270
                 conductivity: 0.25 
                 density:  1190.0 
-                maximumSurfaceTemperature: 653
-                farFieldTemperature: 300.0
+                sublimationTemperature: 653
+                latentHeatOfFusion: 840890
             initialization:  !ablate::mathFunctions::Linear
                 start: 0.0
                 end: 0.005 
