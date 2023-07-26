@@ -20,50 +20,24 @@ plt.style.use('ggplot')
 plt.style.use('seaborn-pastel')
 
 # Load in the cti mech file
-gas = ct.Solution('../mechanisms/grimech30.cti')
+gas = ct.Solution('/Users/mcgurn/scratch/ablateInputs/mechanisms/MMAReduced.simit.yaml')
 
 # Define the reactor temperature and pressure
 reactor_temperature = 1200  # Kelvin
 reactor_pressure = 101325  # Pascals
 
-gas.TP = reactor_temperature, reactor_pressure
-
-# Output information
-print("Species: ", gas.species_names)
-print("NumberOfSpecies: ", len(gas.species_names))
-# Define the fuel, oxidizer and set the stoichiometry
-gas.set_equivalence_ratio(phi=1.0,
-                          fuel={
-                              "H2":  2.6605252679403324e-08,
-                              "CH4":  0.03130099022620085,
-                              "C2H2":  0.019041133292868283,
-                              "C2H4": 0.9085604652430157,
-                              "C2H6": 0.012981434565768965,
-                              "C3H8":  0.02811595000348999
-                          },
-                          oxidizer={"o2": 1.0})
-
-# compute the reference enthalpy
-gas.TP = 298.15, reactor_pressure
-enthalpyOfFormation = gas.h
-print("enthalpyOfFormation: ", enthalpyOfFormation)
-gas.TP = reactor_temperature, reactor_pressure
+gas.TPY = reactor_temperature, reactor_pressure, {'N2': 0.6986036962, 'MMETHAC_C5H8O2':  0.09310279, 'O2':0.2082935138}
 
 # Print the mass fraction of each species
 print("rho: ", gas.density)
 print("T: ", gas.T)
 print("p: ", gas.P)
-print("u + hf: ", gas.u)
-print("u:", gas.u - enthalpyOfFormation)
-print("rho*u: ", (gas.u - enthalpyOfFormation)*gas.density)
-print("rho*yi: ", np.array2string(gas.Y * gas.density, separator=',', max_line_width=100000))
-print("yi: ", np.array2string(gas.Y, separator=',', max_line_width=100000))
-print("basis: ", gas.basis)
 
 # Create a batch reactor object and add it to a reactor network
 # In this example, the batch reactor will be the only reactor
 # in the network
 r = ct.ConstPressureReactor(contents=gas, name="Batch Reactor")
+# r = ct.IdealGasReactor(contents=gas, name="Batch Reactor")
 reactor_network = ct.ReactorNet([r])
 
 # use the above list to create a DataFrame
@@ -94,6 +68,8 @@ while t < estimated_ignition_delay_time:
         # Note that the species concentrations are mass fractions
         time_history.append(r.thermo.state, t=t)
     counter += 1
+
+time_history.write_csv('/Users/mcgurn/scratch/ablateInputs/sootZeroDim/noSoot/nosoot_cantera/nosoot_cantera_cp.csv')
 
 # We will use the 'oh' species to compute the ignition delay
 tau = ignition_delay(time_history, reference_species)

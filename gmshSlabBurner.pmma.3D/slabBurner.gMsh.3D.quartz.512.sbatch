@@ -28,18 +28,21 @@ mkdir tmp_$SLURM_JOBID
 cd tmp_$SLURM_JOBID
 
 export DM_REFINE=1
-export TITLE=lowG-gMsh-512n-dm$DM_REFINE-pmma-cfl-$SLURM_JOBID
-export FILE=/p/lustre2/ubchrest/ablateInputs/gmshSlabBurner.pmma.3D/slabBurner3D.lowG.3_8_23.yaml
+export TITLE=lowG-gMsh-512n-dm$DM_REFINE-pmma-ls-$SLURM_JOBID
+export FILE=/p/lustre2/ubchrest/ablateInputs/gmshSlabBurner.pmma.3D/slabBurner3D.lowG.23.07.24.yaml
+export FIELD_TYPE=leastsquares
 
-# export DM_REFINE=1
-# export TITLE=highG-gMsh-512n-dm$DM_REFINE-pmma-cfl-$SLURM_JOBID387
-# export FILE=/p/lustre2/ubchrest/ablateInputs/gmshSlabBurner.pmma.3D/slabBurner3D.highG.3_8_23.yaml
-
+# low order
+export DM_REFINE=1
+export TITLE=lowG-gMsh-512n-dm$DM_REFINE-pmma-up-$SLURM_JOBID
+export FILE=/p/lustre2/ubchrest/ablateInputs/gmshSlabBurner.pmma.3D/slabBurner3D.lowG.23.07.24.yaml
+export FIELD_TYPE=upwind
 
 ##### Launch parallel job using srun
 srun -n18432 /usr/workspace/mcgurn4/ablateOpt/ablate \
    --input $FILE \
    -yaml::environment::title $TITLE \
-   -yaml::timestepper::domain::options::dm_refine $DM_REFINE -build_twosided redscatter
+   -yaml::timestepper::domain::options::dm_refine $DM_REFINE -build_twosided redscatter \
+   -yaml::timestepper::domain::fields::[0]::conservedFieldOptions::petscfv_type $FIELD_TYPE
 
 echo 'Done'
