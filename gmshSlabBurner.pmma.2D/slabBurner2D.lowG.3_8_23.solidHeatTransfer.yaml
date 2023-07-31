@@ -192,21 +192,7 @@ solvers:
           eos: *eos
           massFractionsFuel: *fuelMassFrac
           massFractionsOxidizer: *oxMassFrac
-      - !ablate::monitors::RadiationFlux
-        id: slabFluxMonitor
-        region:
-          name: heatFluxMonitorFaces
-        radiation:
-          - !ablate::radiation::SurfaceRadiation
-            id: slabMonitorTracer
-            region:
-              name: heatFluxMonitorRegion
-            rays: 25
-            properties: !ablate::eos::radiationProperties::Sum
-              - !ablate::eos::radiationProperties::Zimmer
-                eos: *eos
-              - !ablate::eos::radiationProperties::SootMeanProperties
-                eos: *eos
+     
     additionalProcesses:
       - !ablate::finiteVolume::processes::PressureGradientScaling
         &pgs
