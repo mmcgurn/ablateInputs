@@ -1,4 +1,6 @@
 #!/bin/sh
+#SBATCH --partition=general-compute
+#SBATCH --qos=supporters
 #SBATCH --account=chrest
 #SBATCH --time=72:00:00
 #SBATCH --nodes=1

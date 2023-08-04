@@ -1,8 +1,6 @@
 #!/bin/sh
-#SBATCH --partition=scavenger
-#SBATCH --qos=scavenger
-##SBATCH --partition=general-compute
-##SBATCH --qos=supporters
+#SBATCH --partition=general-compute
+#SBATCH --qos=supporters
 #SBATCH --account=chrest
 #SBATCH --time=72:00:00
 #SBATCH --nodes=8
@@ -11,8 +9,6 @@
 #SBATCH --job-name="slbBurn"
 #SBATCH --mail-user=mtmcgurn@buffalo.edu
 #SBATCH --mail-type=ALL
-#SBATCH --exclusive
-#SBATCH --requeue
 
 # Print the current environment
 echo "SLURM_JOBID="$SLURM_JOBID
