@@ -6,7 +6,6 @@
 #SBATCH --job-name="flame"
 #SBATCH --mail-user=mtmcgurn@buffalo.edu
 #SBATCH --mail-type=ALL
-#SBATCH --exclusive
 #SBATCH --requeue
 
 # Print the current environment
@@ -48,4 +47,4 @@ cd tmp_$SLURM_JOBID
 
 # Run all tests
 srun -n $SLURM_NPROCS /projects/academic/chrest/mtmcgurn/ablateFlameGenerator/cmake-build-opt/ablateFlameGenerator \
-  --input 
+  --input /panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/chemTabDiffusionFlame/steadyStateDiffusionFlame.yaml
