@@ -29,7 +29,7 @@ timestepper: !ablate::solver::SteadyStateStepper
     # the variable is considered converged
     - !ablate::solver::criteria::VariableChange
       name: temperature
-      tolerance: 500 # This should be smaller for non-test cases
+      tolerance: 1E-3 # This should be smaller for non-test cases
       norm: l2_norm
     # The valid range does not check for convergence but throws an error is all points fall outside the valid range.
     # This is useful for checking for invalid results such as flame extinguishment
@@ -79,7 +79,7 @@ timestepper: !ablate::solver::SteadyStateStepper
       - !ablate::finiteVolume::CompressibleFlowFields
         # create an ideal gas eos using the tchem library
         eos: !ablate::eos::TChem  &eos
-          mechFile: MMAReduced.yaml
+          mechFile: gri30.yaml
           options:
             # set a minimum temperature for the chemical kinetics ode integration
             thresholdTemperature: 560
@@ -113,12 +113,11 @@ timestepper: !ablate::solver::SteadyStateStepper
                 endValues: [ 1.0 ]
                 end: .01
 
-            - fieldName: MMETHAC_C5H8O2
+            - fieldName: CH4
               field: !ablate::mathFunctions::Linear
                 startValues: [ 1.0 ]
                 endValues: [ 0.0 ]
                 end: .01
-
     # initialize the conserved mass fractions using the same flow staet
     - !ablate::finiteVolume::fieldFunctions::DensityMassFractions
       state: *flowFieldState
