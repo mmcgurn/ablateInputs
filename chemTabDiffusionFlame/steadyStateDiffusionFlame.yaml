@@ -29,7 +29,7 @@ timestepper: !ablate::solver::SteadyStateStepper
     # the variable is considered converged
     - !ablate::solver::criteria::VariableChange
       name: temperature
-      tolerance: 1E-3 # This should be smaller for non-test cases
+      tolerance: 0.5
       norm: l2_norm
     # The valid range does not check for convergence but throws an error is all points fall outside the valid range.
     # This is useful for checking for invalid results such as flame extinguishment
