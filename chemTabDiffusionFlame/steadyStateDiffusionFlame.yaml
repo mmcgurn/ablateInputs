@@ -15,7 +15,7 @@ timestepper: !ablate::solver::SteadyStateStepper
   # The Steady state stepper can output using the standard serializers
   io: !ablate::io::Hdf5MultiFileSerializer
     # results are saved at every 0 steps.  In real simulations this should be much larger.
-    interval: 0
+    interval: 100
   # Pass the standard petsc arguments to the TS.
   arguments:
     ts_type: rk
