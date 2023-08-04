@@ -7,8 +7,8 @@ environment:
 arguments: { }
 # flameGenerator specific inputs
 flameGenerator:
-    maxNumberFlames: 1000
-    scaleFactor: 0.95
+  maxNumberFlames: 1000
+  scaleFactor: 0.95
 
 # Create a stead state stepper.  The Stead State Stepper marches the solution in time until a set of criteria is met
 timestepper: !ablate::solver::SteadyStateStepper
@@ -145,9 +145,9 @@ solvers:
     monitors:
       - !ablate::monitors::TimeStepMonitor
         interval: 25
-        
+
       - !ablate::monitors::MixtureFractionMonitor
-        mixtureFractionCalculator: !ablate::monitors::MixtureFractionCalculator>
+        mixtureFractionCalculator: !ablate::monitors::MixtureFractionCalculator
           eos: *eos
           massFractionsFuel: !ablate::finiteVolume::fieldFunctions::MassFractions
             eos: *eos
