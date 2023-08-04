@@ -146,19 +146,19 @@ solvers:
       - !ablate::monitors::TimeStepMonitor
         interval: 25
         
-    - !ablate::monitors::MixtureFractionMonitor
-       mixtureFractionCalculator: !<!ablate::monitors::MixtureFractionCalculator>
-         eos: *eos
-         massFractionsFuel: !ablate::finiteVolume::fieldFunctions::MassFractions
+      - !ablate::monitors::MixtureFractionMonitor
+         mixtureFractionCalculator: !ablate::monitors::MixtureFractionCalculator>
            eos: *eos
-           values:
-             - fieldName: CH4
-               field: 1.0
-         massFractionsOxidizer: !ablate::finiteVolume::fieldFunctions::MassFractions
-           eos: *eos
-           values:
-             - fieldName: O2
-               field: 1.0
+           massFractionsFuel: !ablate::finiteVolume::fieldFunctions::MassFractions
+             eos: *eos
+             values:
+               - fieldName: CH4
+                 field: 1.0
+           massFractionsOxidizer: !ablate::finiteVolume::fieldFunctions::MassFractions
+             eos: *eos
+             values:
+               - fieldName: O2
+                 field: 1.0
 
   # use a fixed inlet to enforce boundary conditions on the right side
   - !ablate::boundarySolver::BoundarySolver
