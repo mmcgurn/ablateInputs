@@ -166,7 +166,7 @@ solvers:
     id: radiationSolver
     region:
       name: interiorCells
-    interval: 5
+    interval: 3
     radiation: !ablate::radiation::Radiation
       id: volRad
       region:
