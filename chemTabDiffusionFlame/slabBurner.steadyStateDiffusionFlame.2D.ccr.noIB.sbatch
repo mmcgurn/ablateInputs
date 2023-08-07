@@ -48,5 +48,5 @@ cd tmp_$SLURM_JOBID
 
 
 # Run all tests
-srun -n $SLURM_NPROCS /projects/academic/chrest/mtmcgurn/ablateFlameGenerator/cmake-build-opt/ablateFlameGenerator \
+srun -n 1 /projects/academic/chrest/mtmcgurn/ablateFlameGenerator/cmake-build-opt/ablateFlameGenerator \
   --input /panasas/scratch/grp-chrest/mtmcgurn/ablateInputs/chemTabDiffusionFlame/steadyStateDiffusionFlame.yaml  -yaml::environment::title griMechDiffusionFlame_$SLURM_JOBID 
