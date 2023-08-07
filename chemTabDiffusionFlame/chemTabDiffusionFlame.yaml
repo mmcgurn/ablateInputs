@@ -26,36 +26,16 @@ timestepper:
       - !ablate::domain::modifiers::DistributeWithGhostCells
         ghostCellDepth: 2
     postModifiers:
-      - !ablate::domain::modifiers::TagLabelInterface
-        # tag the left boundary faces needed to remove the boundary from the interiorFlowRegion
-        leftRegion:
-          name: boundaryCellsLeft
-        rightRegion:
-          name: domain
-        boundaryFaceRegion:
-          name: boundaryFaceLeft
-      - !ablate::domain::modifiers::SubtractLabel
-        # remove the slabBurnerFace from the flowRegion
-        differenceRegion:
-          name: interiorFlowRegion
-        minuendRegion:
-          name: interiorCells
-        subtrahendRegions:
-          - name: boundaryFaceLeft
-        incompleteLabel: true
       - !ablate::domain::modifiers::GhostBoundaryCells
           # the DmViewFromOptions should output once with full mesh/dm details
     fields:
       - !ablate::finiteVolume::CompressibleFlowFields
         eos: !ablate::eos::ChemTab &eos
           path: chemTabTestModel_1
-       
         conservedFieldOptions:
           petscfv_type: leastsquares
         region:
-          name: domain
-
-              
+          name: domain      
       - !ablate::domain::FieldDescription
         name: pressure
         type: FV
@@ -89,7 +69,7 @@ solvers:
   - !ablate::finiteVolume::CompressibleFlowSolver
     id: flowField
     region:
-      name: interiorFlowRegion
+      name: interiorCells
     eos: *eos
     transport: &transportModel !ablate::eos::transport::Sutherland
       eos: *eos
@@ -121,7 +101,7 @@ solvers:
     region:
       name: boundaryCellsLeft
     fieldBoundary:
-      name: boundaryFaceLeft
+      name: boundaryFaces
     processes:
       - !ablate::boundarySolver::lodi::Inlet
         eos: *eos
