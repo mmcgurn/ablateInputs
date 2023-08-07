@@ -171,6 +171,6 @@ solvers:
       id: volRad
       region:
         name: interiorCells
-      rays: 5
+      rays: 25
       properties: !ablate::eos::radiationProperties::Zimmer
         eos: *eos
