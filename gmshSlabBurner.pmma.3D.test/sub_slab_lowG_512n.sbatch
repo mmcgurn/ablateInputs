@@ -1,0 +1,53 @@
+#!/bin/bash
+#### See https://hpc.llnl.gov/training/tutorials/slurm-and-moab#LC
+
+##### These lines are for Slurm
+#SBATCH -N 512
+#SBATCH -J gMsh
+#SBATCH -t 24:00:00
+#SBATCH -p pbatch
+#SBATCH --mail-type=ALL
+#SBATCH -A sunyb
+#SBATCH --mail-user=mcgurn4@buffalo.edu
+
+##### Load Required modules
+# gcc
+module load clang/14.0.6-magic
+module load cmake/3.25.2
+module load valgrind
+
+# Load PETSC ENV
+export PETSC_DIR="/usr/workspace/mcgurn4/petsc"
+export PETSC_ARCH="arch-ablate-opt" # arch-ablate-debug or arch-ablate-opt
+export PKG_CONFIG_PATH="${PETSC_DIR}/${PETSC_ARCH}/lib/pkgconfig:$PKG_CONFIG_PATH"
+export HDF5_ROOT="${PETSC_DIR}/${PETSC_ARCH}"  
+# Include the bin directory to access mpi commands
+export PATH="${PETSC_DIR}/${PETSC_ARCH}/bin:$PATH"
+
+# Make a temp directory so that tchem has a place to vomit its files
+mkdir tmp_$SLURM_JOBID
+cd tmp_$SLURM_JOBID
+
+export DM_REFINE=1
+export TITLE=lowG-dm$DM_REFINE-pmma-cfl-$SLURM_JOBID
+export FILE=/p/lustre2/mcgurn4/ablateInputs/gmshSlabBurner.pmma.3D.test/slabBurner3D.lowG.23.07.24.yaml
+# high order
+export FIELD_TYPE=leastsquares
+# low order
+# export FIELD_TYPE=upwind
+
+# export DM_REFINE=1
+# export TITLE=highG-gMsh-512n-dm$DM_REFINE-pmma-cfl-$SLURM_JOBID387
+# export FILE=/p/lustre2/ubchrest/ablateInputs/gmshSlabBurner.pmma.3D/slabBurner3D.highG.3_8_23.yaml
+
+
+
+
+
+##### Launch parallel job using srun
+srun -n18432   valgrind --tool=memcheck --suppressions=$PETSC_DIR/share/petsc/valgrind/petsc-val.supp --log-file=valgrind.log.$SLURM_LOCALID.%p  /usr/workspace/mcgurn4/ablateOpt/ablate -malloc off \
+   --input $FILE \
+   -yaml::environment::title $TITLE \
+   -yaml::timestepper::domain::options::dm_refine $DM_REFINE -build_twosided redscatter
+
+echo 'Done'

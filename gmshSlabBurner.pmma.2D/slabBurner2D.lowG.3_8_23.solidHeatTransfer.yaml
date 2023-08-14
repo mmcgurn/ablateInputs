@@ -300,7 +300,7 @@ solvers:
                 startValues: [600]
                 endValues: [300]
             options:
-                dm_plex_box_faces: 50
+                dm_plex_box_faces: 20
                 dm_plex_box_upper: 0.005 
 
     monitors:
