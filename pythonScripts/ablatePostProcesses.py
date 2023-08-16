@@ -109,18 +109,11 @@ def main(hdfFileName):
     h5 = h5py.File(hdfFileName, 'r+')
 
     # Check each of the cell fields
-    fields = h5['cell_fields']
+    fields = h5['particle_fields']
 
-    import time
-    start = time.time()
-    computeYi(fields)
-    computeVel(fields)
-    computeTemperature(fields)
-    end = time.time()
-    print(end - start)
-    for field in fields.items():
-        print(field)
+    for name, field in fields.items():
+        print(field.attrs.create("timestepping", 1, (), np.dtype('i4')))
 
 if __name__ == '__main__':
-    hdfFileName = "/Users/mcgurn/scratch/ablateInputs/slabBurnerChem.2D.V17/_2dSlabBurner/domain.hdf5"
+    hdfFileName = "/Users/mcgurn/scratch/petscXdmfGenerator/tests/inputs/particleWithExtraFields.hdf5"
     main(hdfFileName)

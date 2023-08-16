@@ -35,7 +35,7 @@ timestepper: !ablate::solver::SteadyStateStepper
     # This is useful for checking for invalid results such as flame extinguishment
     - !ablate::solver::criteria::ValidRange
       name: temperature
-      lowerBound: 500
+      lowerBound: 2000
       upperBound: 100000
   # state how many time steps will be completed between criteria checks
   checkInterval: 10
