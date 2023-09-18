@@ -34,10 +34,10 @@ export FILE=/p/lustre2/mcgurn4/ablateInputs/gmshSlabBurner.pmma.3D/slab_lowG_sim
 export FIELD_TYPE=leastsquares
 
 # low order
-export DM_REFINE=1
-export TITLE=lowG-gMsh-256n-dm$DM_REFINE-pmma-up-$SLURM_JOBID
-export FILE=/p/lustre2/mcgurn4/ablateInputs/gmshSlabBurner.pmma.3D/slab_lowG_simpleBC.yaml
-export FIELD_TYPE=upwind
+# export DM_REFINE=1
+# export TITLE=lowG-gMsh-256n-dm$DM_REFINE-pmma-up-$SLURM_JOBID
+# export FILE=/p/lustre2/mcgurn4/ablateInputs/gmshSlabBurner.pmma.3D/slab_lowG_simpleBC.yaml
+# export FIELD_TYPE=upwind
 
 ##### Launch parallel job using srun
 srun -n9216 /usr/workspace/mcgurn4/ablateOpt/ablate \
