@@ -1876,7 +1876,7 @@ reactions:
 - equation: H + MP2D_C4H6O2 <=> MP2J_C4H7O2  # Reaction 233
   rate-constant: {A: 1.0e+13, b: 0.0, Ea: 2900.1}
   note: MP2D_C4H6O2 + H => C2H3 + CO + CH2O + H2            94000.000    2.750  6280.11
-- equation: MP2D_C4H6O2 <=> C2H3 + CO + CH3O  # Reaction 234
+- equation: MP2D_C4H6O2 => C2H3 + CO + CH3O  # Reaction 234
   rate-constant: {A: 1.0e+16, b: 0.0, Ea: 7.1e+04}
   note: MP2D_C4H6O2 + OH => C2H3 + CO + CH2O + H2O          5.250E+09    0.970  1590.11
 - equation: H + MP2D_C4H6O2 <=> MP3J_C4H7O2  # Reaction 235

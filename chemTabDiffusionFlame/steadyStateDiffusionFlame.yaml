@@ -21,7 +21,7 @@ timestepper: !ablate::solver::SteadyStateStepper
     ts_type: rk
     ts_max_time: 1
     ts_max_steps: 500000 # If convergence is not reached by ts_max_steps an exception is thrown
-    ts_dt: 1.0e-10
+    ts_dt: 1.0e-6
     ts_adapt_safety: 0.75
   # A list of criteria can be given to the steady state stepper.  All criteria must be met to be considered converged
   criteria:
@@ -59,8 +59,9 @@ timestepper: !ablate::solver::SteadyStateStepper
       - !ablate::finiteVolume::CompressibleFlowFields
         # create an ideal gas eos using the tchem library
         eos: !ablate::eos::TChem  &eos
-          mechFile: gri30.yaml
+          mechFile: MMAReduced.yaml
           options:
+            maxAttempts: 1
             # set a minimum temperature for the chemical kinetics ode integration
             thresholdTemperature: 560
         conservedFieldOptions:
@@ -93,7 +94,7 @@ timestepper: !ablate::solver::SteadyStateStepper
                 endValues: [ 1.0 ]
                 end: .01
 
-            - fieldName: CH4
+            - fieldName: MMETHAC_C5H8O2
               field: !ablate::mathFunctions::Linear
                 startValues: [ 1.0 ]
                 endValues: [ 0.0 ]
