@@ -1,0 +1,91 @@
+# Example 1D diffusion using the chemTab eos and associated chemistry source terms
+---
+environment:
+  title: _1DSampleChemTabDiffusionFlame
+  tagDirectory: false
+arguments: {}
+timestepper:
+  io: !ablate::io::Hdf5MultiFileSerializer
+    interval: 0 # results are saved at every 5 steps.  In real simulations this should be much larger.
+  arguments:
+    ts_type: rk
+    ts_max_time: 1
+    ts_max_steps: 5000
+    ts_dt: 1.0e-10
+    ts_adapt_safety: 0.75
+  domain: !ablate::domain::BoxMeshBoundaryCells
+    name: simpleBoxField
+    faces: [50]
+    lower: [ 0.0]
+    upper: [ 0.01]
+    simplex: false
+    options:
+      dm_plex_hash_location: true
+    preModifiers:
+      # distribute the mesh across the mpi rank with ghost cells
+      - !ablate::domain::modifiers::DistributeWithGhostCells
+        ghostCellDepth: 2
+    postModifiers:
+      - !ablate::domain::modifiers::GhostBoundaryCells
+          # the DmViewFromOptions should output once with full mesh/dm details
+    fields:
+      - !ablate::finiteVolume::CompressibleFlowFields
+        eos: !ablate::eos::ChemTab &eos
+          path: chemTabTestModel_1
+        conservedFieldOptions:
+          petscfv_type: leastsquares
+        region:
+          name: domain      
+      - !ablate::domain::FieldDescription
+        name: pressure
+        type: FV
+        location: aux
+        region:
+          name: domain
+                           
+  initialization: !ablate::eos::chemTab::Hdf5ChemTabInitializer
+    # Load in the last written hdf5 file from the previous tests
+    path: /Users/mcgurn/scratch/ablateInputs/chemTabDiffusionFlame/_tchemMethaneDiffusionFlameResults/domain/domain.00126.hdf5
+    # point to the chemtab eos
+    chemTab: *eos
+
+solvers:
+  - !ablate::finiteVolume::CompressibleFlowSolver
+    id: flowField
+    region:
+      name: interiorCells
+    eos: *eos
+    transport: &transportModel !ablate::eos::transport::Sutherland
+      eos: *eos
+    monitors:
+    - !ablate::monitors::TimeStepMonitor
+      interval: 10
+
+    - !ablate::monitors::ChemTabMonitor
+      eos: *eos
+        
+    additionalProcesses:
+      - !ablate::finiteVolume::processes::Chemistry
+        eos: *eos
+      - !ablate::finiteVolume::processes::ConstantPressureFix
+        eos: *eos
+        pressure: 101325.0
+  - !ablate::boundarySolver::BoundarySolver
+    id: walls
+    region:
+      name: boundaryCellsRight
+    fieldBoundary:
+      name: boundaryFaces
+    mergeFaces: true
+    processes:
+      - !ablate::boundarySolver::lodi::Inlet
+        eos: *eos
+  - !ablate::boundarySolver::BoundarySolver
+    id: slab boundary
+    region:
+      name: boundaryCellsLeft
+    fieldBoundary:
+      name: boundaryFaces
+    processes:
+      - !ablate::boundarySolver::lodi::Inlet
+        eos: *eos
